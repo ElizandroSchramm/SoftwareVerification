@@ -898,7 +898,10 @@ label{
     display: none;
     margin-top: 40px;
 }
-.wizard-card .carModel{
+.wizard-card .modelYear{
+    display: none;
+}
+.wizard-card .aftermodelyear{
     display: none;
 }
 

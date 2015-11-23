@@ -70,15 +70,20 @@ $(document).ready(function(){
             
             if($current == 1) {
                 $(wizard).find('.btn-next').hide();
-            } else {   
-            // If it's the last tab then hide the last button and show the finish instead
-            if($current >= $total) {
-                $(wizard).find('.btn-next').hide();
-                $(wizard).find('.btn-finish').show();
-            } else {
-                $(wizard).find('.btn-next').show();
-                $(wizard).find('.btn-finish').hide();
-            }
+            } else { 					
+				if($current == 2) {
+					$(wizard).find('.btn-next').show();
+					$(wizard).find('.btn-next').attr("disabled", true);
+				} else {
+					// If it's the last tab then hide the last button and show the finish instead
+					if($current >= $total) {
+						$(wizard).find('.btn-next').hide();
+						$(wizard).find('.btn-finish').show();
+					} else {
+						$(wizard).find('.btn-next').show();
+						$(wizard).find('.btn-finish').hide();
+					}
+				}	
             }
         }
     });
@@ -116,8 +121,13 @@ $(document).ready(function(){
         $(this).find('[type="radio"]').attr('checked','true');
 
         $('.fabYear').fadeIn('slow');     
-        $('.carModel').fadeOut('slow');   
+		$(".fabYear option").filter(function() {
+			return this.text == "Selecione"; 
+		}).attr('selected', true);
+        $('.modelYear').fadeOut('slow');   		
+        $('.aftermodelyear').fadeOut('slow');   
         $(wizard).find('.btn-next').show();
+		$(wizard).find('.btn-next').attr("disabled", true);
     });
     
     $('[data-toggle="wizard-checkbox"]').click(function(){
@@ -134,11 +144,21 @@ $(document).ready(function(){
 
     $('.fabYear').change(function(){
         if ($('.fabYear').find(":selected").text() == "Selecione"){
-            $('.carModel').fadeOut('slow');   
+            $('.modelYear').fadeOut('slow');  
+			$('.aftermodelyear').fadeOut('slow');
+			$("input[name='anomodelo']").attr("checked", false);
         } else {
-            $('.carModel').fadeIn('slow');   
+            $('.modelYear').fadeIn('slow');   
         }    
     })
+
+    $('.modelYear').change(function(){
+        $('.aftermodelyear').fadeIn('slow'); 
+    })
+	
+	$("select[name='carModel']").change(function(){
+		$(wizard).find('.btn-next').attr("disabled", false);
+	})
     
     $height = $(document).height();
     $('.set-full-height').css('height',$height);

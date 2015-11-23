@@ -183,6 +183,12 @@ function validateForm(){
             numero: "required",
             cidade: "required",
             estado: "required",
+            nomesegurado: "required",
+            datanasc: "required",
+            cpf: "required",
+            nomeempresa: "required",
+            ie: "required",
+            cnpj: "required",
             //jobb: "required",
 			//lastname: "required",
 			/*email: {
@@ -204,6 +210,12 @@ function validateForm(){
             numero: "Você deve informar o Número",
             cidade: "Você deve informar a Cidade",
             estado: "Você deve informar o Estado",
+            nomesegurado: "Você deve informar o Nome do segurado",
+            datanasc: "Você deve informar a Data de nascimento",
+            cpf: "Você deve informar o CPF",
+            nomeempresa: "Você deve informar o Nome da empresa",
+            ie: "Você deve informar o IE",
+            cnpj: "Você deve informar o CNPJ",
 				
 		}
 		

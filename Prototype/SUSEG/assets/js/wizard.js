@@ -47,16 +47,8 @@ $(document).ready(function(){
            
         },
         onNext: function(tab, navigation, index){
-            if(index == 1){
-                return validateFirstStep();
-            } else if(index == 2){
-                return validateSecondStep();
-            } else if(index == 3){
-                return validateThirdStep();
-            } else if(index == 4){
-                return validateFourthStep();
-            } //etc. 
-              
+            return validateForm();
+                          
         },
         onTabClick : function(tab, navigation, index){
             // Disable the posibility to click on tabs
@@ -176,79 +168,42 @@ $(document).ready(function(){
     
 });
 
-function validateFirstStep(){
+function validateForm(){
     
     $(".wizard-card form").validate({
 		rules: {
             carYear: "required",
             carModel: "required",
-			firstname: "required",
 			mediaKM: "required",
 			placa: "required",
 			chassi: "required",
 			renavam: "required",
 			cor: "required",
+            rua: "required",
+            numero: "required",
+            cidade: "required",
+            estado: "required",
             //jobb: "required",
 			//lastname: "required",
 			/*email: {
 				required: true,
 				email: true
 			}*/
-			
-/*  other possible input validations
-			,username: {
-				required: true,
-				minlength: 2
-			},
-			password: {
-				required: true,
-				minlength: 5
-			},
-			confirm_password: {
-				required: true,
-				minlength: 5,
-				equalTo: "#password"
-			},
 		
-			topic: {
-				required: "#newsletter:checked",
-				minlength: 2
-			},
-			agree: "required"
-*/			
 
 		},
 		messages: {
             carYear: "Você deve informar o ano do veículo",
             carModel: "Você deve informar o veículo",
-			firstname: "Please enter your First Name",
-			lastname: "Please enter your Last Name",
-			email: "Please enter a valid email address",
 			mediaKM: "Você deve informar a média de KM",
 			placa: "Você deve informar a Placa",
 			chassi: "Você deve informar o Chassi",
 			renavam: "Você deve informar o Renavam",
-			cor: "Você deve informar a Cor",
-            //jobb: "Você deve selecionar a marcar",
-
-/*   other posible validation messages
-			username: {
-				required: "Please enter a username",
-				minlength: "Your username must consist of at least 2 characters"
-			},
-			password: {
-				required: "Please provide a password",
-				minlength: "Your password must be at least 5 characters long"
-			},
-			confirm_password: {
-				required: "Please provide a password",
-				minlength: "Your password must be at least 5 characters long",
-				equalTo: "Please enter the same password as above"
-			},
-			email: "Please enter a valid email address",
-			agree: "Please accept our policy",
-			topic: "Please select at least 2 topics"
-*/
+            cor: "Você deve informar a Cor",
+            rua: "Você deve informar a Rua",
+            numero: "Você deve informar o Número",
+            cidade: "Você deve informar a Cidade",
+            estado: "Você deve informar o Estado",
 				
 		}
 		
@@ -262,35 +217,6 @@ function validateFirstStep(){
 	return true;
 }
 
-function validateSecondStep(){
-   
-    //code here for second step
-    $(".wizard-card form").validate({
-		rules: {
-			
-		},
-		messages: {
-			
-		}
-	}); 
-	
-	if(!$(".wizard-card form").valid()){
-    	console.log('invalid');
-    	return false;
-	}
-	return true;
-    
-}
-
-function validateThirdStep(){
-    //code here for third step
-    
-    
-}
-
-function validateFourthStep(){
-
-}
 
  //Function to show image before upload
 

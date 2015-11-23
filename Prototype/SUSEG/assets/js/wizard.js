@@ -65,7 +65,7 @@ $(document).ready(function(){
         onTabShow: function(tab, navigation, index) {
             var $total = navigation.find('li').length;
             var $current = index+1;
-            
+			            
             var wizard = navigation.closest('.wizard-card');
             
             if($current == 1) {
@@ -73,7 +73,6 @@ $(document).ready(function(){
             } else { 					
 				if($current == 2) {
 					$(wizard).find('.btn-next').show();
-					$(wizard).find('.btn-next').attr("disabled", true);
 				} else {
 					// If it's the last tab then hide the last button and show the finish instead
 					if($current >= $total) {
@@ -149,11 +148,22 @@ $(document).ready(function(){
 			$("input[name='anomodelo']").attr("checked", false);
         } else {
             $('.modelYear').fadeIn('slow');   
+			$('.aftermodelyear').fadeOut('fast');
+			$("input[name='anomodelo']").attr("checked", false);
         }    
+		
+		$('.anomodelo01').text("  "+$('.fabYear').find(":selected").text());
+		var xYear = parseInt($('.fabYear').find(":selected").text()) + 1;
+		$('.anomodelo02').text("  "+xYear);
     })
 
     $('.modelYear').change(function(){
         $('.aftermodelyear').fadeIn('slow'); 
+		
+		$("select[name='carModel']").append($('<option>', {
+			value: 1,
+			text: 'My option'
+		}));
     })
 	
 	$("select[name='carModel']").change(function(){
@@ -173,6 +183,11 @@ function validateFirstStep(){
             carYear: "required",
             carModel: "required",
 			firstname: "required",
+			mediaKM: "required",
+			placa: "required",
+			chassi: "required",
+			renavam: "required",
+			cor: "required",
             //jobb: "required",
 			//lastname: "required",
 			/*email: {
@@ -209,6 +224,11 @@ function validateFirstStep(){
 			firstname: "Please enter your First Name",
 			lastname: "Please enter your Last Name",
 			email: "Please enter a valid email address",
+			mediaKM: "Você deve informar a média de KM",
+			placa: "Você deve informar a Placa",
+			chassi: "Você deve informar o Chassi",
+			renavam: "Você deve informar o Renavam",
+			cor: "Você deve informar a Cor",
             //jobb: "Você deve selecionar a marcar",
 
 /*   other posible validation messages
@@ -231,6 +251,7 @@ function validateFirstStep(){
 */
 				
 		}
+		
 	}); 
 	
 	if(!$(".wizard-card form").valid()){

@@ -80,6 +80,7 @@ public class CotacaoDAO {
 				db.FecharConexao();
 			}
 		} else {
+			//TODO: fazer update
 			//aqui faz updade
 		}
 		return true;

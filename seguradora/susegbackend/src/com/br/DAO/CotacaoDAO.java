@@ -2,6 +2,7 @@ package com.br.DAO;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,14 +33,20 @@ public class CotacaoDAO {
 			DBConnection db = new DBConnection();
 			try {
 				if(db.canExecuteCmd()){
-					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Cotacao(comissao, dataCriacao, valor, vigencia) VALUES( ?, ?, ?, ? )");
+					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Cotacao(comissao, dataCriacao, valor, vigencia) VALUES( ?, ?, ?, ? )", PreparedStatement.RETURN_GENERATED_KEYS);
 					ps.setDouble(1, this.comissao);
 					ps.setDate(2, (java.sql.Date) this.dataCriacao);
 					ps.setDouble(3, this.valor);
 					ps.setDate(4, (java.sql.Date) this.vigencia);
 					// Execute the INSERT
-					this.codigo = ps.executeUpdate();
-					return true;
+					if(ps.executeUpdate() > 0){
+						ResultSet rs = ps.getGeneratedKeys();
+						if(rs.next()){
+							this.codigo = rs.getInt(1);
+							return true;
+						}
+					}
+					return false;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

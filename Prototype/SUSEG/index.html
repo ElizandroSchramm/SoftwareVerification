@@ -60,8 +60,8 @@
                         </ul>
                         
                         <div class="tab-content" style="margin-bottom: 19px;">
-                          <div class="tab-pane" id="begin">
-                              <div class="row">
+                            <div class="tab-pane" id="begin">
+                                <div class="row">
                                     <div class="col-sm-12">
                                         <h4 class="info-text"> Informe o que deseja fazer </h4>
                                     </div>
@@ -144,6 +144,8 @@
 									
                                 </div>
                             </div> 
+
+
 
                             <div class="tab-pane" id="auto">
                                 <div class="row marca">
@@ -252,7 +254,7 @@
                                         </div>
                                     </div> 
 									
-                                    <div class="col-sm-4 col-sm-offset-1 aftermodelyear">
+                                    <div class="col-sm-4 aftermodelyear">
                                         <label>Média KM mês:</label><br>
                                         <div class="form-group">
                                             <input type="text" class="form-control" placeholder="1000" name="mediaKM" >
@@ -260,45 +262,40 @@
                                     </div>  
                               </div>
                             </div>
+
+
+
                             <div class="tab-pane" id="location">
-                                <div class="row">
+                                <div class="row form">
                                     <div class="col-sm-12">
                                         <h4 class="info-text">Informe dados sobre localização</h4>
                                     </div>
                                     <div class="col-sm-7 col-sm-offset-1">
                                          <div class="form-group">
                                             <labe>Rua</label>
-                                            <input type="text" class="form-control" placeholder="Rua São Paulo">
+                                            <input type="text" name='rua' class="form-control" placeholder="Rua São Paulo">
                                           </div>
                                     </div>
                                     <div class="col-sm-3">
                                          <div class="form-group">
                                             <label>Número</label>
-                                            <input type="text" class="form-control" placeholder="242">
+                                            <input type="text" name='numero' class="form-control" placeholder="242">
                                           </div>
                                     </div>
                                     <div class="col-sm-5 col-sm-offset-1">
                                          <div class="form-group">
                                             <label>Cidade</label>
-                                            <input type="text" class="form-control" placeholder="Blumenau...">
+                                            <input type="text" name='cidade' class="form-control" placeholder="Blumenau...">
                                           </div>
                                     </div>
+
                                     <div class="col-sm-5">
                                          <div class="form-group">
-                                            <label>Pais</label><br>
-                                             <select name="country" class="form-control">
-                                                <option value="Afghanistan"> Afghanistan </option>
-                                                <option value="Albania"> Albania </option>
-                                                <option value="Algeria"> Algeria </option>
-                                                <option value="American Samoa"> American Samoa </option>
-                                                <option value="Andorra"> Andorra </option>
-                                                <option value="Angola"> Angola </option>
-                                                <option value="Anguilla"> Anguilla </option>
-                                                <option value="Antarctica"> Antarctica </option>
-                                                <option value="...">...</option>
-                                            </select>
+                                            <label>Estado</label>
+                                            <input type="text" name='estado' class="form-control" placeholder="Santa Catarina">
                                           </div>
                                     </div>
+
                                     <div class="col-sm-7 col-sm-offset-1">
                                         <label>Estacionamento à noite:</label><br>
                                         <div class="form-group">
@@ -327,48 +324,31 @@
                                     <div class="col-sm-7 col-sm-offset-1">
                                         <label>Tipo do segurado:</label><br>
                                         <div class="form-group">
-                                                <input type="radio" class="tipopessoa" name="tipopessoa" value="pf"> Pessoa física &nbsp&nbsp
+                                                <input type="radio" class="tipopessoa" name="tipopessoa" value="pf" checked> Pessoa física &nbsp&nbsp
                                                 <input type="radio" class="tipopessoa" name="tipopessoa" value="pj"> Pessoa jurídica &nbsp&nbsp
                                         </div>
                                     </div>  
                                 </div>    
+
                                 <div class="row">
-
-
                                     <!-- // PESSOA FISICA FORM -->
                                     <div class="pessoafisicaform">
                                         <div class="col-sm-7 col-sm-offset-1">
                                              <div class="form-group ">
                                                 <labe>Nome</label>
-                                                <input type="text" class="form-control" placeholder="João da Silva">
+                                                <input type="text" name='nomesegurado' class="form-control" placeholder="João da Silva">
                                               </div>
                                         </div>
                                         <div class="col-sm-3">
                                              <div class="form-group">
                                                 <label>Data nascimento</label>
-                                                <input type="text" class="form-control" placeholder="12/10/1990">
+                                                <input type="text" name='datanasc' class="form-control" placeholder="12/10/1990">
                                               </div>
                                         </div>
                                         <div class="col-sm-5 col-sm-offset-1">
                                              <div class="form-group">
                                                 <label>CPF</label>
-                                                <input type="text" class="form-control" placeholder="000.000.000-00">
-                                              </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                             <div class="form-group">
-                                                <label>Country</label><br>
-                                                 <select name="country" class="form-control">
-                                                    <option value="Afghanistan"> Afghanistan </option>
-                                                    <option value="Albania"> Albania </option>
-                                                    <option value="Algeria"> Algeria </option>
-                                                    <option value="American Samoa"> American Samoa </option>
-                                                    <option value="Andorra"> Andorra </option>
-                                                    <option value="Angola"> Angola </option>
-                                                    <option value="Anguilla"> Anguilla </option>
-                                                    <option value="Antarctica"> Antarctica </option>
-                                                    <option value="...">...</option>
-                                                </select>
+                                                <input type="text" name='cpf' class="form-control" placeholder="000.000.000-00">
                                               </div>
                                         </div>
                                     </div>  
@@ -378,35 +358,19 @@
                                         <div class="col-sm-7 col-sm-offset-1">
                                              <div class="form-group ">
                                                 <labe>Razão social</label>
-                                                <input type="text" class="form-control" placeholder="João da Silva">
+                                                <input type="text" name='nomeempresa' class="form-control" placeholder="Nome da empresa">
                                               </div>
                                         </div>
                                         <div class="col-sm-3">
                                              <div class="form-group">
-                                                <label>Data nascimento</label>
-                                                <input type="text" class="form-control" placeholder="12/10/1990">
+                                                <label>IE</label>
+                                                <input type="text" name='ie' class="form-control" placeholder="">
                                               </div>
                                         </div>
                                         <div class="col-sm-5 col-sm-offset-1">
                                              <div class="form-group">
                                                 <label>CNPJ</label>
-                                                <input type="text" class="form-control" placeholder="00.000.000/0000-00">
-                                              </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                             <div class="form-group">
-                                                <label>Country</label><br>
-                                                 <select name="country" class="form-control">
-                                                    <option value="Afghanistan"> Afghanistan </option>
-                                                    <option value="Albania"> Albania </option>
-                                                    <option value="Algeria"> Algeria </option>
-                                                    <option value="American Samoa"> American Samoa </option>
-                                                    <option value="Andorra"> Andorra </option>
-                                                    <option value="Angola"> Angola </option>
-                                                    <option value="Anguilla"> Anguilla </option>
-                                                    <option value="Antarctica"> Antarctica </option>
-                                                    <option value="...">...</option>
-                                                </select>
+                                                <input type="text" name='cnpj' class="form-control" placeholder="00.000.000/0000-00">
                                               </div>
                                         </div>
                                     </div> 
@@ -602,7 +566,7 @@
                         </div>
                         <div class="wizard-footer">
                             <div class="pull-right">
-                                <input type='button' class='btn btn-next btn-fill btn-warning btn-wd btn-sm' name='next' value='Next' disabled/>
+                                <input type='button' class='btn btn-next btn-fill btn-warning btn-wd btn-sm' name='next' value='Next' disableda/>
                                 <input type='button' class='btn btn-finish btn-fill btn-warning btn-wd btn-sm' name='finish' value='Finish' />
         
                             </div>

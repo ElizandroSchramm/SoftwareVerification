@@ -24,6 +24,31 @@ public class CotacaoDAO {
 	}
 	
 	public static CotacaoDAO loadFromDB(int codigo){
+		DBConnection db = new DBConnection();
+		try {
+			if(db.canExecuteCmd()){
+				PreparedStatement ps = db.getConnection().prepareStatement("SELECT comissao, dataCriacao, valor, vigencia FROM Cotacao c WHERE c.codigo = ?");
+				ps.setInt(1, codigo);
+				ResultSet rs = ps.executeQuery();
+					if(rs.next()){
+						CotacaoDAO dao = new CotacaoDAO();
+						dao.codigo = codigo;
+						dao.setComissao(rs.getDouble(1));
+						dao.dataCriacao = rs.getDate(2);
+						dao.setValor(rs.getDouble(3));
+						dao.setVigencia(rs.getDate(4));
+						//TODO: resta fazer o get das demais dados como Veiculo, Segurado...
+						return dao;
+					} else {
+						return null;
+					}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			db.FecharConexao();
+		}
 		return null;
 	}
 	

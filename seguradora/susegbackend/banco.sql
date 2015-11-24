@@ -93,7 +93,7 @@ CREATE TABLE `Cotacao` (
   CONSTRAINT `codsegurado` FOREIGN KEY (`codsegurado`) REFERENCES `Segurado` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `codlocalizacao` FOREIGN KEY (`codlocalizacao`) REFERENCES `Localizacao` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `codveiculo` FOREIGN KEY (`codveiculo`) REFERENCES `Veiculo` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,8 +129,9 @@ CREATE TABLE `Localizacao` (
   `numero` int(11) DEFAULT NULL,
   `pais` varchar(100) DEFAULT NULL,
   `rua` varchar(250) DEFAULT NULL,
+  `cep` varchar(9) DEFAULT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,4 +190,4 @@ CREATE TABLE `Veiculo` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-23 23:46:04
+-- Dump completed on 2015-11-24 18:29:17

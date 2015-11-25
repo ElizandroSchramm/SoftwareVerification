@@ -894,6 +894,9 @@ label{
 .wizard-card .btn-finish{
     display: none;
 }
+.wizard-card .btn-save{
+    display: none;
+}
 .wizard-card .fabYear{
     display: none;
     margin-top: 40px;

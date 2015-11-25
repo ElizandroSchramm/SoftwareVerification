@@ -2,7 +2,8 @@ searchVisible = 0;
 transparent = true;
 
 $(document).ready(function(){
-	// xCodigoLoc - C—digo da localiza‹o, ser‡ salvo na cota‹o no final.
+	// xCodigoLoc - C—digo da localiza‹o, ser‡ salvo na cota‹o ao final.
+	// xCodigoSegurado - C—digo do segurado, ser‡ salvo na cota‹o ao final.
 
 		var i=1;
 		$("#add_row").click(function(){
@@ -86,9 +87,11 @@ $(document).ready(function(){
 					if($current >= $total) {
 						$(wizard).find('.btn-next').hide();
 						$(wizard).find('.btn-finish').show();
+						$(wizard).find('.btn-save').show();
 					} else {
 						$(wizard).find('.btn-next').show();
 						$(wizard).find('.btn-finish').hide();
+						$(wizard).find('.btn-save').hide();
 					}
 				}	
             }
@@ -283,27 +286,14 @@ function saveSegurado(){
 			params = "";
 		}
 	}
-	
-	alert(params);
 
 	//nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaSegurado?" + params);
 	
 	// { codigo: 8, nome: 0, cpf: 0, sexo: M, telefone: 0, dataNascimento: 01/01/1980  }
-	alert(xReturn);
-	try{	
-		xSegSaved = eval ("(" + xReturn + ")");
-		alert('aaaa');
-	} catch (e) {
-	    if (e instanceof SyntaxError) {
-	        alert(e.message);
-	    } else {
-	        throw( e );
-	    }
-	}
-    //xCodigoSegurado = xSegSaved.codigo;
-    alert('abc');
-	alert(xSegSaved);
+	xSegSaved = eval ("(" + xReturn + ")");	
+    xCodigoSegurado = xSegSaved.codigo;
+    //alert(xCodigoSegurado);
     
 	return xReturn;
 }

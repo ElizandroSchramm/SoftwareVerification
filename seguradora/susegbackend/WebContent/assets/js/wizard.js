@@ -151,6 +151,10 @@ $(document).ready(function(){
             $(this).find('[type="checkbox"]').attr('checked','true');
         }
     });
+    
+    $('.btn-save').click(function(){
+    	saveCotacao();    	
+    });
 
     $('.fabYear').change(function(){
         if ($('.fabYear').find(":selected").text() == "Selecione"){
@@ -264,6 +268,16 @@ function readURL(input) {
         }
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+function saveCotacao(){
+	xValorCotacao  = 0;
+	xCodigoCotacao = 0;
+	//xCodigoSegurado = xCodigoSegurado;
+	//xCodigoLoc = xCodigoLoc;
+	
+	params = "codigoCotacao=" xValorCotacao + "&valorCotacao=" + xCodigoCotacao + "&codSegurado = " + xCodigoSegurado + "&codLocalizacao = " + xCodigoLoc; 
+	xReturn = httpGet("http://localhost:8080/susegbackend/GravaCotacao?" + params);
 }
 
 function saveSegurado(){

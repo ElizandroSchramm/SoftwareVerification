@@ -33,9 +33,13 @@ public class GravaCotacao extends HttpServlet {
 		try {
 			int codCotacao = Integer.parseInt(request.getParameter("codigoCotacao"));
 			double valor = Double.parseDouble(request.getParameter("valorCotacao"));
+			int codSegurado = Integer.parseInt(request.getParameter("codSegurado"));
+			int codLocalizacao = Integer.parseInt(request.getParameter("codLocalizacao"));
 			try {
 				Cotacao cotacao = new Cotacao(codCotacao);
 				cotacao.setValor(valor);
+				cotacao.setCodLocalizacao(codLocalizacao);				
+				cotacao.setCodSegurado(codSegurado);
 				response.setContentType("application/json");
 				PrintWriter out = response.getWriter();
 				out.println(cotacao);

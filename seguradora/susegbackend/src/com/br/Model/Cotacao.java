@@ -26,6 +26,14 @@ public class Cotacao {
 			return -1;
 		}
 	}
+	
+	public void setCodLocalizacao(int codigo){
+		this.dao.setCodLocalizacao(codigo);
+	}
+	
+	public void setCodSegurado(int codigo){
+		this.dao.setcodSegurado(codigo);
+	}
 
 	public void setValor(double valor) {
 		this.dao.setValor(valor);

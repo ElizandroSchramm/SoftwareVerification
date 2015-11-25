@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 
 public class CotacaoDAO {
 	
-	private int codigo;
+	private int codigo, codSegurado, codLocalizacao;
 	private double comissao, valor;
 	private Date dataCriacao, vigencia;
 	
@@ -58,11 +58,13 @@ public class CotacaoDAO {
 			DBConnection db = new DBConnection();
 			try {
 				if(db.canExecuteCmd()){
-					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Cotacao(comissao, dataCriacao, valor, vigencia) VALUES( ?, ?, ?, ? )", PreparedStatement.RETURN_GENERATED_KEYS);
+					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Cotacao(comissao, dataCriacao, valor, vigencia, codsegurado, codlocalizacao) VALUES( ?, ?, ?, ?, ?, ? )", PreparedStatement.RETURN_GENERATED_KEYS);
 					ps.setDouble(1, this.comissao);
 					ps.setDate(2, (java.sql.Date) this.dataCriacao);
 					ps.setDouble(3, this.valor);
 					ps.setDate(4, (java.sql.Date) this.vigencia);
+					ps.setInt(5, this.codSegurado);
+					ps.setInt(6, this.codLocalizacao);
 					// Execute the INSERT
 					if(ps.executeUpdate() > 0){
 						ResultSet rs = ps.getGeneratedKeys();
@@ -116,6 +118,22 @@ public class CotacaoDAO {
 
 	public Date getDataCriacao() {
 		return dataCriacao;
+	}
+
+	public int getCodLocalizacao() {
+		return codLocalizacao;
+	}
+
+	public void setCodLocalizacao(int codLocalizacao) {
+		this.codLocalizacao = codLocalizacao;
+	}
+
+	public int getCodSegurado() {
+		return codSegurado;
+	}
+
+	public void setcodSegurado(int codSegurado) {
+		this.codSegurado = codSegurado;
 	}
 
 }

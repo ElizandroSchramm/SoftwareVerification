@@ -7,7 +7,7 @@ $(document).ready(function(){
 
 		var i=1;
 		$("#add_row").click(function(){
-			$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='mail"+i+"' type='text' placeholder='Mail'  class='form-control input-md'></td><td><input  name='sexo"+i+"' type='radio' style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio'> Feminino</td>");
+			$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md'></td><td><input  name='sexo"+i+"' type='radio' value='M' style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
 
 			$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
 			i++; 
@@ -56,9 +56,17 @@ $(document).ready(function(){
 	                //alert('Os dados de localização foram salvos.');
 	            } else {
 	            	if (index == 4){ 
+	            		//alert(xCodigoLoc);
 		                saveSegurado();
 		                //alert('Os dados do segurado foram salvos.');
+	            	} else {
+	            		if (index == 5){ 
+	            			saveCondutores();
+		            		//alert(xCodigoSegurado);
+		            	}
 	            	}
+	            	
+	            	
 	            }
 
 	            return true;    
@@ -76,7 +84,7 @@ $(document).ready(function(){
             var $current = index+1;
 			            
             var wizard = navigation.closest('.wizard-card');
-            
+
             if($current == 1) {
                 $(wizard).find('.btn-next').hide();
             } else { 					
@@ -152,8 +160,10 @@ $(document).ready(function(){
         }
     });
     
-    $('.btn-save').click(function(){
-    	saveCotacao();    	
+    $('.btn-save').click(function(){	
+		//alert(xCodigoSegurado);
+		//alert(xCodigoLoc);
+    	saveCotacao(xCodigoLoc, xCodigoSegurado);    
     });
 
     $('.fabYear').change(function(){
@@ -270,14 +280,33 @@ function readURL(input) {
     }
 }
 
+function saveCondutores(){
+	i = 0;
+	found = $('#addr'+i).html() != "";
+	while (found){
+		var xCondNome   = $("input[name='name" + i + "']").val();
+		var xCondIdade  = $("input[name='idade" + i + "']").val();
+		var xCondSexo   = $("input[name='sexo" + i + "']:checked").val();
+		var xCondCPF    = '000.000.000-00'
+		
+		//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
+		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=N&casado=S&cotacao=20';
+		xReturn = httpGet("http://localhost:8080/susegbackend/GravaCondutor?" + params);
+		alert(xReturn);
+		
+		i++;
+		found = $('#addr'+i).html() != "";	
+	}
+}
+
 function saveCotacao(){
 	xValorCotacao  = 0;
-	xCodigoCotacao = 0;
-	//xCodigoSegurado = xCodigoSegurado;
-	//xCodigoLoc = xCodigoLoc;
+	xCodigoCotacao = -1;
 	
-	params = "codigoCotacao=" xValorCotacao + "&valorCotacao=" + xCodigoCotacao + "&codSegurado = " + xCodigoSegurado + "&codLocalizacao = " + xCodigoLoc; 
+	params = "codigoCotacao=" + xCodigoCotacao + "&valorCotacao=" + xValorCotacao + "&codSegurado=" + xCodigoSegurado + "&codLocalizacao=" + xCodigoLoc;
+	alert(params);
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaCotacao?" + params);
+	alert(xReturn);
 }
 
 function saveSegurado(){

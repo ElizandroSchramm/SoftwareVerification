@@ -50,6 +50,8 @@ public class Cotacao {
 		sb.append(", dataCriacao: " + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getDataCriacao()));
 		sb.append(", valor: " + this.dao.getValor());
 		sb.append(", vigencia: " + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getVigencia()));
+		sb.append(", codigoSeg: " + this.dao.getCodSegurado());
+		sb.append(", codigoLoc: " + this.dao.getCodLocalizacao());
 		sb.append("  }");
 		return sb.toString();
 	}

@@ -2,7 +2,7 @@ searchVisible = 0;
 transparent = true;
 
 $(document).ready(function(){
-	
+	// xCodigoLoc - Código da localização, será salvo na cotação no final.
 
 		var i=1;
 		$("#add_row").click(function(){
@@ -51,8 +51,13 @@ $(document).ready(function(){
             if (validateForm()){
         	
 	            if (index == 3){ // Localização
-	                //alert(saveLocalizacao());
-	                alert('Os dados de localização foram salvos.');
+	                saveLocalizacao();
+	                //alert('Os dados de localização foram salvos.');
+	            } else {
+	            	if (index == 4){ 
+		                saveSegurado();
+		                //alert('Os dados do segurado foram salvos.');
+	            	}
 	            }
 
 	            return true;    
@@ -258,6 +263,51 @@ function readURL(input) {
     }
 }
 
+function saveSegurado(){
+	if ($("input[name='tipopessoa']:checked").val() == "pf"){
+		var xNomeSegurado = $("input[name='nomesegurado']").val();
+		var xDataNasc     = $("input[name='datanasc']").val();
+		var xCPF          = $("input[name='cpf']").val();
+		var xTelefone     = $("input[name='telefone']").val();
+		var xSexo         = $("input[name='sexo']:checked").val();
+		
+		xDataNasc.replace('/', '%2F');		
+		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo;
+		
+	} else {
+		if ($("input[name='tipopessoa']:checked").val() == "pj"){
+			var xNomeEmpresa = $("input[name='nomeempresa']").val();
+			var xIE          = $("input[name='ie']").val();
+			var xCNPJ        = $("input[name='cnpj']").val();
+
+			params = "";
+		}
+	}
+	
+	alert(params);
+
+	//nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M
+	xReturn = httpGet("http://localhost:8080/susegbackend/GravaSegurado?" + params);
+	
+	// { codigo: 8, nome: 0, cpf: 0, sexo: M, telefone: 0, dataNascimento: 01/01/1980  }
+	alert(xReturn);
+	try{	
+		xSegSaved = eval ("(" + xReturn + ")");
+		alert('aaaa');
+	} catch (e) {
+	    if (e instanceof SyntaxError) {
+	        alert(e.message);
+	    } else {
+	        throw( e );
+	    }
+	}
+    //xCodigoSegurado = xSegSaved.codigo;
+    alert('abc');
+	alert(xSegSaved);
+    
+	return xReturn;
+}
+
 function saveLocalizacao(){
 	var xRua    = $("input[name='rua']").val();
 	var xCidade = $("input[name='cidade']").val();
@@ -267,7 +317,13 @@ function saveLocalizacao(){
 	var xPais   = $("input[name='pais']").val();
 	
     params = "numero=" + xNumero + "&rua=" + xRua + "&cep=" + xCep + "&cidade=" + xCidade + "&estado=" + xEstado + "&pais=" + xPais;
-    return httpGet("http://localhost:8080/susegbackend/GravaLocalizacao?" + params); 
+    xReturn = httpGet("http://localhost:8080/susegbackend/GravaLocalizacao?" + params);
+    
+    // { codigo: 6, rua: Teste, numero: 999, cep: 900312, cidade: Blu, estado: SC, pais: Brasil  }
+    xLocSaved = eval ("(" + xReturn + ")"); 
+    xCodigoLoc = xLocSaved.codigo;       
+    
+    return xReturn; 
 }
 
 function httpGet(theUrl)

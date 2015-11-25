@@ -7,8 +7,12 @@ $(document).ready(function(){
 
 		var i=1;
 		$("#add_row").click(function(){
-			$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md'></td><td><input  name='sexo"+i+"' type='radio' value='M' style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
-
+			//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md'></td><td><input  name='sexo"+i+"' type='radio' value='M' style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
+			$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60'/></td><td style='width: 85px'><input type='text' name='idade"+i+"' placeholder='Idade' class='form-control'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> N‹o</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> N‹o</td>");
+			
+			
+			
+			
 			$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
 			i++; 
 
@@ -285,12 +289,14 @@ function saveCondutores(){
 	found = $('#addr'+i).html() != "";
 	while (found){
 		var xCondNome   = $("input[name='name" + i + "']").val();
+		var xCondCPF    = $("input[name='cpf" + i + "']").val();
 		var xCondIdade  = $("input[name='idade" + i + "']").val();
 		var xCondSexo   = $("input[name='sexo" + i + "']:checked").val();
-		var xCondCPF    = '000.000.000-00'
+		var xCondFilhos = $("input[name='filho" + i + "']:checked").val();
+		var xCondCasado = $("input[name='casado" + i + "']:checked").val();
 		
 		//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
-		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=N&casado=S&cotacao=20';
+		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=20';
 		xReturn = httpGet("http://localhost:8080/susegbackend/GravaCondutor?" + params);
 		alert(xReturn);
 		

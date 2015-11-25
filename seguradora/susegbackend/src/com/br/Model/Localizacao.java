@@ -26,6 +26,8 @@ public class Localizacao {
 		dao.setPais(pais);
 	}
 	
+	//TODO: implementar os dados da pernoite e di‡ria (garagem) na sprint 2.
+	
 	public int save(){
 		if(dao.saveToDB()){
 			return dao.getCodigo();

@@ -55,6 +55,22 @@ public class Condutor {
 		sb.append("  }");
 		return sb.toString();
 	}
+
+	public int getIdade() {
+		return this.dao.getIdade();
+	}
+
+	public boolean ehSolteiro() {
+		return this.dao.getCasado().equals("N");
+	}
+
+	public boolean temNaoFilho() {
+		return this.dao.getTemFilho().equals("N");
+	}
+
+	public String getSexo() {
+		return this.dao.getSexo();
+	}
 	
 
 }

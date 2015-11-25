@@ -1,12 +1,14 @@
 package com.br.Model;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import com.br.DAO.CotacaoDAO;
 
 public class Cotacao {
 	
 	private CotacaoDAO dao;
+	private List<Condutor> condutores;
 	
 	public Cotacao() {
 		this.dao = new CotacaoDAO();
@@ -42,6 +44,14 @@ public class Cotacao {
 		sb.append(", vigencia: " + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getVigencia()));
 		sb.append("  }");
 		return sb.toString();
+	}
+
+	public List<Condutor> getCondutores() {
+		return condutores;
+	}
+
+	public void setCondutores(List<Condutor> condutores) {
+		this.condutores = condutores;
 	}
 
 }

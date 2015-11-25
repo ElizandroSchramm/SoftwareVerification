@@ -39,12 +39,12 @@ public class Segurado {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{ codigo: " + this.dao.getCodigo());
-		sb.append(", nome: " + this.dao.getNome());
-		sb.append(", cpf: " + this.dao.getCpf());
-		sb.append(", sexo: " + this.dao.getSexo());
-		sb.append(", telefone: " + this.dao.getTelefone());
-		sb.append(", dataNascimento: " + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getDataNascimento()));
+		sb.append("{ 'codigo': '" + this.dao.getCodigo() + "'");
+		sb.append(", 'nome': '" + this.dao.getNome() + "'");
+		sb.append(", 'cpf': '" + this.dao.getCpf() + "'");
+		sb.append(", 'sexo': '" + this.dao.getSexo() + "'");
+		sb.append(", 'telefone': '" + this.dao.getTelefone() + "'");
+		sb.append(", 'dataNascimento': '" + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getDataNascimento()) + "'");
 		sb.append("  }");
 		return sb.toString();
 	}

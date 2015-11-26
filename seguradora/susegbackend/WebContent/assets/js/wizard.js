@@ -7,11 +7,9 @@ $(document).ready(function(){
 
 		var i=1;
 		$("#add_row").click(function(){
-			//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md'></td><td><input  name='sexo"+i+"' type='radio' value='M' style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
-			$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60'/></td><td style='width: 85px'><input type='text' name='idade"+i+"' placeholder='Idade' class='form-control'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> Não</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> Não</td>");
-			
-			
-			
+			//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md' max='99' min='0'></td><td><input  name='sexo"+i+"' type='radio' value='M' checked style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
+			$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60' maxlength='14'/></td><td style='width: 85px'><input type='number' name='idade"+i+"' placeholder='Idade' class='form-control' max='99' min='18' value='18'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' checked style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> Não</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> Não</td>");
+					
 			
 			$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
 			i++; 
@@ -65,7 +63,12 @@ $(document).ready(function(){
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
 	            		if (index == 5){ 
-	            			saveCondutores();
+	            			if (validaCondutores()){
+	            				saveCondutores();
+	            			} else {
+	            				alert('Você deve informar todos os campos dos condutores');
+	    	            		return false;
+	            			}	
 		            		//alert(xCodigoSegurado);
 		            	}
 	            	}
@@ -284,6 +287,25 @@ function readURL(input) {
     }
 }
 
+function validaCondutores(){
+	isValid = true;
+	i = 0;
+	found = $('#addr'+i).html() != "";
+	while (found){
+		xName = $('#addr'+i).find("input[name='name" + i + "']").val();
+		xCPF  = $('#addr'+i).find("input[name='cpf" + i + "']").val();
+		
+		if (xName == '' || xCPF == ''){
+			isValid = false;
+		}		
+		
+		i++;
+		found = $('#addr'+i).html() != "";	
+	}
+	
+	return isValid;
+}
+
 function saveCondutores(){
 	i = 0;
 	found = $('#addr'+i).html() != "";
@@ -298,7 +320,7 @@ function saveCondutores(){
 		//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
 		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=20';
 		xReturn = httpGet("http://localhost:8080/susegbackend/GravaCondutor?" + params);
-		alert(xReturn);
+		//alert(xReturn);
 		
 		i++;
 		found = $('#addr'+i).html() != "";	

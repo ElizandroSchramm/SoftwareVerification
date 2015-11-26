@@ -39,13 +39,13 @@ public class Localizacao {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{ codigo: " + this.dao.getCodigo());
-		sb.append(", rua: " + this.dao.getRua());
-		sb.append(", numero: " + this.dao.getNumero());
-		sb.append(", cep: " + this.dao.getCep());
-		sb.append(", cidade: " + this.dao.getCidade());
-		sb.append(", estado: " + this.dao.getEstado());
-		sb.append(", pais: " + this.dao.getPais());
+		sb.append("{ 'codigo': '" + this.dao.getCodigo() + "'");
+		sb.append(", 'rua': '" + this.dao.getRua() + "'");
+		sb.append(", 'numero': '" + this.dao.getNumero() + "'");
+		sb.append(", 'cep': '" + this.dao.getCep() + "'");
+		sb.append(", 'cidade': '" + this.dao.getCidade() + "'");
+		sb.append(", 'estado': '" + this.dao.getEstado() + "'");
+		sb.append(", 'pais': '" + this.dao.getPais() + "'");
 		sb.append("  }");
 		return sb.toString();
 	}

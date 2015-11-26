@@ -201,10 +201,62 @@ $(document).ready(function(){
 		}));
     });
     
-    $("input[name='servicos24']").change(function(){
-    	alert('aa');
-    	//alert($("span[name='valortotal']").val());
+    $('.carroreserva').change(function(){
+    	if ($(".carroreserva:checked").val() == "7"){
+        	xValorTotal = $('.valortotal').text();
+        	xValor = xValorTotal * 0.05;
+        	$('.valorCarro').text(" + R$" + parseFloat(xValor));    		
+    	}else{
+    		if ($(".carroreserva:checked").val() == "15"){
+            	xValorTotal = $('.valortotal').text();
+            	xValor = xValorTotal * 0.1;
+            	$('.valorCarro').text(" + R$" + parseFloat(xValor));
+    		} else {	
+    			$('.valorCarro').text(" + R$0");
+    		}	
+    	}
+    }); 
+    
+    $('.vidros').change(function(){
+    	if ($(".vidros:checked").val() == "S"){
+        	xValorTotal = $('.valortotal').text();
+        	xValor = xValorTotal * 0.05;
+        	$('.valorVidros').text(" + R$" + parseFloat(xValor));    		
+    	}else{
+    		$('.valorVidros').text(" + R$0");
+    	}
     });
+    
+    $('.franquia').change(function(){
+    	if ($(".franquia:checked").val() == "R"){
+        	xValorTotal = $('.valortotal').text();
+        	xValor = xValorTotal * 0.05;
+        	$('.valorFranquia').text(" + R$" + parseFloat(xValor));    		
+    	}else{
+    		if ($(".franquia:checked").val() == "50"){
+            	xValorTotal = $('.valortotal').text();
+            	xValor = xValorTotal * 0.1;
+            	$('.valorFranquia').text(" + R$" + parseFloat(xValor));
+    		} else {	
+    			$('.valorFranquia').text(" + R$0");
+    		}	
+    	}
+    });  
+    
+    $('.servicos24').change(function(){
+    	if ($(".servicos24:checked").val() == "S"){
+        	xValorTotal = $('.valortotal').text();
+        	xValor = xValorTotal * 0.05;
+        	$('.valorServicos').text(" + R$" + parseFloat(xValor));    		
+    	}else{
+    		$('.valorServicos').text(" + R$0");
+    	}
+    });  
+    
+    //$("input[name='servicos24']").change(function(){
+    //	alert('aa');
+    	//alert($("span[name='valortotal']").val());
+    //});
 	
 	$("select[name='carModel']").change(function(){
 		$(wizard).find('.btn-next').attr("disabled", false);

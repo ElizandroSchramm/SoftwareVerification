@@ -190,7 +190,7 @@ $(document).ready(function(){
 		$('.anomodelo01').text("  "+$('.fabYear').find(":selected").text());
 		var xYear = parseInt($('.fabYear').find(":selected").text()) + 1;
 		$('.anomodelo02').text("  "+xYear);
-    })
+    });
 
     $('.modelYear').change(function(){
         $('.aftermodelyear').fadeIn('slow'); 
@@ -199,11 +199,16 @@ $(document).ready(function(){
 			value: 1,
 			text: 'My option'
 		}));
-    })
+    });
+    
+    $("input[name='servicos24']").change(function(){
+    	alert('aa');
+    	//alert($("span[name='valortotal']").val());
+    });
 	
 	$("select[name='carModel']").change(function(){
 		$(wizard).find('.btn-next').attr("disabled", false);
-	})
+	});
     
     $height = $(document).height();
     $('.set-full-height').css('height',$height);

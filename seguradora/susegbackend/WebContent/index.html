@@ -428,8 +428,8 @@
 													<tbody>
 														<tr id='addr0'>
 															<td>1</td>
-															<td style='width: 210px'><input type="text" name='name0'  placeholder='Name' class="form-control" size='60'/></td>
-															<td><input type="text" name='cpf0'  placeholder='000.000.000-00' class="form-control" size='60' maxlength='14'/></td>
+															<td style='width: 210px'><input type="text" name='name0'  placeholder='Name' class="form-control" size='60' value='aaaa'/></td>
+															<td><input type="text" name='cpf0'  placeholder='000.000.000-00' class="form-control" size='60' maxlength='14' value='123'/></td>
 															<td style='width: 85px'><input type="number" name='idade0' placeholder='Idade' class="form-control" max='99' min='18' value='18'/></td>
 															<td style='width: 100px'><input type="radio" name='sexo0' value='M' checked style='margin-top: 0px'/> Masculino <br><input type="radio" name='sexo0' value='F' /> Feminino</td>
 															<td style='width: 80px'><input type="radio" name='filho0' value='S' checked style='margin-top: 0px'/> Sim <br><input type="radio" name='filho0' value='N' /> Não</td>
@@ -524,6 +524,53 @@
                                             <label><b>Médico-Hospitalares: </b></label> R$5.000,00
                                         </div> 
                                     </div>
+                                    
+                                    <div class="col-sm-12" style='margin-top: 40px'>
+                                        <h5 class="info-text"><b>Cláusulas</b></h4> 
+										<div class="col-sm-7 col-sm-offset-3 ">
+											<label>Uso: </label><span> + R$0</span><br>
+											<div class="form-group">
+													<input type="checkbox" name="uso" value="irtrabalhar"> Para ir trabalhar &nbsp&nbsp
+													<input type="checkbox" name="uso" value="faculdade"> Faculdade &nbsp&nbsp
+													<input type="checkbox" name="uso" value="comercial"> Comercial
+											</div>
+										</div>   
+										<div class="col-sm-7 col-sm-offset-3 ">
+											<label>Carro reserva: </label><span> + R$0</span><br>
+											<div class="form-group">
+													<input type="radio" name="carroreserva" value="N" checked> Não &nbsp&nbsp
+													<input type="radio" name="carroreserva" value="7"> 07 &nbsp&nbsp
+													<input type="radio" name="carroreserva" value="15"> 15
+											</div>
+										</div>   
+										<div class="col-sm-7 col-sm-offset-3 ">
+											<label>Cobertura vidros: </label><span> + R$0</span><br>
+											<div class="form-group">
+													<input type="radio" name="vidros" value="N" checked> Não &nbsp&nbsp
+													<input type="radio" name="vidros" value="S"> Sim
+											</div>
+										</div>                    
+										<div class="col-sm-7 col-sm-offset-3 ">
+											<label>Tipo franquia: </label><span> + R$0</span><br>
+											<div class="form-group">
+													<input type="radio" name="franquia" value="N" checked> Normal &nbsp&nbsp
+													<input type="radio" name="franquia" value="R"> Reduzida &nbsp&nbsp
+													<input type="radio" name="franquia" value="50"> 50%
+											</div>
+										</div>   
+										<div class="col-sm-7 col-sm-offset-3 ">
+											<label>Serviços 24hrs: </label><span> + R$0</span><br>
+											<div class="form-group">
+													<input type="radio" class="servicos24" name="servicos" value="N" checked> Não &nbsp&nbsp
+													<input type="radio" class="servicos24" name="servicos" value="S"> Sim
+											</div>
+										</div>                     
+                                                      
+                                        <div class="col-sm-12 col-sm-offset-3">    
+                                            <br>
+                                            <label><b>Total: </b></label>R$<span name='valortotal'>2200,00</span>
+                                        </div>
+                                    </div>
 
                                     <div class="col-sm-12" style='margin-top: 40px'>
                                         <h5 class="info-text"><b>Detalhes de valores</b></h4> 
@@ -533,12 +580,6 @@
                                         </div>
                                         <div class="col-sm-12 col-sm-offset-3">    
                                             <label><b>Condutor menor de 25: </b></label> R$410,00
-                                        </div>    
-                                        <div class="col-sm-12 col-sm-offset-3">    
-                                            <label><b>Serviços 24hrs: </b></label> R$110,00
-                                        </div>    
-                                        <div class="col-sm-12 col-sm-offset-3">    
-                                            <label><b>Vidros/Parabriasas/Retrovisores: </b></label> R$100,00
                                         </div>    
                                         <div class="col-sm-12 col-sm-offset-3">    
                                             <label><b>Carro com mais de 10 anos: </b></label> R$200,00
@@ -554,18 +595,7 @@
                                         </div> 
                                         <div class="col-sm-12 col-sm-offset-3">    
                                             <label><b>Menos de 5 anos CNH: </b></label> R$200,00
-                                        </div>                                         
-                                        <div class="col-sm-12 col-sm-offset-3">    
-                                            <label><b>Menos de 5 anos CNH: </b></label> R$200,00
-                                        </div>    
-										<div class="col-sm-7 col-sm-offset-3 ">
-											<label>Uso:</label><br>
-											<div class="form-group">
-													<input type="checkbox" name="uso" value="irtrabalhar"> Para ir trabalhar &nbsp&nbsp
-													<input type="checkbox" name="uso" value="faculdade"> Faculdade &nbsp&nbsp
-													<input type="checkbox" name="uso" value="comercial"> Comercial
-											</div>
-										</div>                     
+                                        </div>                      
                                                       
                                         <div class="col-sm-12 col-sm-offset-3">    
                                             <br><br>

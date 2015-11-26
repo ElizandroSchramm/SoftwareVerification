@@ -279,7 +279,7 @@
                                     <div class="col-sm-3">
                                          <div class="form-group">
                                             <label>Número</label>
-                                            <input type="text" name='numero' class="form-control" placeholder="242" value="0">
+                                            <input type="number" name='numero' class="form-control" placeholder="242" value="0" max="99999999999" min='0' onKeyUp="if(this.value>99999999999){this.value='99999999999';}else if(this.value<0){this.value='0';}" >
                                           </div>
                                     </div>
                                     <div class="col-sm-5 col-sm-offset-1">
@@ -292,14 +292,14 @@
                                     <div class="col-sm-5">
                                          <div class="form-group">
                                             <label>Estado</label>
-                                            <input type="text" name='estado' class="form-control" placeholder="Santa Catarina" value="0">
+                                            <input type="text" name='estado' class="form-control" placeholder="Santa Catarina" value="SC" maxlength="2">
                                           </div>
                                     </div>
                                     
                                     <div class="col-sm-5 col-sm-offset-1">
                                          <div class="form-group">
                                             <label>CEP</label>
-                                            <input type="text" name='cep' class="form-control" placeholder="00000-000" value="0">
+                                            <input type="text" name='cep' class="form-control" placeholder="00000-000" value="0" maxlength="20">
                                           </div>
                                     </div>
 

@@ -4,8 +4,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 
@@ -14,6 +16,7 @@ public class CotacaoDAO {
 	private int codigo, codSegurado, codLocalizacao;
 	private double comissao, valor;
 	private Date dataCriacao, vigencia;
+	private List<CondutorDAO> condutores;
 	
 	public CotacaoDAO() {
 		this.codigo = -1;
@@ -24,32 +27,36 @@ public class CotacaoDAO {
 	}
 	
 	public static CotacaoDAO loadFromDB(int codigo){
+		CotacaoDAO dao = null;
 		DBConnection db = new DBConnection();
 		try {
 			if(db.canExecuteCmd()){
-				PreparedStatement ps = db.getConnection().prepareStatement("SELECT comissao, dataCriacao, valor, vigencia FROM Cotacao c WHERE c.codigo = ?");
+				PreparedStatement ps = db.getConnection().prepareStatement("SELECT comissao, dataCriacao, valor, vigencia, codsegurado, codlocalizacao FROM Cotacao c WHERE c.codigo = ?");
 				ps.setInt(1, codigo);
 				ResultSet rs = ps.executeQuery();
 					if(rs.next()){
-						CotacaoDAO dao = new CotacaoDAO();
+						dao = new CotacaoDAO();
 						dao.codigo = codigo;
 						dao.setComissao(rs.getDouble(1));
 						dao.dataCriacao = rs.getDate(2);
 						dao.setValor(rs.getDouble(3));
 						dao.setVigencia(rs.getDate(4));
-						//TODO: resta fazer o get das demais dados como Veiculo, Segurado...
-						return dao;
+						dao.setcodSegurado(rs.getInt(5));
+						dao.setCodLocalizacao(rs.getInt(6));
+						//TODO: falta fazer o ve’culo
 					} else {
 						return null;
 					}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		} finally {
 			db.FecharConexao();
 		}
-		return null;
+		if(dao != null){
+			dao.loadCondutoresFromDB();
+		}
+		return dao;
 	}
 	
 	public boolean saveToDB(){
@@ -105,6 +112,25 @@ public class CotacaoDAO {
 		}
 		return true;
 	}
+	
+	private void loadCondutoresFromDB(){
+		this.condutores = new ArrayList<CondutorDAO>();
+		DBConnection db = new DBConnection();
+		try {
+			if(db.canExecuteCmd()){
+				PreparedStatement ps = db.getConnection().prepareStatement("SELECT codigo FROM Condutor WHERE CodCotacao = ?");
+				ps.setInt(1, this.codigo);
+				ResultSet rs = ps.executeQuery();
+					while(rs.next()){
+						this.condutores.add(CondutorDAO.loadFromDB(codigo));
+					}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.FecharConexao();
+		}
+	}
 
 	public double getComissao() {
 		return comissao;
@@ -152,6 +178,10 @@ public class CotacaoDAO {
 
 	public void setcodSegurado(int codSegurado) {
 		this.codSegurado = codSegurado;
+	}
+
+	public List<CondutorDAO> getCondutoresDAO() {
+		return this.condutores;
 	}
 
 }

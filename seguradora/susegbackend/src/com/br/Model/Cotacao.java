@@ -1,8 +1,10 @@
 package com.br.Model;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.br.DAO.CondutorDAO;
 import com.br.DAO.CotacaoDAO;
 
 public class Cotacao {
@@ -18,6 +20,11 @@ public class Cotacao {
 		this.dao = CotacaoDAO.loadFromDB(codigoCotacao);
 		if(this.dao == null){
 			throw new Exception("Cotação não encontrada.");
+		}
+		this.condutores = new ArrayList<Condutor>();
+		List<CondutorDAO> condutoresDAO = this.dao.getCondutoresDAO();
+		for (CondutorDAO condutorDAO : condutoresDAO) {
+			this.condutores.add(new Condutor(condutorDAO));
 		}
 	}
 	

@@ -6,6 +6,11 @@ $(document).ready(function(){
 	// xCodigoSegurado - Código do segurado, será salvo na cotação ao final.
 	// xCodigoCotacao - Código da cotação corrente, usado para fazer UPDATE no final
 
+	xValorCarro = 0;
+	xValorVidros = 0; 
+	xValorFranquia = 0;
+	xValorServicos = 0;
+
 		var i=1;
 		$("#add_row").click(function(){
 			//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md' max='99' min='0'></td><td><input  name='sexo"+i+"' type='radio' value='M' checked style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
@@ -202,55 +207,73 @@ $(document).ready(function(){
     });
     
     $('.carroreserva').change(function(){
+    	xValor = 0;
+    	xValorBase = $('.valorbase').text();
     	if ($(".carroreserva:checked").val() == "7"){
-        	xValorTotal = $('.valortotal').text();
-        	xValor = xValorTotal * 0.05;
+        	xValor = xValorBase * 0.05;
         	$('.valorCarro').text(" + R$" + parseFloat(xValor));    		
     	}else{
     		if ($(".carroreserva:checked").val() == "15"){
-            	xValorTotal = $('.valortotal').text();
-            	xValor = xValorTotal * 0.1;
+            	xValor = xValorBase * 0.15;
             	$('.valorCarro').text(" + R$" + parseFloat(xValor));
     		} else {	
     			$('.valorCarro').text(" + R$0");
     		}	
-    	}
+    	}    	
+
+    	xValorCarro = xValor;
+    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
+    	$('.valortotal').text(xValorTotal);
     }); 
     
     $('.vidros').change(function(){
+    	xValor = 0;
     	if ($(".vidros:checked").val() == "S"){
-        	xValorTotal = $('.valortotal').text();
-        	xValor = xValorTotal * 0.05;
+        	xValorBase = $('.valorbase').text();
+        	xValor = xValorBase * 0.05;
         	$('.valorVidros').text(" + R$" + parseFloat(xValor));    		
     	}else{
     		$('.valorVidros').text(" + R$0");
     	}
+
+    	xValorVidros = xValor;
+    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
+    	$('.valortotal').text(xValorTotal);    	
     });
     
     $('.franquia').change(function(){
+    	xValor = 0;
+    	xValorBase = $('.valorbase').text();
     	if ($(".franquia:checked").val() == "R"){
-        	xValorTotal = $('.valortotal').text();
-        	xValor = xValorTotal * 0.05;
+        	xValor = xValorBase * 0.05;
         	$('.valorFranquia').text(" + R$" + parseFloat(xValor));    		
     	}else{
     		if ($(".franquia:checked").val() == "50"){
-            	xValorTotal = $('.valortotal').text();
-            	xValor = xValorTotal * 0.1;
+            	xValor = xValorBase * 0.15;
             	$('.valorFranquia').text(" + R$" + parseFloat(xValor));
     		} else {	
     			$('.valorFranquia').text(" + R$0");
     		}	
     	}
+
+    	xValorFranquia = xValor;
+    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
+    	$('.valortotal').text(xValorTotal);    	
     });  
     
     $('.servicos24').change(function(){
+    	xValor = 0;
     	if ($(".servicos24:checked").val() == "S"){
-        	xValorTotal = $('.valortotal').text();
-        	xValor = xValorTotal * 0.05;
+        	xValorBase = $('.valorbase').text();
+        	xValor = xValorBase * 0.05;
         	$('.valorServicos').text(" + R$" + parseFloat(xValor));    		
     	}else{
     		$('.valorServicos').text(" + R$0");
     	}
+
+    	xValorServicos = xValor;
+    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
+    	$('.valortotal').text(xValorTotal);    	
     });  
     
     //$("input[name='servicos24']").change(function(){

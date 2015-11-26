@@ -58,13 +58,11 @@ public class CotacaoDAO {
 			DBConnection db = new DBConnection();
 			try {
 				if(db.canExecuteCmd()){
-					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Cotacao(comissao, dataCriacao, valor, vigencia, codsegurado, codlocalizacao) VALUES( ?, ?, ?, ?, ?, ? )", PreparedStatement.RETURN_GENERATED_KEYS);
+					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Cotacao(comissao, dataCriacao, valor, vigencia) VALUES( ?, ?, ?, ? )", PreparedStatement.RETURN_GENERATED_KEYS);
 					ps.setDouble(1, this.comissao);
 					ps.setDate(2, (java.sql.Date) this.dataCriacao);
 					ps.setDouble(3, this.valor);
 					ps.setDate(4, (java.sql.Date) this.vigencia);
-					ps.setInt(5, this.codSegurado);
-					ps.setInt(6, this.codLocalizacao);
 					// Execute the INSERT
 					if(ps.executeUpdate() > 0){
 						ResultSet rs = ps.getGeneratedKeys();
@@ -82,8 +80,28 @@ public class CotacaoDAO {
 				db.FecharConexao();
 			}
 		} else {
-			//TODO: fazer update
 			//aqui faz updade
+			DBConnection db = new DBConnection();
+			try {
+				if(db.canExecuteCmd()){
+					PreparedStatement ps = db.getConnection().prepareStatement("UPDATE Cotacao set comissao=?, dataCriacao=?, valor=?, vigencia=?, codsegurado=?, codlocalizacao=? WHERE codigo = ?", PreparedStatement.RETURN_GENERATED_KEYS);
+					ps.setDouble(1, this.comissao);
+					ps.setDate(2, (java.sql.Date) this.dataCriacao);
+					ps.setDouble(3, this.valor);
+					ps.setDate(4, (java.sql.Date) this.vigencia);
+					ps.setInt(5, this.codSegurado);
+					ps.setInt(6, this.codLocalizacao);
+					ps.setInt(7, this.codigo);
+					// Execute the INSERT
+					ps.executeUpdate();
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			} finally {
+				db.FecharConexao();
+			}			
 		}
 		return true;
 	}

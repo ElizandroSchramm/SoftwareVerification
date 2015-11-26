@@ -33,7 +33,7 @@ public class NovaCotacao extends HttpServlet {
 		Cotacao cotacao = new Cotacao();
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		out.print("{ codigo: " + cotacao.save() + "}");
+		out.print("{ 'codigo': '" + cotacao.save() + "'}");		
 		out.flush();
 	}
 

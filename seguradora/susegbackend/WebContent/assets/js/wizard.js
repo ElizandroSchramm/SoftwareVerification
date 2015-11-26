@@ -4,6 +4,7 @@ transparent = true;
 $(document).ready(function(){
 	// xCodigoLoc - Código da localização, será salvo na cotação ao final.
 	// xCodigoSegurado - Código do segurado, será salvo na cotação ao final.
+	// xCodigoCotacao - Código da cotação corrente, usado para fazer UPDATE no final
 
 		var i=1;
 		$("#add_row").click(function(){
@@ -97,6 +98,7 @@ $(document).ready(function(){
             } else { 					
 				if($current == 2) {
 					$(wizard).find('.btn-next').show();
+					novaCotacao();
 				} else {
 					// If it's the last tab then hide the last button and show the finish instead
 					if($current >= $total) {
@@ -170,7 +172,8 @@ $(document).ready(function(){
     $('.btn-save').click(function(){	
 		//alert(xCodigoSegurado);
 		//alert(xCodigoLoc);
-    	saveCotacao(xCodigoLoc, xCodigoSegurado);    
+    	saveCotacao(xCodigoLoc, xCodigoSegurado);
+    	alert('A cotação foi salva com sucesso!');
     });
 
     $('.fabYear').change(function(){
@@ -287,6 +290,17 @@ function readURL(input) {
     }
 }
 
+function novaCotacao(){
+	//alert('gerando cotação');
+	xReturn = httpGet("http://localhost:8080/susegbackend/NovaCotacao");
+	//alert(xReturn);
+	
+	xCotacaoSaved = eval ("(" + xReturn + ")");	
+	xCodigoCotacao = xCotacaoSaved.codigo;
+	//alert(xCodigoCotacao);
+	//xCodigoCotacao
+}
+
 function validaCondutores(){
 	isValid = true;
 	i = 0;
@@ -318,7 +332,7 @@ function saveCondutores(){
 		var xCondCasado = $("input[name='casado" + i + "']:checked").val();
 		
 		//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
-		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=20';
+		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=' + xCodigoCotacao;
 		xReturn = httpGet("http://localhost:8080/susegbackend/GravaCondutor?" + params);
 		//alert(xReturn);
 		
@@ -329,12 +343,12 @@ function saveCondutores(){
 
 function saveCotacao(){
 	xValorCotacao  = 0;
-	xCodigoCotacao = -1;
+	//alert(xCodigoCotacao);
 	
 	params = "codigoCotacao=" + xCodigoCotacao + "&valorCotacao=" + xValorCotacao + "&codSegurado=" + xCodigoSegurado + "&codLocalizacao=" + xCodigoLoc;
-	alert(params);
+	//alert(params);
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaCotacao?" + params);
-	alert(xReturn);
+	//alert(xReturn);
 }
 
 function saveSegurado(){

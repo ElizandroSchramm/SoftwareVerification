@@ -71,4 +71,9 @@ public class Cotacao {
 		this.condutores = condutores;
 	}
 
+	public double getValorFIPVeiculo() {
+		// TODO Implementar para retornar o valor do ve’culo
+		return 35000;
+	}
+
 }

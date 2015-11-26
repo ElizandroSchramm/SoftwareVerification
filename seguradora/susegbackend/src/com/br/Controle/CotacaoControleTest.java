@@ -14,11 +14,23 @@ public class CotacaoControleTest {
 		try {
 			CotacaoControle co = new CotacaoControle(new Cotacao(1));
 			Condutor cn = co.getCondutorPiorPerfil();
-			System.out.println(cn);
+			assertTrue("N‹o testou certo - se tiver idade menor que 26", cn.getIdade() < 26);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Erro ao criar o controle");
 		}
 	}
-
+	
+	@Test
+	public final void testCalculaPremio(){
+		try {
+			CotacaoControle co = new CotacaoControle(new Cotacao(1));
+			double premio = co.calculaPremio();
+			assertTrue("N‹o testou certo - se tiver idade menor que 26", premio == 1186.5);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Erro ao criar o controle");
+		}
+	}
+	
 }

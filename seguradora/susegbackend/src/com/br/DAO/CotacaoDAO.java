@@ -121,8 +121,10 @@ public class CotacaoDAO {
 				PreparedStatement ps = db.getConnection().prepareStatement("SELECT codigo FROM Condutor WHERE CodCotacao = ?");
 				ps.setInt(1, this.codigo);
 				ResultSet rs = ps.executeQuery();
+				int codCondutor = 0;
 					while(rs.next()){
-						this.condutores.add(CondutorDAO.loadFromDB(codigo));
+						codCondutor = rs.getInt(1);
+						this.condutores.add(CondutorDAO.loadFromDB(codCondutor));
 					}
 			}
 		} catch (SQLException e) {

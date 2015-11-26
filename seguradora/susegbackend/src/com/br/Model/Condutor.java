@@ -45,6 +45,32 @@ public class Condutor {
 		dao.setTemFilho(temFilho);
 	}
 	
+	/**
+	 * Calcula o % de acréscimo ao seguro devido ao perfil do condutor considerando:
+	 * 	Se tiver menos de 26 anos, então pune em 15%, não somando nenhum % além desse.
+	 * 	Se for homem maior que 25 anos, então pune em 5%, não somando nenhum % além desse.
+	 * 	Se for casado(a), então reduz 2% de uma punição que houver.
+	 * 	Se ter filho, então reduz 2% de uma punição que houver.
+	 */
+	public int getPercentualCondutor(){
+		int punicao = 0;
+		if(this.getIdade() <= 25){
+			punicao = 15;
+		} else if(this.getSexo().equals("M")){
+			punicao = 5;
+		}
+		if(punicao > 0){
+			if(!this.ehSolteiro()) {
+				punicao -= 2;
+			}
+			if(!this.naoTemFilho()){
+				punicao -=2;
+			}
+		}
+		return punicao;
+	}
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -68,7 +94,7 @@ public class Condutor {
 		return this.dao.getCasado().equals("N");
 	}
 
-	public boolean temNaoFilho() {
+	public boolean naoTemFilho() {
 		return this.dao.getTemFilho().equals("N");
 	}
 

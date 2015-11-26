@@ -1,8 +1,5 @@
 package com.br.Controle;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.br.Model.Condutor;
 import com.br.Model.Cotacao;
 
@@ -15,68 +12,27 @@ public class CotacaoControle {
 	}
 	
 	public Condutor getCondutorPiorPerfil(){
-		//separa os homens das mulheres
-		List<Condutor> homens = new ArrayList<Condutor>();
-		List<Condutor> mulheres = new ArrayList<Condutor>();
-		for (Condutor condutor : this.cotacao.getCondutores()) {
-			if(condutor.getSexo() == "M"){
-				homens.add(condutor);
-			} else {
-				mulheres.add(condutor);
+		int punicao = 0, indice = 0;
+		Condutor condutor;
+		for (int i = 0; i < this.cotacao.getCondutores().size(); i++) {
+			condutor = this.cotacao.getCondutores().get(i);
+			if(condutor.getPercentualCondutor() > punicao){
+				punicao = condutor.getPercentualCondutor();
+				indice = i;
 			}
 		}
-		
-		//seleciona o condutor com menos de 25 anos
-		for (Condutor condutor : homens) {
-			if(condutor.getIdade() <= 25){
-				return condutor;
-			}
+		return this.cotacao.getCondutores().get(indice);
+	}
+	
+	public double calculaPremio(){
+		double valorCarro = this.cotacao.getValorFIPVeiculo();
+		int percentualCondutor = this.getCondutorPiorPerfil().getPercentualCondutor();
+		double baseValorPremio = valorCarro * 0.03; //TODO: confirmar se a base inicial Ž 3%
+		double valorPremio = baseValorPremio;
+		if(percentualCondutor > 0){
+			valorPremio = baseValorPremio + (baseValorPremio * ((double)percentualCondutor / 100));
 		}
-		
-		//seleciona a condutora com menos de 25 anos
-		for (Condutor condutor : mulheres) {
-			if(condutor.getIdade() <= 25){
-				return condutor;
-			}
-		}
-		
-		//seleciona o condutor solteiro e sem filho
-		for (Condutor condutor : homens) {
-			if(condutor.ehSolteiro() && condutor.temNaoFilho()){
-				return condutor;
-			}
-		}
-		
-		//seleciona a condutora solteira e sem filho
-		for (Condutor condutor : mulheres) {
-			if(condutor.ehSolteiro() && condutor.temNaoFilho()){
-				return condutor;
-			}
-		}
-		
-		//seleciona o condutor solteiro com filho
-		for (Condutor condutor : homens) {
-			if(condutor.ehSolteiro() && !condutor.temNaoFilho()){
-				return condutor;
-			}
-		}
-		
-		//seleciona a condutora solteira com filho
-		for (Condutor condutor : mulheres) {
-			if(condutor.ehSolteiro() && !condutor.temNaoFilho()){
-				return condutor;
-			}
-		}
-		
-		//os demais casos n‹o influenciam no c‡lculo do seguro, ent‹o retorna qualquer condutora se houver.
-		if (mulheres.size() > 0) {
-			return mulheres.get(0);
-		} else if (homens.size() > 0) { //testa s— para n‹o causar erro
-			return homens.get(0);
-		} else {
-			return null;
-		}
-		
+		return valorPremio;
 	}
 
 }

@@ -110,6 +110,7 @@ $(document).ready(function(){
 						$(wizard).find('.btn-next').hide();
 						$(wizard).find('.btn-finish').show();
 						$(wizard).find('.btn-save').show();
+						carregaSegurado();
 					} else {
 						$(wizard).find('.btn-next').show();
 						$(wizard).find('.btn-finish').hide();
@@ -489,10 +490,20 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
     
+function carregaSegurado(){
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaSegurado?codigoSegurado=" + xCodigoSegurado);
+	alert(xReturn);
+	
+	xSegCarregado = eval ("(" + xReturn + ")");
+	alert(xSegCarregado.codigo);
 
-
-
-
+	$(".nomeSegurado").text(xSegCarregado.nome);
+	$(".cpfSegurado").text(xSegCarregado.cpf);
+	$(".sexoSegurado").text(xSegCarregado.sexo);
+	$(".dataNascSegurado").text(xSegCarregado.dataNascimento);
+	$(".telefoneSegurado").text(xSegCarregado.telefone);
+	
+}
 
 
 

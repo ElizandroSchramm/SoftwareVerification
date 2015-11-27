@@ -26,7 +26,7 @@ public class CotacaoControleTest {
 		try {
 			CotacaoControle co = new CotacaoControle(new Cotacao(1));
 			double premio = co.calculaPremio();
-			assertTrue("N‹o testou certo - se tiver idade menor que 26", premio == 1239);
+			assertTrue("N‹o testou certo - se premio nao for 1239", premio == 1239);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Erro ao criar o controle");

@@ -516,8 +516,11 @@ function carregaLocalizacao(){
 }
 
 function carregaValores(){
-	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaLocalizacao?codigoLocalizacao=" + xCodigoLoc);
+	xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
 	alert(xReturn);
+	var obj = JSON.parse(xReturn);
+	//alert(obj);
+	alert(obj.valores[1].descricao);
 }
 
 function atualizaValores(){

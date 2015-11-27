@@ -423,8 +423,7 @@ function saveCondutores(){
 }
 
 function saveCotacao(){
-	xValorCotacao  = 0;
-	//alert(xCodigoCotacao);
+	xValorCotacao  = $(".valortotal").text();
 	
 	params = "codigoCotacao=" + xCodigoCotacao + "&valorCotacao=" + xValorCotacao + "&codSegurado=" + xCodigoSegurado + "&codLocalizacao=" + xCodigoLoc;
 	//alert(params);
@@ -439,10 +438,10 @@ function saveSegurado(){
 		var xCPF          = $("input[name='cpf']").val();
 		var xTelefone     = $("input[name='telefone']").val();
 		var xSexo         = $("input[name='sexo']:checked").val();
+		var xBonus        = $("input[name='classebonus']").val();
 		
 		xDataNasc.replace('/', '%2F');		
-		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo;
-		
+		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo + "&bonus=" + xBonus;
 	} else {
 		if ($("input[name='tipopessoa']:checked").val() == "pj"){
 			var xNomeEmpresa = $("input[name='nomeempresa']").val();
@@ -492,10 +491,10 @@ function httpGet(theUrl)
     
 function carregaSegurado(){
 	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaSegurado?codigoSegurado=" + xCodigoSegurado);
-	alert(xReturn);
+	//alert(xReturn);
 	
 	xSegCarregado = eval ("(" + xReturn + ")");
-	alert(xSegCarregado.codigo);
+	//alert(xSegCarregado.codigo);
 
 	$(".nomeSegurado").text(xSegCarregado.nome);
 	$(".cpfSegurado").text(xSegCarregado.cpf);

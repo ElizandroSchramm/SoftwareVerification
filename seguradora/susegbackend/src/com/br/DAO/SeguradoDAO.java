@@ -8,6 +8,7 @@ import java.sql.SQLException;
 public class SeguradoDAO {
 	
 	private int codigo = -1;
+	private int classeBonus;
 	private String nome, cpf, sexo, telefone;
 	private Date dataNascimento;
 	
@@ -15,7 +16,7 @@ public class SeguradoDAO {
 		DBConnection db = new DBConnection();
 		try {
 			if(db.canExecuteCmd()){
-				PreparedStatement ps = db.getConnection().prepareStatement("SELECT nome, cpf, sexo, telefone, dataNascimento FROM Segurado s WHERE s.codigo = ?");
+				PreparedStatement ps = db.getConnection().prepareStatement("SELECT nome, cpf, sexo, telefone, dataNascimento, classebonus FROM Segurado s WHERE s.codigo = ?");
 				ps.setInt(1, codigo);
 				ResultSet rs = ps.executeQuery();
 					if(rs.next()){
@@ -26,6 +27,7 @@ public class SeguradoDAO {
 						dao.setSexo(rs.getString(3));
 						dao.setTelefone(rs.getString(4));
 						dao.setDataNascimento(rs.getDate(5));
+						dao.setClasseBonus(rs.getInt(6));
 						return dao;
 					} else {
 						return null;
@@ -46,12 +48,13 @@ public class SeguradoDAO {
 			DBConnection db = new DBConnection();
 			try {
 				if(db.canExecuteCmd()){
-					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Segurado(nome, cpf, sexo, telefone, dataNascimento) VALUES( ?, ?, ?, ?, ? )", PreparedStatement.RETURN_GENERATED_KEYS);
+					PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO Segurado(nome, cpf, sexo, telefone, dataNascimento, classebonus) VALUES( ?, ?, ?, ?, ?, ? )", PreparedStatement.RETURN_GENERATED_KEYS);
 					ps.setString(1, this.nome);
 					ps.setString(2, this.cpf);
 					ps.setString(3, this.sexo);
 					ps.setString(4, this.telefone);
 					ps.setDate(5, this.dataNascimento);
+					ps.setInt(6, this.classeBonus);
 					// Execute the INSERT
 					if(ps.executeUpdate() > 0){
 						ResultSet rs = ps.getGeneratedKeys();
@@ -117,6 +120,14 @@ public class SeguradoDAO {
 
 	public int getCodigo() {
 		return codigo;
+	}
+	
+	public void setClasseBonus(int bonus){
+		this.classeBonus = bonus;
+	}
+	
+	public int getClasseBonus(){
+		return this.classeBonus;
 	}
 	
 

@@ -32,7 +32,18 @@ public class CotacaoControle {
 		if(percentualCondutor > 0){
 			valorPremio = baseValorPremio + (baseValorPremio * ((double)percentualCondutor / 100));
 		}
+		//Veículo com mais de 10 anos.
 		return valorPremio;
 	}
+	
+	//TODO: implementar o getDetalhesValores, que deve retornar um JSON com 
+	/**
+	 * Valor base do prêmio:  R$1200,00 <--
+	 * Condutor menor de 25:  R$410,00 <--
+	 * Carro com mais de 10 anos:  R$200,00 <--
+	 */
+	
+	//TODO: gravar na base as cláusulas que o cara selecionou para a cotação. Sprint2, pois ele calcula no client o valor e grava
+	//TODO: fazer os gets do percentual de cada cláusula. Sprint2, pois fica fixo para a 1
 
 }

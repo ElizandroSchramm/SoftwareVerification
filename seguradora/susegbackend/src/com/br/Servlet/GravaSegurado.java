@@ -32,7 +32,7 @@ public class GravaSegurado extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			//nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M
-			String nome, cpf, telefone, sexo;
+			String nome, cpf, telefone, sexo, classeBonus;
 			Date dataNascimento;
 			nome = request.getParameter("nome");
 			cpf = request.getParameter("cpf");
@@ -40,11 +40,12 @@ public class GravaSegurado extends HttpServlet {
 			sexo = request.getParameter("sexo");
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			dataNascimento = new Date(sdf.parse(request.getParameter("dataNascimento")).getTime()); 
+			classeBonus = request.getParameter("bonus");
 			if(nome == null || cpf == null || telefone == null || sexo == null || dataNascimento == null){
 				throw new Exception();
 			}
 			Segurado segurado = new Segurado();
-			segurado.setDados(nome, cpf, sexo, dataNascimento);
+			segurado.setDados(nome, cpf, sexo, dataNascimento, Integer.parseInt(classeBonus));
 			segurado.setContato(telefone);
 			segurado.save();
 			response.setContentType("application/json");

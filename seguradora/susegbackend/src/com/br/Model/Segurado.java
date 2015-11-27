@@ -17,11 +17,12 @@ public class Segurado {
 		this.dao = SeguradoDAO.loadFromDB(codigo);
 	}
 	
-	public void setDados(String nome, String cpf, String sexo, Date dataNascimento){
+	public void setDados(String nome, String cpf, String sexo, Date dataNascimento, int bonus){
 		dao.setNome(nome);
 		dao.setCpf(cpf);
 		dao.setSexo(sexo);
 		dao.setDataNascimento(dataNascimento);
+		dao.setClasseBonus(bonus);
 	}
 	
 	public void setContato(String telefone){

@@ -439,10 +439,10 @@ function saveSegurado(){
 		var xCPF          = $("input[name='cpf']").val();
 		var xTelefone     = $("input[name='telefone']").val();
 		var xSexo         = $("input[name='sexo']:checked").val();
+		var xBonus        = $("input[name='classebonus']").val();
 		
 		xDataNasc.replace('/', '%2F');		
-		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo;
-		
+		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo + "&bonus=" + xBonus;
 	} else {
 		if ($("input[name='tipopessoa']:checked").val() == "pj"){
 			var xNomeEmpresa = $("input[name='nomeempresa']").val();

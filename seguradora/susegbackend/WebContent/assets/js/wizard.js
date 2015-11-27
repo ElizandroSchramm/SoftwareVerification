@@ -223,8 +223,7 @@ $(document).ready(function(){
     	}    	
 
     	xValorCarro = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);
+    	atualizaValores();    	
     }); 
     
     $('.vidros').change(function(){
@@ -238,8 +237,7 @@ $(document).ready(function(){
     	}
 
     	xValorVidros = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);    	
+    	atualizaValores();    	
     });
     
     $('.franquia').change(function(){
@@ -258,8 +256,7 @@ $(document).ready(function(){
     	}
 
     	xValorFranquia = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);    	
+    	atualizaValores();    	
     });  
     
     $('.servicos24').change(function(){
@@ -273,8 +270,7 @@ $(document).ready(function(){
     	}
 
     	xValorServicos = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);    	
+    	atualizaValores();    	
     });  
     
     //$("input[name='servicos24']").change(function(){
@@ -502,6 +498,16 @@ function carregaSegurado(){
 	$(".dataNascSegurado").text(xSegCarregado.dataNascimento);
 	$(".telefoneSegurado").text(xSegCarregado.telefone);
 	
+}
+
+function atualizaValores(){
+	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
+	
+	$('.valortotal').text(xValorTotal);
+	$('.parcela1').text(xValorTotal);
+	$('.parcela2').text(xValorTotal/2);
+	$('.parcela3').text(xValorTotal/3);
+	$('.parcela4').text(xValorTotal/4);
 }
 
 

@@ -37,7 +37,8 @@ public class CotacaoControleTest {
 	public final void testGetDetalhes(){
 		try {
 			CotacaoControle co = new CotacaoControle(new Cotacao(1));
-			System.out.println(co.getValoresDetalhados());
+			String esperado = "{'valores':[{'descricao':'Valor base do prêmio','valor':'1050.0'}{'descricao':'Perfil do condutor','valor':'136.5'}{'descricao':'Carro com mais de 10 anos','valor':'52.5'}{'descricao':'Valor do prêmio','valor':'1239.0'}]}";
+			assertTrue("Não testou certo", co.getValoresDetalhados().equals(esperado));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Erro ao criar o controle");

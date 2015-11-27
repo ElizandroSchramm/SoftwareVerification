@@ -75,15 +75,15 @@ public class CotacaoControle {
 	public String getValoresDetalhados(){
 		StringBuilder sb = new StringBuilder();
 		//descrição valor
-		sb.append("{'valores':[");
-		sb.append("{'descricao':'Valor base do prêmio','valor':,'" + calculaBasePremio() + "'}");
+		sb.append("{\"valores\":[");
+		sb.append("{\"descricao\":\"Valor base do prêmio\",\"valor\":\"" + calculaBasePremio() + "\"},");
 		if(getValorPerfilCondutor() > 0){
-			sb.append("{'descricao':'Perfil do condutor','valor':,'" + getValorPerfilCondutor() + "'}");
+			sb.append("{\"descricao\":\"Perfil do condutor\",\"valor\":\"" + getValorPerfilCondutor() + "\"},");
 		}
 		if(getValorIdadeVeiculo() > 0){
-			sb.append("{'descricao':'Carro com mais de 10 anos','valor':,'" + getValorIdadeVeiculo() + "'}");
+			sb.append("{\"descricao\":\"Carro com mais de 10 anos\",\"valor\":\"" + getValorIdadeVeiculo() + "\"},");
 		}
-		sb.append("{'descricao':'Valor do prêmio','valor':,'" + calculaPremio() + "'}");
+		sb.append("{\"descricao\":\"Valor do prêmio\",\"valor\":\"" + calculaPremio() + "\"}");
 		sb.append("]}");
 		return sb.toString();
 	}

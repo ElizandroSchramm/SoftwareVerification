@@ -111,6 +111,8 @@ $(document).ready(function(){
 						$(wizard).find('.btn-finish').show();
 						$(wizard).find('.btn-save').show();
 						carregaSegurado();
+						carregaLocalizacao();
+						carregaValores();
 					} else {
 						$(wizard).find('.btn-next').show();
 						$(wizard).find('.btn-finish').hide();
@@ -212,19 +214,18 @@ $(document).ready(function(){
     	xValorBase = $('.valorbase').text();
     	if ($(".carroreserva:checked").val() == "7"){
         	xValor = xValorBase * 0.05;
-        	$('.valorCarro').text(" + R$" + parseFloat(xValor));    		
+        	$('.valorCarro').text(" + R$" + parseFloat(xValor).toFixed(2));    		
     	}else{
     		if ($(".carroreserva:checked").val() == "15"){
             	xValor = xValorBase * 0.15;
-            	$('.valorCarro').text(" + R$" + parseFloat(xValor));
+            	$('.valorCarro').text(" + R$" + parseFloat(xValor).toFixed(2));
     		} else {	
     			$('.valorCarro').text(" + R$0");
     		}	
     	}    	
 
     	xValorCarro = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);
+    	atualizaValores();    	
     }); 
     
     $('.vidros').change(function(){
@@ -232,14 +233,13 @@ $(document).ready(function(){
     	if ($(".vidros:checked").val() == "S"){
         	xValorBase = $('.valorbase').text();
         	xValor = xValorBase * 0.05;
-        	$('.valorVidros').text(" + R$" + parseFloat(xValor));    		
+        	$('.valorVidros').text(" + R$" + parseFloat(xValor).toFixed(2));    		
     	}else{
     		$('.valorVidros').text(" + R$0");
     	}
 
     	xValorVidros = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);    	
+    	atualizaValores();    	
     });
     
     $('.franquia').change(function(){
@@ -247,19 +247,18 @@ $(document).ready(function(){
     	xValorBase = $('.valorbase').text();
     	if ($(".franquia:checked").val() == "R"){
         	xValor = xValorBase * 0.05;
-        	$('.valorFranquia').text(" + R$" + parseFloat(xValor));    		
+        	$('.valorFranquia').text(" + R$" + parseFloat(xValor).toFixed(2));    		
     	}else{
     		if ($(".franquia:checked").val() == "50"){
             	xValor = xValorBase * 0.15;
-            	$('.valorFranquia').text(" + R$" + parseFloat(xValor));
+            	$('.valorFranquia').text(" + R$" + parseFloat(xValor).toFixed(2));
     		} else {	
     			$('.valorFranquia').text(" + R$0");
     		}	
     	}
 
     	xValorFranquia = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);    	
+    	atualizaValores();    	
     });  
     
     $('.servicos24').change(function(){
@@ -267,14 +266,13 @@ $(document).ready(function(){
     	if ($(".servicos24:checked").val() == "S"){
         	xValorBase = $('.valorbase').text();
         	xValor = xValorBase * 0.05;
-        	$('.valorServicos').text(" + R$" + parseFloat(xValor));    		
+        	$('.valorServicos').text(" + R$" + parseFloat(xValor).toFixed(2));    		
     	}else{
     		$('.valorServicos').text(" + R$0");
     	}
 
     	xValorServicos = xValor;
-    	xValorTotal = parseInt(xValorCarro) + parseInt(xValorVidros) + parseInt(xValorFranquia) + parseInt(xValorServicos) + parseInt(xValorBase);
-    	$('.valortotal').text(xValorTotal);    	
+    	atualizaValores();    	
     });  
     
     //$("input[name='servicos24']").change(function(){
@@ -502,6 +500,47 @@ function carregaSegurado(){
 	$(".dataNascSegurado").text(xSegCarregado.dataNascimento);
 	$(".telefoneSegurado").text(xSegCarregado.telefone);
 	
+}
+    
+function carregaLocalizacao(){
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaLocalizacao?codigoLocalizacao=" + xCodigoLoc);
+	//alert(xReturn);
+	
+	xLocCarregado = eval ("(" + xReturn + ")");
+	//alert(xLocCarregado.rua);
+
+	$(".endLocalizacao").text("Rua: " + xLocCarregado.rua + ", " + xLocCarregado.numero + ", " + xLocCarregado.cep);
+	$(".cidadeLocalizacao").text(xLocCarregado.cidade);
+	$(".estadoLocalizacao").text(xLocCarregado.estado);
+	
+}
+
+function carregaValores(){
+	xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
+	//alert(xReturn);
+	var obj = JSON.parse(xReturn);
+
+	$(".valorbase").text(obj.valores[3].valor);
+	$(".valortotal").text(obj.valores[3].valor);
+	
+	$(".basedetalhe").text(obj.valores[0].descricao);
+	$(".valorbasedetalhe").text(parseFloat(obj.valores[0].valor).toFixed(2));
+	$(".perfil").text(obj.valores[1].descricao);
+	$(".valorperfil").text(parseFloat(obj.valores[1].valor).toFixed(2));
+	$(".10anos").text(obj.valores[2].descricao);
+	$(".valor10anos").text(parseFloat(obj.valores[2].valor).toFixed(2));
+	$(".premiodetalhe").text(obj.valores[3].descricao);
+	$(".valorpremiodetalhe").text(parseFloat(obj.valores[3].valor).toFixed(2));
+}
+
+function atualizaValores(){
+	xValorTotal = parseFloat(xValorCarro) + parseFloat(xValorVidros) + parseFloat(xValorFranquia) + parseFloat(xValorServicos) + parseFloat(xValorBase);
+	
+	$('.valortotal').text(parseFloat(xValorTotal).toFixed(2));
+	$('.parcela1').text(parseFloat(xValorTotal).toFixed(2));
+	$('.parcela2').text(parseFloat(xValorTotal/2).toFixed(2));
+	$('.parcela3').text(parseFloat(xValorTotal/3).toFixed(2));
+	$('.parcela4').text(parseFloat(xValorTotal/4).toFixed(2));
 }
 
 

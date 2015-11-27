@@ -11,9 +11,11 @@ public class Cotacao {
 	
 	private CotacaoDAO dao;
 	private List<Condutor> condutores;
+	private Veiculo veiculo;
 	
 	public Cotacao() {
 		this.dao = new CotacaoDAO();
+		this.veiculo = new Veiculo(); //TODO: fazer carregar veiculo do banco. Sprint 2.
 	}
 	
 	public Cotacao(int codigoCotacao) throws Exception{
@@ -26,6 +28,7 @@ public class Cotacao {
 		for (CondutorDAO condutorDAO : condutoresDAO) {
 			this.condutores.add(new Condutor(condutorDAO));
 		}
+		this.veiculo = new Veiculo(); //TODO: fazer carregar veiculo do banco. Sprint 2.
 	}
 	
 	public int save(){
@@ -72,8 +75,11 @@ public class Cotacao {
 	}
 
 	public double getValorFIPVeiculo() {
-		// TODO Implementar para retornar o valor do ve’culo
-		return 35000;
+		return this.veiculo.getValorFIP();
+	}
+
+	public Veiculo getVeiculo() {
+		return this.veiculo;
 	}
 
 }

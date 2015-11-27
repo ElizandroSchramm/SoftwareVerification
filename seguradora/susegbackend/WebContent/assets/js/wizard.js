@@ -111,6 +111,8 @@ $(document).ready(function(){
 						$(wizard).find('.btn-finish').show();
 						$(wizard).find('.btn-save').show();
 						carregaSegurado();
+						carregaLocalizacao();
+						carregaValores();
 					} else {
 						$(wizard).find('.btn-next').show();
 						$(wizard).find('.btn-finish').hide();
@@ -498,6 +500,24 @@ function carregaSegurado(){
 	$(".dataNascSegurado").text(xSegCarregado.dataNascimento);
 	$(".telefoneSegurado").text(xSegCarregado.telefone);
 	
+}
+    
+function carregaLocalizacao(){
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaLocalizacao?codigoLocalizacao=" + xCodigoLoc);
+	//alert(xReturn);
+	
+	xLocCarregado = eval ("(" + xReturn + ")");
+	//alert(xLocCarregado.rua);
+
+	$(".endLocalizacao").text("Rua: " + xLocCarregado.rua + ", " + xLocCarregado.numero + ", " + xLocCarregado.cep);
+	$(".cidadeLocalizacao").text(xLocCarregado.cidade);
+	$(".estadoLocalizacao").text(xLocCarregado.estado);
+	
+}
+
+function carregaValores(){
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaLocalizacao?codigoLocalizacao=" + xCodigoLoc);
+	alert(xReturn);
 }
 
 function atualizaValores(){

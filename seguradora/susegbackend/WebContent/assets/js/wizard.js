@@ -423,8 +423,7 @@ function saveCondutores(){
 }
 
 function saveCotacao(){
-	xValorCotacao  = 0;
-	//alert(xCodigoCotacao);
+	xValorCotacao  = $(".valortotal").text();
 	
 	params = "codigoCotacao=" + xCodigoCotacao + "&valorCotacao=" + xValorCotacao + "&codSegurado=" + xCodigoSegurado + "&codLocalizacao=" + xCodigoLoc;
 	//alert(params);
@@ -492,10 +491,10 @@ function httpGet(theUrl)
     
 function carregaSegurado(){
 	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaSegurado?codigoSegurado=" + xCodigoSegurado);
-	alert(xReturn);
+	//alert(xReturn);
 	
 	xSegCarregado = eval ("(" + xReturn + ")");
-	alert(xSegCarregado.codigo);
+	//alert(xSegCarregado.codigo);
 
 	$(".nomeSegurado").text(xSegCarregado.nome);
 	$(".cpfSegurado").text(xSegCarregado.cpf);

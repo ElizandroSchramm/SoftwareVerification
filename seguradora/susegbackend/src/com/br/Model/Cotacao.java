@@ -3,19 +3,16 @@ package com.br.Model;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.br.DAO.CondutorDAO;
 import com.br.DAO.CotacaoDAO;
 
 public class Cotacao {
 	
 	private CotacaoDAO dao;
 	private List<Condutor> condutores;
-	private Veiculo veiculo;
+	private List<Veiculo> veiculos;
 	
 	public Cotacao() {
 		this.dao = new CotacaoDAO();
-		this.veiculo = new Veiculo(); //TODO: fazer carregar veiculo do banco. Sprint 2.
 	}
 	
 	public Cotacao(int codigoCotacao) throws Exception{
@@ -24,11 +21,13 @@ public class Cotacao {
 			throw new Exception("Cotação não encontrada.");
 		}
 		this.condutores = new ArrayList<Condutor>();
-		List<CondutorDAO> condutoresDAO = this.dao.getCondutoresDAO();
-		for (CondutorDAO condutorDAO : condutoresDAO) {
-			this.condutores.add(new Condutor(condutorDAO));
+		for (Integer condutor: this.dao.getCondutores()) {
+			this.condutores.add(new Condutor(condutor));
 		}
-		this.veiculo = new Veiculo(); //TODO: fazer carregar veiculo do banco. Sprint 2.
+		this.veiculos = new ArrayList<Veiculo>();
+		for (Integer veiculo : this.dao.getVeiculos()) {
+			this.veiculos.add(new Veiculo(veiculo));
+		}
 	}
 	
 	public int save(){
@@ -73,13 +72,9 @@ public class Cotacao {
 	public void setCondutores(List<Condutor> condutores) {
 		this.condutores = condutores;
 	}
-
-	public double getValorFIPVeiculo() {
-		return this.veiculo.getValorFIP();
-	}
-
-	public Veiculo getVeiculo() {
-		return this.veiculo;
+	
+	public List<Veiculo> getVeiculos() {
+		return this.veiculos;
 	}
 
 }

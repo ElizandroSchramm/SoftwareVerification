@@ -17,10 +17,6 @@ public class Condutor {
 		}
 	}
 	
-	public Condutor(CondutorDAO dao){
-		this.dao = dao;
-	}
-	
 	public int save(){
 		if (this.dao.saveToDB()) {
 			return this.dao.getCodigo();

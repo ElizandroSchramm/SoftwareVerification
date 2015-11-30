@@ -59,11 +59,11 @@ $(document).ready(function(){
 
             if (validateForm()){
         	
-	            if (index == 3){ // Localização
+	            if (index == 2){ // Localização
 	                saveLocalizacao();
 	                //alert('Os dados de localização foram salvos.');
 	            } else {
-	            	if (index == 4){ 
+	            	if (index == 3){ // Segurado 
 	            		//alert(xCodigoLoc);
 		                saveSegurado();
 		                //alert('Os dados do segurado foram salvos.');

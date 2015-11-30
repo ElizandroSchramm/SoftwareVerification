@@ -68,17 +68,20 @@ $(document).ready(function(){
 		                saveSegurado();
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
-	            		if (index == 5){ 
-	            			if (validaCondutores()){
-	            				saveCondutores();
-	            			} else {
-	            				alert('Você deve informar todos os campos dos condutores');
-	    	            		return false;
-	            			}	
-		            		//alert(xCodigoSegurado);
+		            	if (index == 4){ // Veículo 
+		            		saveVeiculo();
+		            	} else {
+		            		if (index == 5){ 
+		            			if (validaCondutores()){
+		            				saveCondutores();
+		            			} else {
+		            				alert('Você deve informar todos os campos dos condutores');
+		    	            		return false;
+		            			}	
+			            		//alert(xCodigoSegurado);
+			            	}
 		            	}
 	            	}
-	            	
 	            	
 	            }
 
@@ -295,6 +298,7 @@ $(document).ready(function(){
     	if (validateForm()){
     		saveVeiculo();
     		limparVeiculo();
+			$('.btn-newCar').hide();
     	}
     });
     
@@ -463,8 +467,21 @@ function limparVeiculo(){
 }
 
 function saveVeiculo(){
+	xMarca    = $(".carBrand option:selected").val();
+	xAnoFab   = $(".fabYear option:selected").val();
+	xAnoModel = $("input[name='anomodelo']:checked").val();
+	xCarModel = $("select[name='carModel'] option:selected").val();
+	xPlaca    = $("input[name='placa']").val();
+	xChassi   = $("input[name='chassi']").val();
+	xRenavam  = $("input[name='renavam']").val();
+	xCor      = $("input[name='cor']").val();
+	xMediaKM  = $("input[name='mediaKM']").val();
+	
+	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&modelo=" + xCarModel + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao;
 	//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&idcotacao=1&marca=GM&cotacao=1
-	//alert("Carro salvo!");
+	//alert(params);
+	xReturn = httpGet("http://localhost:8080/susegbackend/GravaVeiculo?" + params);
+	//alert(xReturn);
 }
 
 function saveCotacao(){
@@ -477,6 +494,7 @@ function saveCotacao(){
 }
 
 function saveSegurado(){
+	xBonus = 0;
 	xTipoPessoa = $("input[name='tipopessoa']:checked").val();
 	if (xTipoPessoa == "pf"){
 		var xNomeSegurado = $("input[name='nomesegurado']").val();
@@ -484,7 +502,7 @@ function saveSegurado(){
 		var xCPF          = $("input[name='cpf']").val();
 		var xTelefone     = $("input[name='telefone']").val();
 		var xSexo         = $("input[name='sexo']:checked").val();
-		var xBonus        = $("input[name='classebonus']").val();
+		xBonus        = $("input[name='classebonus']").val();
 		
 		xDataNasc.replace('/', '%2F');		
 		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo + "&bonus=" + xBonus;
@@ -563,9 +581,9 @@ function carregaLocalizacao(){
 	
 }
 
-function carregaValores(){
+function carregaValores(){	
 	xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
-	//alert(xReturn);
+	alert(xReturn);
 	var obj = JSON.parse(xReturn);
 
 	$(".valorbase").text(obj.valores[3].valor);

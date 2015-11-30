@@ -16,7 +16,8 @@ public class CotacaoDAO {
 	private int codigo, codSegurado, codLocalizacao;
 	private double comissao, valor;
 	private Date dataCriacao, vigencia;
-	private List<CondutorDAO> condutores;
+	private List<Integer> condutores;
+	private List<Integer> veiculos;
 	
 	public CotacaoDAO() {
 		this.codigo = -1;
@@ -55,6 +56,7 @@ public class CotacaoDAO {
 		}
 		if(dao != null){
 			dao.loadCondutoresFromDB();
+			dao.loadVeiculosFromDB();
 		}
 		return dao;
 	}
@@ -114,18 +116,35 @@ public class CotacaoDAO {
 	}
 	
 	private void loadCondutoresFromDB(){
-		this.condutores = new ArrayList<CondutorDAO>();
+		this.condutores = new ArrayList<Integer>();
 		DBConnection db = new DBConnection();
 		try {
 			if(db.canExecuteCmd()){
 				PreparedStatement ps = db.getConnection().prepareStatement("SELECT codigo FROM Condutor WHERE CodCotacao = ?");
 				ps.setInt(1, this.codigo);
 				ResultSet rs = ps.executeQuery();
-				int codCondutor = 0;
-					while(rs.next()){
-						codCondutor = rs.getInt(1);
-						this.condutores.add(CondutorDAO.loadFromDB(codCondutor));
-					}
+				while(rs.next()){
+					this.condutores.add(rs.getInt(1));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.FecharConexao();
+		}
+	}
+	
+	private void loadVeiculosFromDB(){
+		this.veiculos = new ArrayList<Integer>();
+		DBConnection db = new DBConnection();
+		try {
+			if(db.canExecuteCmd()){
+				PreparedStatement ps = db.getConnection().prepareStatement("SELECT codigo FROM Veiculo WHERE idcotacao = ?");
+				ps.setInt(1, this.codigo);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					this.veiculos.add(rs.getInt(1));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -182,8 +201,12 @@ public class CotacaoDAO {
 		this.codSegurado = codSegurado;
 	}
 
-	public List<CondutorDAO> getCondutoresDAO() {
+	public List<Integer> getCondutores() {
 		return this.condutores;
+	}
+	
+	public List<Integer> getVeiculos() {
+		return this.veiculos;
 	}
 
 }

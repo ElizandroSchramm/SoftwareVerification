@@ -30,7 +30,7 @@ public class CotacaoControle {
 	private double getValorIdadeVeiculo(){
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(new java.util.Date());
-		int anosCarro = cal.get(Calendar.YEAR) - this.cotacao.getVeiculo().getAnoFabricacao();
+		int anosCarro = cal.get(Calendar.YEAR) - this.cotacao.getVeiculos().get(0).getAnoFabricacao(); //TODO: fazer guardar o valor aplicado em multa por ve’culos mais velhos que 10 anos para somar e retornar nos detalhes depois.
 		if(anosCarro > 10){
 			return this.calculaBasePremio() * 0.05; //TODO Sprint2 = fazer carregar da base
 		} else {
@@ -56,7 +56,7 @@ public class CotacaoControle {
 	}
 	
 	private double calculaBasePremio(){
-		double valorCarro = this.cotacao.getValorFIPVeiculo();
+		double valorCarro = this.cotacao.getVeiculos().get(0).getValorFIP(); //TODO: ajustar para fazer um for e calcular a basePremio para cada ve’culo
 		return valorCarro * 0.03; //TODO: confirmar se a base inicial Ž 3%		
 	}
 	

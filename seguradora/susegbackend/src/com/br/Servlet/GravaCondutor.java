@@ -53,7 +53,6 @@ public class GravaCondutor extends HttpServlet {
 			out.println(condutor);
 			out.flush();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			response.sendError(500, "Par‰metro n‹o informado.");
 		}

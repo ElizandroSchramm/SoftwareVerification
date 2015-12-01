@@ -71,8 +71,30 @@ public class CondutorDAO {
 				db.FecharConexao();
 			}
 		} else {
-			//TODO: fazer update
 			//aqui faz updade
+			//TODO: TESTAR
+			DBConnection db = new DBConnection();
+			try {
+				if(db.canExecuteCmd()){
+					PreparedStatement ps = db.getConnection().prepareStatement("UPDATE Condutor set codCotacao=?, nome=?, idade=?, cpf=?, sexo=?, casado=?, temFilho=? WHERE codigo = ?", PreparedStatement.RETURN_GENERATED_KEYS);
+					ps.setInt(1, this.codCotacao);
+					ps.setString(2, this.nome);
+					ps.setInt(3, this.idade);
+					ps.setString(4, this.cpf);
+					ps.setString(5, this.sexo);
+					ps.setString(6, this.casado);
+					ps.setString(7, this.temFilho);
+					ps.setInt(8, this.codigo);
+					// Execute the UPDATE
+					ps.executeUpdate();
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			} finally {
+				db.FecharConexao();
+			}				
 		}
 		return true;
 	}

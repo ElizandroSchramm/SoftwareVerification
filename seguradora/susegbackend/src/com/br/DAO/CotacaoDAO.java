@@ -100,7 +100,7 @@ public class CotacaoDAO {
 					ps.setInt(5, this.codSegurado);
 					ps.setInt(6, this.codLocalizacao);
 					ps.setInt(7, this.codigo);
-					// Execute the INSERT
+					// Execute the UPDATE
 					ps.executeUpdate();
 					return false;
 				}

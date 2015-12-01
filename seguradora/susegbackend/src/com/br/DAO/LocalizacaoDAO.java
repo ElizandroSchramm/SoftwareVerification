@@ -39,8 +39,29 @@ public class LocalizacaoDAO {
 				db.FecharConexao();
 			}
 		} else {
-			//TODO: fazer update
 			//aqui faz updade
+			//TODO: TESTAR
+			DBConnection db = new DBConnection();
+			try {
+				if(db.canExecuteCmd()){
+					PreparedStatement ps = db.getConnection().prepareStatement("UPDATE Localizacao set cidade=?, estado=?, numero=?, pais=?, rua=?, cep=? WHERE codigo = ?", PreparedStatement.RETURN_GENERATED_KEYS);
+					ps.setString(1, this.cidade);
+					ps.setString(2, this.estado);
+					ps.setInt(3, this.numero);
+					ps.setString(4, this.pais);
+					ps.setString(5, this.rua);
+					ps.setString(6, this.cep);
+					ps.setInt(7, this.codigo);
+					// Execute the UPDATE
+					ps.executeUpdate();
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			} finally {
+				db.FecharConexao();
+			}	
 		}
 		return true;		
 	}

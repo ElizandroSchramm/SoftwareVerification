@@ -102,8 +102,31 @@ public class SeguradoDAO {
 				db.FecharConexao();
 			}
 		} else {
-			//TODO: fazer update
 			//aqui faz updade
+			//TODO: TESTAR
+			DBConnection db = new DBConnection();
+			try {
+				if(db.canExecuteCmd()){
+					PreparedStatement ps = db.getConnection().prepareStatement("UPDATE Segurado set nome=?, cpf=?, sexo=?, telefone=?, dataNascimento=?, classebonus=?, cnpj=?, inscricaoestadual=? WHERE codigo = ?", PreparedStatement.RETURN_GENERATED_KEYS);
+					ps.setString(1, this.nome);
+					ps.setString(2, this.cpf);
+					ps.setString(3, this.sexo);
+					ps.setString(4, this.telefone);
+					ps.setDate(5, (java.sql.Date) this.dataNascimento);
+					ps.setInt(6, this.classeBonus);
+					ps.setString(7, this.cnpj);
+					ps.setString(8, this.inscricaoEstadual);
+					ps.setInt(9, this.codigo);
+					// Execute the UPDATE
+					ps.executeUpdate();
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			} finally {
+				db.FecharConexao();
+			}				
 		}
 		return true;
 	}

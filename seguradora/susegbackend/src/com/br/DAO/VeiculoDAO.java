@@ -80,8 +80,34 @@ public class VeiculoDAO {
 				db.FecharConexao();
 			}
 		} else {
-			//TODO: fazer update
 			//aqui faz updade
+			//TODO: TESTAR
+			DBConnection db = new DBConnection();
+			try {
+				if(db.canExecuteCmd()){
+					PreparedStatement ps = db.getConnection().prepareStatement("UPDATE Veiculo set anofabricacao=?, anomodelo=?, chassi=?, cor=?, mediakmmes=?, modelo=?, placa=?, renavam=?, idcotacao=?, marca=?, valorfip=? WHERE codigo = ?", PreparedStatement.RETURN_GENERATED_KEYS);
+					ps.setInt(1, this.anoFabricacao);
+					ps.setInt(2, this.anoModelo);
+					ps.setString(3, this.chassi);
+					ps.setString(4, this.cor);
+					ps.setInt(5, this.mediaKMMes);
+					ps.setString(6, this.modelo);
+					ps.setString(7, this.placa);
+					ps.setString(8, this.renavam);
+					ps.setInt(9, this.cotacao);
+					ps.setString(10, this.marca);
+					ps.setDouble(11, this.valorFIP);
+					ps.setInt(12, this.codigo);
+					// Execute the UPDATE
+					ps.executeUpdate();
+					return false;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			} finally {
+				db.FecharConexao();
+			}
 		}
 		return true;
 	}

@@ -192,6 +192,11 @@ $(document).ready(function(){
     	saveCotacao(xCodigoLoc, xCodigoSegurado);
     	alert('A cotação foi salva com sucesso!');
     });
+    
+    $("input[name='Pesquisar']").click(function(){
+    	//alert('aaa');
+		pesquisar();
+    });
 
     $('.fabYear').change(function(){
         if ($('.fabYear').find(":selected").text() == "Selecione"){
@@ -652,6 +657,40 @@ function atualizaValores(){
 	$('.parcela2').text(parseFloat(xValorTotal/2).toFixed(2));
 	$('.parcela3').text(parseFloat(xValorTotal/3).toFixed(2));
 	$('.parcela4').text(parseFloat(xValorTotal/4).toFixed(2));
+}
+
+function pesquisar(){	
+	
+	xTable = "<div id='no-more-tables'>" + 
+	"<table class='col-md-10 col-sm-offset-1 table-bordered table-striped table-condensed cf'>" +
+		"<thead class='cf'>" +
+			"<tr>" +
+				"<th>Nome</th>" + 
+				"<th>Veículo</th>" +
+				"<th class='date'>Vencimento</th>" +
+				"<th>Opção</th>" +
+			"</tr>" +
+		"</thead>" +
+		"<tbody>" +
+			"<tr>" +
+				"<td data-title='Nome'>João Cleber</td>" +
+				"<td data-title='Veículo'>Corsa</td>" + 
+				"<td data-title='Vencimento' class='date'>12/12/2015</td>" +
+				"<td data-title='Change' class='numeric'>" +
+				    "<button class='btn' style='height: 15px; padding: 0px 0px;' ng-click='editUser(user.id)'>" +
+						"<span class='glyphicon glyphicon-refresh text-success'></span>" +
+					"</button>" +
+				"</td>" +
+			"</tr>" +
+		"</tbody>" +
+	"</table>" +
+	"</div>";
+	
+	$('#result-table').html(xTable);
+	
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaCotacoes?cpf=112211");
+	alert(xReturn);
+	
 }
 
 

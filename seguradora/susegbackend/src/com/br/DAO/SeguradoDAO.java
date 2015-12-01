@@ -4,6 +4,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.br.Model.Veiculo;
 
 public class SeguradoDAO {
 	
@@ -43,6 +47,28 @@ public class SeguradoDAO {
 		}
 		return null;
 	}
+	
+	public static List<Integer> loadFromDB(String where){
+		List<Integer> cotacoes = new ArrayList<Integer>();
+		DBConnection db = new DBConnection();
+		try {
+			if(db.canExecuteCmd()){
+				PreparedStatement ps = db.getConnection().prepareStatement("SELECT codigo FROM Segurado s WHERE " + where);
+				
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					//SeguradoDAO dao = new SeguradoDAO();
+					cotacoes.add(rs.getInt(1));									
+				}		
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			db.FecharConexao();
+		}
+		return cotacoes;
+	}	
 	
 	public boolean saveToDB(){
 		if(this.codigo == -1){

@@ -2,12 +2,15 @@ package com.br.Model;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.br.DAO.SeguradoDAO;
 
 public class Segurado {
 	
 	private SeguradoDAO dao;
+	private List<Cotacao> cotacoes;
 	
 	public Segurado() {
 		this.dao = new SeguradoDAO();
@@ -29,6 +32,40 @@ public class Segurado {
 	
 	public void setContato(String telefone){
 		dao.setTelefone(telefone);
+	}
+
+	
+	public void loadByCPF(String cpf){
+		try {
+			this.cotacoes = new ArrayList<Cotacao>();
+			for (Integer cotacao: this.dao.loadFromDB("cpf = '" + cpf + "'")) {
+				this.cotacoes.add(new Cotacao(cotacao));
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadByCNPJ(String cnpj){
+		try {
+			this.cotacoes = new ArrayList<Cotacao>();
+			for (Integer cotacao: this.dao.loadFromDB("cnpj = '" + cnpj + "'")) {
+				this.cotacoes.add(new Cotacao(cotacao));
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}	
+	
+	public String getCotacoes(){
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("{\"cotacoes\":[");
+		for (Cotacao cotacao: cotacoes){
+			sb.append(cotacao);			
+		}
+		sb.append("]}");
+		return sb.toString();
 	}
 	
 	public int save(){

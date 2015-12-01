@@ -39,11 +39,11 @@ var bootstrapWizardCreate = function(element, options) {
 		$($settings.previousSelector, element).toggleClass('disabled', (obj.firstIndex() >= obj.currentIndex()));
 		$($settings.nextSelector, element).toggleClass('disabled', (obj.currentIndex() >= obj.navigationLength()));
 		$($settings.newSelector, element).toggleClass('disabled', (obj.currentIndex() >= obj.navigationLength()));
-		$($settings.searchSelector, element).toggleClass('disabled', (obj.currentIndex() >= obj.navigationLength()));
+		//$($settings.searchSelector, element).toggleClass('disabled', (obj.currentIndex() >= obj.navigationLength()));
 
 		// We are unbinding and rebinding to ensure single firing and no double-click errors
 		obj.rebindClick($($settings.nextSelector, element), obj.next);
-		obj.rebindClick($($settings.searchSelector, element), obj.next);
+		//obj.rebindClick($($settings.searchSelector, element), obj.next);
 		obj.rebindClick($($settings.newSelector, element), obj.next);
 		obj.rebindClick($($settings.previousSelector, element), obj.previous);
 		obj.rebindClick($($settings.lastSelector, element), obj.last);

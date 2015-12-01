@@ -286,9 +286,9 @@ $(document).ready(function(){
 	
 	$("select[name='carModel']").change(function(){        
 		$('.btn-next').attr("disabled", false);
-		//if (xTipoPessoa == 'pj'){
+		if (xTipoPessoa == 'pj'){
 			$('.btn-newCar').show();
-		//}	
+		}	
 	});
     
     $height = $(document).height();

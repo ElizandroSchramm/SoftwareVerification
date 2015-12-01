@@ -512,9 +512,9 @@ function saveSegurado(){
 			var xNomeEmpresa = $("input[name='nomeempresa']").val();
 			var xIE          = $("input[name='ie']").val();
 			var xCNPJ        = $("input[name='cnpj']").val();
+			xBonus           = $("input[name='classebonusCNPJ']").val();
 
-			params = "nome=" + xNomeEmpresa + "&cnpj=" + xCNPJ + "&ie=" + xIE;
-			//TODO: fazer o classe bonus para segurado PJ tbm né?
+			params = "nome=" + xNomeEmpresa + "&cnpj=" + xCNPJ + "&ie=" + xIE + "&bonus=" + xBonus;
 		}
 	}
 

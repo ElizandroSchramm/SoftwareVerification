@@ -83,7 +83,7 @@ public class CotacaoControle {
 		if(getValorIdadeVeiculo() > 0){
 			sb.append("{\"descricao\":\"Carro com mais de 10 anos\",\"valor\":\"" + getValorIdadeVeiculo() + "\"},");
 		}
-		sb.append("{\"descricao\":\"Valor do prêmio\",\"valor\":\"" + calculaPremio() + "\"}");
+		sb.append("{\"id\":\"1\",\"descricao\":\"Valor do prêmio\",\"valor\":\"" + calculaPremio() + "\"}");
 		sb.append("]}");
 		return sb.toString();
 	}

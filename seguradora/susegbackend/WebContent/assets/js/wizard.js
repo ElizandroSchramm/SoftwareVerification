@@ -98,6 +98,7 @@ $(document).ready(function(){
         onTabShow: function(tab, navigation, index) {
             var $total = navigation.find('li').length;
             var $current = index+1;
+			$('.btn-newCar').hide();
 			            
             var wizard = navigation.closest('.wizard-card');
 
@@ -502,7 +503,7 @@ function saveSegurado(){
 		var xCPF          = $("input[name='cpf']").val();
 		var xTelefone     = $("input[name='telefone']").val();
 		var xSexo         = $("input[name='sexo']:checked").val();
-		xBonus        = $("input[name='classebonus']").val();
+		xBonus            = $("input[name='classebonus']").val();
 		
 		xDataNasc.replace('/', '%2F');		
 		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo + "&bonus=" + xBonus;
@@ -582,9 +583,52 @@ function carregaLocalizacao(){
 }
 
 function carregaValores(){	
-	xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
-	alert(xReturn);
+	//xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
+	
+	xReturn = "{\"valores\":[{\"descricao\":\"Valor base do premio\",\"valor\":\"1050.0\"},{\"descricao\":\"Perfil do condutor\",\"valor\":\"115.5\"},{\"id\":\"1\", \"descricao\":\"Valor do premio\",\"valor\":\"1165.5\"}]}";
+	
+	//alert(xReturn);
 	var obj = JSON.parse(xReturn);
+	
+	var xValorPremio = 0;
+	$(".detalhesValores").html('');
+	for (var i = 0, len = obj.valores.length; i < len; ++i) {
+		var xDetalhe = obj.valores[i];
+		
+		if (xDetalhe.id == 1){
+			xValorPremio = xDetalhe.valor;
+		}
+		
+		xDiv = "<div class='col-sm-12 col-sm-offset-3'>";
+		xDiv = xDiv + "<b>" + xDetalhe.descricao + "</b>";
+		xDiv = xDiv + ": R$" + parseFloat(xDetalhe.valor).toFixed(2);
+		xDiv = xDiv + "</div>";
+
+		$(".detalhesValores").html($(".detalhesValores").html() + xDiv);
+	}
+
+	//alert(xBonus);
+	if (xBonus > 0){
+		//alert(xValorPremio);
+		xDescBonus = (xBonus * 0.03) * xValorPremio;
+		//alert(xDescBonus);
+		xValorPremio = xValorPremio - xDescBonus;
+		//alert(xValorPremio);
+		xDiv = "<div class='col-sm-12 col-sm-offset-3'>";
+		xDiv = xDiv + "<b>Desconto classe de bônus: </b>";
+		xDiv = xDiv + ": R$" + parseFloat(xDescBonus).toFixed(2);
+		xDiv = xDiv + "</div>";
+		$(".detalhesValores").html($(".detalhesValores").html() + xDiv);
+	}	
+	
+	$(".valorbase").text(xValorPremio);
+	$(".valortotal").text(xValorPremio);
+	
+	/*
+	
+	{"valores":[{"descricao":"Valor base do prêmio","valor":"1050.0"},
+	            {"descricao":"Perfil do condutor","valor":"115.5"},
+	            {"descricao":"Valor do prêmio","valor":"1165.5"}]}
 
 	$(".valorbase").text(obj.valores[3].valor);
 	$(".valortotal").text(obj.valores[3].valor);
@@ -596,7 +640,7 @@ function carregaValores(){
 	$(".10anos").text(obj.valores[2].descricao);
 	$(".valor10anos").text(parseFloat(obj.valores[2].valor).toFixed(2));
 	$(".premiodetalhe").text(obj.valores[3].descricao);
-	$(".valorpremiodetalhe").text(parseFloat(obj.valores[3].valor).toFixed(2));
+	$(".valorpremiodetalhe").text(parseFloat(obj.valores[3].valor).toFixed(2));*/
 }
 
 function atualizaValores(){

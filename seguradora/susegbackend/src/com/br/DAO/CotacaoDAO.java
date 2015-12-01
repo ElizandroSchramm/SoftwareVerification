@@ -44,7 +44,6 @@ public class CotacaoDAO {
 						dao.setVigencia(rs.getDate(4));
 						dao.setcodSegurado(rs.getInt(5));
 						dao.setCodLocalizacao(rs.getInt(6));
-						//TODO: falta fazer o ve’culo
 					} else {
 						return null;
 					}

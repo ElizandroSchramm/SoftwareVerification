@@ -8,6 +8,12 @@ import com.br.Model.Condutor;
 import com.br.Model.Cotacao;
 
 public class CotacaoControleTest {
+	
+	/**
+	 * Estes testes são realiados com uma base que tenha uma cotação com:
+	 * - pelo menos 1 condutor em seu pior perfil;
+	 * - apena 1 veículo no valor de 35000,00 com mais de 10 anos.
+	 */
 
 	@Test
 	public final void testGetCondutorPiorPerfil() {
@@ -37,7 +43,7 @@ public class CotacaoControleTest {
 	public final void testGetDetalhes(){
 		try {
 			CotacaoControle co = new CotacaoControle(new Cotacao(1));
-			String esperado = "{'valores':[{'descricao':'Valor base do prêmio','valor':'1050.0'}{'descricao':'Perfil do condutor','valor':'136.5'}{'descricao':'Carro com mais de 10 anos','valor':'52.5'}{'descricao':'Valor do prêmio','valor':'1239.0'}]}";
+			String esperado = "{\"valores\":[{\"descricao\":\"Valor base do prêmio\",\"valor\":\"1050.0\"},{\"descricao\":\"Perfil do condutor\",\"valor\":\"136.5\"},{\"descricao\":\"Carro com mais de 10 anos\",\"valor\":\"52.5\"},{\"id\":\"1\",\"descricao\":\"Valor do prêmio\",\"valor\":\"1239.0\"}]}";
 			assertTrue("Não testou certo", co.getValoresDetalhados().equals(esperado));
 		} catch (Exception e) {
 			e.printStackTrace();

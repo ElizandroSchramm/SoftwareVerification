@@ -5,10 +5,12 @@ import java.util.GregorianCalendar;
 
 import com.br.Model.Condutor;
 import com.br.Model.Cotacao;
+import com.br.Model.Veiculo;
 
 public class CotacaoControle {
 	
 	private Cotacao cotacao;
+	private double valoresPelaIdade = 0;
 	
 	public CotacaoControle(Cotacao cotacao){
 		this.cotacao = cotacao;
@@ -27,19 +29,24 @@ public class CotacaoControle {
 		return this.cotacao.getCondutores().get(indice);
 	}
 	
-	private double getValorIdadeVeiculo(){
+	private double getValorIdadeVeiculo(Veiculo veiculo){
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(new java.util.Date());
-		int anosCarro = cal.get(Calendar.YEAR) - this.cotacao.getVeiculos().get(0).getAnoFabricacao(); //TODO: fazer guardar o valor aplicado em multa por veículos mais velhos que 10 anos para somar e retornar nos detalhes depois.
+		int anosCarro = cal.get(Calendar.YEAR) - veiculo.getAnoFabricacao();
 		if(anosCarro > 10){
-			return this.calculaBasePremio() * 0.05; //TODO Sprint2 = fazer carregar da base
+			double valor = this.calculaBasePremio() * 0.05; //TODO Sprint2 = fazer carregar da base o percentual
+			this.valoresPelaIdade += valor;
+			return valor;
 		} else {
 			return 0;
 		}
 	}
 	
-	private double calculaIdadeVeiculo(double valorPremio){
-		return valorPremio + getValorIdadeVeiculo();
+	private double calculaIdadeVeiculos(double valorPremio){
+		for (Veiculo veiculo : this.cotacao.getVeiculos()) {
+			valorPremio += this.getValorIdadeVeiculo(veiculo);
+		}
+		return valorPremio;
 	}
 	
 	private double getValorPerfilCondutor(){
@@ -55,14 +62,22 @@ public class CotacaoControle {
 		return valorPremio + getValorPerfilCondutor();
 	}
 	
-	private double calculaBasePremio(){
-		double valorCarro = this.cotacao.getVeiculos().get(0).getValorFIP(); //TODO: ajustar para fazer um for e calcular a basePremio para cada veículo
+	private double calculaBasePremio(Veiculo veiculo){
+		double valorCarro = veiculo.getValorFIP();
 		return valorCarro * 0.03; //TODO: confirmar se a base inicial é 3%		
+	}
+	
+	private double calculaBasePremio(){
+		double valorPremio = 0;
+		for (Veiculo veiculo : this.cotacao.getVeiculos()) {
+			valorPremio += calculaBasePremio(veiculo);
+		}
+		return valorPremio;
 	}
 	
 	public double calculaPremio(){
 		double valorPremio = calculaBasePremio();
-		valorPremio = calculaIdadeVeiculo(valorPremio);
+		valorPremio = calculaIdadeVeiculos(valorPremio);
 		valorPremio = calculaPerfilCondutor(valorPremio);
 		return valorPremio;
 	}
@@ -74,16 +89,18 @@ public class CotacaoControle {
 	 */
 	public String getValoresDetalhados(){
 		StringBuilder sb = new StringBuilder();
+		double valorPremio = this.calculaPremio();
 		//descrição valor
 		sb.append("{\"valores\":[");
-		sb.append("{\"descricao\":\"Valor base do prêmio\",\"valor\":\"" + calculaBasePremio() + "\"},");
+		sb.append("{\"descricao\":\"Valor base do prêmio\",\"valor\":\"" + this.calculaBasePremio() + "\"},");
 		if(getValorPerfilCondutor() > 0){
-			sb.append("{\"descricao\":\"Perfil do condutor\",\"valor\":\"" + getValorPerfilCondutor() + "\"},");
+			sb.append("{\"descricao\":\"Perfil do condutor\",\"valor\":\"" + this.getValorPerfilCondutor() + "\"},");
 		}
-		if(getValorIdadeVeiculo() > 0){
-			sb.append("{\"descricao\":\"Carro com mais de 10 anos\",\"valor\":\"" + getValorIdadeVeiculo() + "\"},");
+		if(this.valoresPelaIdade > 0){
+			String p = this.cotacao.getVeiculos().size() > 1 ? "Carros" : "Carro";
+			sb.append("{\"descricao\":\"" + p + " com mais de 10 anos\",\"valor\":\"" + this.valoresPelaIdade + "\"},");
 		}
-		sb.append("{\"id\":\"1\",\"descricao\":\"Valor do prêmio\",\"valor\":\"" + calculaPremio() + "\"}");
+		sb.append("{\"id\":\"1\",\"descricao\":\"Valor do prêmio\",\"valor\":\"" + valorPremio + "\"}");
 		sb.append("]}");
 		return sb.toString();
 	}

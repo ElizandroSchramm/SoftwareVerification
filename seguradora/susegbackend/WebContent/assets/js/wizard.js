@@ -59,26 +59,29 @@ $(document).ready(function(){
 
             if (validateForm()){
         	
-	            if (index == 3){ // Localiza‹o
+	            if (index == 2){ // Localiza‹o
 	                saveLocalizacao();
 	                //alert('Os dados de localiza‹o foram salvos.');
 	            } else {
-	            	if (index == 4){ 
+	            	if (index == 3){ // Segurado 
 	            		//alert(xCodigoLoc);
 		                saveSegurado();
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
-	            		if (index == 5){ 
-	            			if (validaCondutores()){
-	            				saveCondutores();
-	            			} else {
-	            				alert('Voc deve informar todos os campos dos condutores');
-	    	            		return false;
-	            			}	
-		            		//alert(xCodigoSegurado);
+		            	if (index == 4){ // Ve’culo 
+		            		saveVeiculo();
+		            	} else {
+		            		if (index == 5){ 
+		            			if (validaCondutores()){
+		            				saveCondutores();
+		            			} else {
+		            				alert('Voc deve informar todos os campos dos condutores');
+		    	            		return false;
+		            			}	
+			            		//alert(xCodigoSegurado);
+			            	}
 		            	}
 	            	}
-	            	
 	            	
 	            }
 
@@ -103,7 +106,7 @@ $(document).ready(function(){
             } else { 					
 				if($current == 2) {
 					$(wizard).find('.btn-next').show();
-					novaCotacao();
+					novaCotacao();	
 				} else {
 					// If it's the last tab then hide the last button and show the finish instead
 					if($current >= $total) {
@@ -118,7 +121,7 @@ $(document).ready(function(){
 						$(wizard).find('.btn-finish').hide();
 						$(wizard).find('.btn-save').hide();
 					}
-				}	
+				}
             }
         }
     });
@@ -164,6 +167,11 @@ $(document).ready(function(){
         $(wizard).find('.btn-next').show();
 		$(wizard).find('.btn-next').attr("disabled", true);
     });
+    
+    $("select[name='carBrand']").change(function(){
+    	alterarMarca();
+    });   
+    
     
     $('[data-toggle="wizard-checkbox"]').click(function(){
         wizard = $(this).closest('.wizard-card');
@@ -273,20 +281,26 @@ $(document).ready(function(){
 
     	xValorServicos = xValor;
     	atualizaValores();    	
-    });  
-    
-    //$("input[name='servicos24']").change(function(){
-    //	alert('aa');
-    	//alert($("span[name='valortotal']").val());
-    //});
+    });
 	
-	$("select[name='carModel']").change(function(){
-		$(wizard).find('.btn-next').attr("disabled", false);
+	$("select[name='carModel']").change(function(){        
+		$('.btn-next').attr("disabled", false);
+		//if (xTipoPessoa == 'pj'){
+			$('.btn-newCar').show();
+		//}	
 	});
     
     $height = $(document).height();
     $('.set-full-height').css('height',$height);
     $('.image-container').css('height','100%');
+    
+    $(".btn-newCar").click(function(){
+    	if (validateForm()){
+    		saveVeiculo();
+    		limparVeiculo();
+			$('.btn-newCar').hide();
+    	}
+    });
     
 });
 
@@ -420,6 +434,56 @@ function saveCondutores(){
 	}
 }
 
+function alterarMarca(){
+	if ($(".carBrand option:selected").text() == 'Selecione'){
+		$('.fabYear').fadeOut('slow');
+	} else {
+		$('.fabYear').fadeIn('slow');
+	}	
+	$(".fabYear option").filter(function() {
+		return this.text == "Selecione"; 
+	}).attr('selected', true);
+    $('.modelYear').fadeOut('slow');   		
+    $('.aftermodelyear').fadeOut('slow');   
+    $('.btn-next').show();
+	$('.btn-next').attr("disabled", true);
+}
+
+function limparVeiculo(){
+	$(".carBrand option").filter(function() {      
+		return this.text == "Selecione"; 
+	}).attr('selected', true);	
+	alterarMarca();
+	
+	// Limpa os campos que ficaram invis’veis
+	$("select[name='carModel'] option").filter(function() {      
+		return this.text == "Selecione"; 
+	}).attr('selected', true);	
+	$("input[name='placa']").val('');
+	$("input[name='chassi']").val('');
+	$("input[name='renavam']").val('');
+	$("input[name='cor']").val('');
+	$("input[name='mediaKM']").val('');
+}
+
+function saveVeiculo(){
+	xMarca    = $(".carBrand option:selected").val();
+	xAnoFab   = $(".fabYear option:selected").val();
+	xAnoModel = $("input[name='anomodelo']:checked").val();
+	xCarModel = $("select[name='carModel'] option:selected").val();
+	xPlaca    = $("input[name='placa']").val();
+	xChassi   = $("input[name='chassi']").val();
+	xRenavam  = $("input[name='renavam']").val();
+	xCor      = $("input[name='cor']").val();
+	xMediaKM  = $("input[name='mediaKM']").val();
+	
+	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&modelo=" + xCarModel + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao;
+	//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&idcotacao=1&marca=GM&cotacao=1
+	//alert(params);
+	xReturn = httpGet("http://localhost:8080/susegbackend/GravaVeiculo?" + params);
+	//alert(xReturn);
+}
+
 function saveCotacao(){
 	xValorCotacao  = $(".valortotal").text();
 	
@@ -430,18 +494,20 @@ function saveCotacao(){
 }
 
 function saveSegurado(){
-	if ($("input[name='tipopessoa']:checked").val() == "pf"){
+	xBonus = 0;
+	xTipoPessoa = $("input[name='tipopessoa']:checked").val();
+	if (xTipoPessoa == "pf"){
 		var xNomeSegurado = $("input[name='nomesegurado']").val();
 		var xDataNasc     = $("input[name='datanasc']").val();
 		var xCPF          = $("input[name='cpf']").val();
 		var xTelefone     = $("input[name='telefone']").val();
 		var xSexo         = $("input[name='sexo']:checked").val();
-		var xBonus        = $("input[name='classebonus']").val();
+		xBonus        = $("input[name='classebonus']").val();
 		
 		xDataNasc.replace('/', '%2F');		
 		params = "nome=" + xNomeSegurado + "&cpf=" + xCPF + "&dataNascimento=" + xDataNasc + "&telefone=" + xTelefone + "&sexo=" + xSexo + "&bonus=" + xBonus;
 	} else {
-		if ($("input[name='tipopessoa']:checked").val() == "pj"){
+		if (xTipoPessoa == "pj"){
 			var xNomeEmpresa = $("input[name='nomeempresa']").val();
 			var xIE          = $("input[name='ie']").val();
 			var xCNPJ        = $("input[name='cnpj']").val();
@@ -515,9 +581,9 @@ function carregaLocalizacao(){
 	
 }
 
-function carregaValores(){
+function carregaValores(){	
 	xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
-	//alert(xReturn);
+	alert(xReturn);
 	var obj = JSON.parse(xReturn);
 
 	$(".valorbase").text(obj.valores[3].valor);

@@ -665,32 +665,55 @@ function pesquisar(){
 	"<table class='col-md-10 col-sm-offset-1 table-bordered table-striped table-condensed cf'>" +
 		"<thead class='cf'>" +
 			"<tr>" +
-				"<th>Nome</th>" + 
-				"<th>Veículo</th>" +
+				"<th>Código</th>" + 
+				"<th class='date'>Data Criação</th>" +
 				"<th class='date'>Vencimento</th>" +
-				"<th>Opção</th>" +
+				"<th class='numeric'>Valor</th>" +
+				"<th>Opções</th>" +
 			"</tr>" +
-		"</thead>" +
-		"<tbody>" +
-			"<tr>" +
-				"<td data-title='Nome'>João Cleber</td>" +
-				"<td data-title='Veículo'>Corsa</td>" + 
-				"<td data-title='Vencimento' class='date'>12/12/2015</td>" +
-				"<td data-title='Change' class='numeric'>" +
-				    "<button class='btn' style='height: 15px; padding: 0px 0px;' ng-click='editUser(user.id)'>" +
-						"<span class='glyphicon glyphicon-refresh text-success'></span>" +
-					"</button>" +
-				"</td>" +
-			"</tr>" +
-		"</tbody>" +
-	"</table>" +
-	"</div>";
+		"</thead>";
+		
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaCotacoes?valor=" + $("input[name='valorpesquisar']").val());
+	//alert(xReturn);
+	var obj = JSON.parse(xReturn);
+
 	
-	$('#result-table').html(xTable);
+	//{"cotacoes":[{ "codigo": "260", "comissao": "0.0", "dataCriacao": "30/11/2015", "valor": "0.0", "vigencia": "30/11/2016", "codigoSeg": "0", "codigoLoc": "0"  }]}
 	
-	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaCotacoes?cpf=112211");
-	alert(xReturn);
 	
+	$('#result-table').html('');
+	if (obj.cotacoes.length > 0){
+		for (var i = 0, len = obj.cotacoes.length; i < len; ++i) {
+			var xCotacao = obj.cotacoes[i];
+			
+			xDiv = 
+			"<tbody>" +
+				"<tr>" +
+					"<td data-title='Codigo'>"+ xCotacao.codigo +"</td>" +
+					"<td data-title='Data Criação'>"+ xCotacao.dataCriacao +"</td>" + 
+					"<td data-title='Vencimento' class='date'>"+ xCotacao.vigencia +"</td>" +
+					"<td data-title='Valor' class='numeric'>"+ xCotacao.valor +"</td>" +
+					"<td data-title='Opções' class='numeric'>"+
+					    "<button class='btn' style='height: 15px; padding: 0px 0px;' ng-click='editUser(user.id)'>" +
+							"<span class='glyphicon glyphicon-refresh text-success'></span>" +
+						"</button>" +
+					"</td>" +
+				"</tr>" +
+			"</tbody>";
+			
+			xTable = xTable + xDiv;
+		}
+		
+		
+		xTable = xTable +
+			"</table>" +
+		"</div>";
+		
+	
+		$('#result-table').html(xTable);
+	} else {
+		alert("Nenhum resultado encontrado");
+	}
 }
 
 

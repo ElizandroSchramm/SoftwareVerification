@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import com.br.DAO.CotacaoDAO;
+import com.br.DAO.SeguradoDAO;
 
 public class Cotacao {
 	
@@ -54,13 +55,13 @@ public class Cotacao {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{ codigo: " + this.dao.getCodigo());
-		sb.append(", comissao: " + this.dao.getComissao());
-		sb.append(", dataCriacao: " + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getDataCriacao()));
-		sb.append(", valor: " + this.dao.getValor());
-		sb.append(", vigencia: " + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getVigencia()));
-		sb.append(", codigoSeg: " + this.dao.getCodSegurado());
-		sb.append(", codigoLoc: " + this.dao.getCodLocalizacao());
+		sb.append("{ \"codigo\": \"" + this.dao.getCodigo() + "\"");
+		sb.append(", \"comissao\": \"" + this.dao.getComissao() + "\"");
+		sb.append(", \"dataCriacao\": \"" + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getDataCriacao()) + "\"");
+		sb.append(", \"valor\": \"" + this.dao.getValor() + "\"");
+		sb.append(", \"vigencia\": \"" + (new SimpleDateFormat("dd/MM/yyyy")).format(dao.getVigencia()) + "\"");
+		sb.append(", \"codigoSeg\": \"" + this.dao.getCodSegurado() + "\"");
+		sb.append(", \"codigoLoc\": \"" + this.dao.getCodLocalizacao() + "\"");
 		sb.append("  }");
 		return sb.toString();
 	}

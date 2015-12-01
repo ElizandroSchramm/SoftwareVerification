@@ -35,16 +35,17 @@ public class RetornaCotacoes extends HttpServlet {
 		try {
 		  // RetornaCotacoes?cpf=	
 		  // RetornaCotacoes?cnpj=
-			String cnpj, cpf = "";
-			cnpj = request.getParameter("cnpj");
-			cpf = request.getParameter("cpf");
+			String valor = "";
+			valor = request.getParameter("valor");
 			Segurado segurado = new Segurado();
-			if (cpf != null){
-				segurado.loadByCPF(cpf);
+			
+			//TODO: Alterar o if para > 11
+			if (valor.length() > 0){
+				segurado.loadByCPF(valor);
 				
 			} else {
-				if (cnpj != null){
-					segurado.loadByCNPJ(cnpj);					
+				if (valor.length() == 14){
+					segurado.loadByCNPJ(valor);					
 				}
 			}
 			

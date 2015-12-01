@@ -18,34 +18,37 @@ import com.br.Model.Segurado;
 public class GravaSegurado extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public GravaSegurado() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			//nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M
-			String nome, cpf, telefone, sexo, classeBonus;
-			Date dataNascimento;
+			//GravaSegurado?nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M&cnpj=2345678&ie=111222333&bonus=2
+			//GravaSegurado?nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M&cnpj=2345678&ie=111222333&bonus=2
+			String nome, cpf, telefone = null, sexo = null, classeBonus, cnpj, ie = null;
+			Date dataNascimento = null;
+			int bonus = 0;
 			nome = request.getParameter("nome");
 			cpf = request.getParameter("cpf");
-			telefone = request.getParameter("telefone");
-			sexo = request.getParameter("sexo");
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			dataNascimento = new Date(sdf.parse(request.getParameter("dataNascimento")).getTime()); 
+			cnpj  = request.getParameter("cnpj");
+			if(cpf != null){
+				telefone = request.getParameter("telefone");
+				sexo = request.getParameter("sexo");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				dataNascimento = new Date(sdf.parse(request.getParameter("dataNascimento")).getTime()); 
+			} else if(cnpj != null){
+				ie = request.getParameter("ie");
+			}
 			classeBonus = request.getParameter("bonus");
-			if(nome == null || cpf == null || telefone == null || sexo == null || dataNascimento == null){
+			if(classeBonus != null){
+				bonus = Integer.parseInt(classeBonus);
+			}
+			//trata os par‰metros obrigat—rios
+			if(nome == null || (cpf == null && cnpj == null)){
 				throw new Exception();
 			}
 			Segurado segurado = new Segurado();
-			segurado.setDados(nome, cpf, sexo, dataNascimento, Integer.parseInt(classeBonus));
+			segurado.setDados(nome, cpf, sexo, dataNascimento, bonus, cnpj, ie);
 			segurado.setContato(telefone);
 			segurado.save();
 			response.setContentType("application/json");
@@ -63,7 +66,7 @@ public class GravaSegurado extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		this.doGet(request, response);
 	}
 
 }

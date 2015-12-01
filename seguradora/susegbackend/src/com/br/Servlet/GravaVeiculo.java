@@ -2,14 +2,11 @@ package com.br.Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.br.Model.Condutor;
 import com.br.Model.Veiculo;
 
 /**
@@ -31,8 +28,8 @@ public class GravaVeiculo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&idcotacao=1&marca=GM&cotacao=1
-			int codigo, anoFabricacao, anoModelo, mediaKMMes, cotacao;
+			//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&marca=GM&cotacao=1
+			int anoFabricacao, anoModelo, mediaKMMes, cotacao;
 			String chassi, cor, modelo, placa, renavam, marca;
 			double valorFIP = 35000; //TODO valorFIP fazer pegar de um arquivo ou tabela de veiculosFIP
 			chassi = request.getParameter("chassi");
@@ -53,7 +50,7 @@ public class GravaVeiculo extends HttpServlet {
 			veiculo.setValorFIP(valorFIP);
 			veiculo.setDados(modelo, marca);
 			veiculo.setCotacao(cotacao);
-			//TODO: gravar os demais dados que por enquanto n‹o s‹o obrigat—rios
+			veiculo.setRegistros(chassi, cor, placa, renavam, mediaKMMes);
 			veiculo.save();
 			response.setContentType("application/json");
 			PrintWriter out = response.getWriter();

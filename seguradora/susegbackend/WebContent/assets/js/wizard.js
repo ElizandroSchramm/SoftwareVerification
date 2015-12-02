@@ -309,11 +309,10 @@ $(document).ready(function(){
     });
     
     $(".btn-finish").click(function(){
-    	if (validateForm()){
-    		saveVeiculo();
-    		limparVeiculo();
-			$('.btn-newCar').hide();
-    	}
+    	alert("Salvar apolice");
+    	saveApolice();
+		//$('.btn-newCar').hide();
+    	
     });
     
 });
@@ -558,6 +557,12 @@ function saveLocalizacao(){
     xCodigoLoc = xLocSaved.codigo;       
     
     return xReturn; 
+}
+
+function saveApolice(){
+	alert(xCodigoCotacao);
+	xReturn = httpGet("http://localhost:8080/susegbackend/GravaApolice?codigoCotacao=" + xCodigoCotacao);
+	alert(xReturn);
 }
 
 function httpGet(theUrl)

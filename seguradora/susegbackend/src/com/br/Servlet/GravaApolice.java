@@ -30,10 +30,10 @@ public class GravaApolice extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// /GravaApolice?codCotacao=1
+		// /GravaApolice?codigoCotacao=1
 		try {
 			int codCotacao = -1; 
-			codCotacao = Integer.parseInt(request.getParameter("codCotacao"));
+			codCotacao = Integer.parseInt(request.getParameter("codigoCotacao"));
 			if (codCotacao == -1){
 				throw new Exception();
 			}

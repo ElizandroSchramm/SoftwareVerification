@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ApoliceDAO {
-	private int codigo, codCotacao;
+	private int codigo = -1, codCotacao;
 	
 	public static ApoliceDAO loadFromDB(int codigoCotacao){
 		DBConnection db = new DBConnection();

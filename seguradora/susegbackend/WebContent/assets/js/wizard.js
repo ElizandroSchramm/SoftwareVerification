@@ -299,8 +299,16 @@ $(document).ready(function(){
     $height = $(document).height();
     $('.set-full-height').css('height',$height);
     $('.image-container').css('height','100%');
-    
+
     $(".btn-newCar").click(function(){
+    	if (validateForm()){
+    		saveVeiculo();
+    		limparVeiculo();
+			$('.btn-newCar').hide();
+    	}
+    });
+    
+    $(".btn-finish").click(function(){
     	if (validateForm()){
     		saveVeiculo();
     		limparVeiculo();

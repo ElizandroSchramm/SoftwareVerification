@@ -37,7 +37,11 @@ public class ImportarVeiculosFIPE {
 		double preco;
 		fipeCodigo = (String) map.get("fipe_codigo");
 		anoModelo = Integer.parseInt((String) map.get("ano_modelo"));
-		preco = 0; //TODO: transformar R$ em double
+		String spreco = (String) map.get("preco");
+		spreco = spreco.substring(3);
+		spreco = spreco.replace(".", "");
+		spreco = spreco.replace(",", ".");
+		preco = Double.parseDouble(spreco);
 		nome = (String) map.get("name");
 		marca = (String) map.get("marca");
 		combustivel = (String) map.get("combustivel");

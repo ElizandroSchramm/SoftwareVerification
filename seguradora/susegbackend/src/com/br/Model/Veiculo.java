@@ -1,6 +1,7 @@
 package com.br.Model;
 
 import com.br.DAO.VeiculoDAO;
+import com.br.DAO.VeiculoFIPEDAO;
 
 public class Veiculo {
 	
@@ -16,6 +17,14 @@ public class Veiculo {
 		if(this.dao == null){
 			throw new Exception("Ve’culo n‹o encontrada.");
 		}
+	}
+	
+	public Veiculo(String codigoFipe, int anoModelo, int anoFabricacao){
+		VeiculoFIPEDAO fipe = VeiculoFIPEDAO.loadFromDB(codigoFipe, anoModelo);
+		this.dao = new VeiculoDAO();
+		this.setAnos(anoFabricacao, anoModelo);
+		this.setDados(fipe.getNome(), fipe.getMarca());
+		this.setValorFIP(fipe.getPreco());
 	}
 	
 	public double getValorFIP() {

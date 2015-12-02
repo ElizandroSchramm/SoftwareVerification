@@ -29,26 +29,22 @@ public class GravaVeiculo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&marca=GM&cotacao=1
+			//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&codigofipe=008153-1&placa=ABC-1234&renavam=abc123&cotacao=1
 			int anoFabricacao, anoModelo, mediaKMMes, cotacao;
-			String chassi, cor, modelo, placa, renavam, marca;
-			double valorFIP = 35000; //TODO valorFIP fazer pegar de um arquivo ou tabela de veiculosFIP
+			String chassi, cor, placa, renavam, codigoFipe;
 			chassi = request.getParameter("chassi");
 			cor = request.getParameter("cor");
-			modelo = request.getParameter("modelo");
 			placa = request.getParameter("placa");
 			renavam = request.getParameter("renavam");
-			marca = request.getParameter("marca");
+			codigoFipe = request.getParameter("codigofipe");
 			anoFabricacao = Integer.parseInt(request.getParameter("anofabricacao"));
 			anoModelo = Integer.parseInt(request.getParameter("anomodelo"));
 			mediaKMMes = Integer.parseInt(request.getParameter("mediakmmes"));
 			cotacao= Integer.parseInt(request.getParameter("cotacao"));
-			if(modelo == null || marca == null){
+			if(codigoFipe == null){
 				throw new Exception();
 			}
-			Veiculo veiculo = new Veiculo();
-			veiculo.setAnos(anoFabricacao, anoModelo);
-			veiculo.setValorFIP(valorFIP);
-			veiculo.setDados(modelo, marca);
+			Veiculo veiculo = new Veiculo(codigoFipe, anoModelo, anoFabricacao);
 			veiculo.setCotacao(cotacao);
 			veiculo.setRegistros(chassi, cor, placa, renavam, mediaKMMes);
 			veiculo.save();

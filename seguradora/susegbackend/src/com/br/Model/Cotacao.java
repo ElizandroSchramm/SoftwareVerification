@@ -3,8 +3,10 @@ package com.br.Model;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.simple.JSONArray;
+
 import com.br.DAO.CotacaoDAO;
-import com.br.DAO.SeguradoDAO;
 
 public class Cotacao {
 	
@@ -71,13 +73,15 @@ public class Cotacao {
 	}
 
 	public String condutoresToString(){
-		StringBuilder sb = new StringBuilder();
-		sb.append("{\"valores\":[");
+		JSONArray condutores = new JSONArray();
 		for (Integer condutor: this.dao.getCondutores()) {
-			sb.append(condutor);
+			try{
+				condutores.add(new Condutor(condutor));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
 		}
-		sb.append("]}");
-		return sb.toString();
+		return "{\"condutores\":" + condutores.toJSONString() + "}";
 	}
 	
 	public void setCondutores(List<Condutor> condutores) {

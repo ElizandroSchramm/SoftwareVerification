@@ -11,22 +11,8 @@ $(document).ready(function(){
 	xValorFranquia = 0;
 	xValorServicos = 0;
 
-		var i=1;
 		$("#add_row").click(function(){
-			//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md' max='99' min='0'></td><td><input  name='sexo"+i+"' type='radio' value='M' checked style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
-			$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60' maxlength='14'/></td><td style='width: 85px'><input type='number' name='idade"+i+"' placeholder='Idade' class='form-control' max='99' min='18' value='18'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' checked style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> Não</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> Não</td>");
-					
-			
-			$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-			i++; 
-
-			$("#delete_row").click(function(){
-				if(i>1){
-					$("#addr"+(i-1)).html('');
-					i--;
-				}
-			});
-
+			addDriverLine();
 		});
 	//http://bootsnipp.com/snippets/featured/dynamic-table-row-creation-and-deletion	
 
@@ -641,12 +627,6 @@ function carregaSegurado(aCodigoSegurado){
 			
 		}
 	}
-
-/*
-
-if (xTipoPessoa == "pf"){
-
-	*/
 	
 }
     
@@ -671,6 +651,46 @@ function carregaLocalizacao(aCodigoLoc){
 	$("input[name='pais']").val(xLocCarregado.pais);	
 }
 
+function carregaCondutores(aCodCotacao){
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaCondutores?codigo=" + aCodCotacao);
+	//alert(xReturn);
+	var xCondutoresCarregados = JSON.parse(xReturn);
+
+	//alert(xCondutoresCarregados.condutores.length);
+	for (var i = 0, len = xCondutoresCarregados.condutores.length; i < len; ++i) {
+		var xCondutor = xCondutoresCarregados.condutores[i];
+
+		if (i > 0){
+			addDriverLine();
+		}		
+		$("input[name='name" + i + "']").val(xCondutor.nome);
+		$("input[name='cpf" + i + "']").val(xCondutor.cpf);
+		$("input[name='idade" + i + "']").val(xCondutor.idade);
+		if (xCondutor.sexo == 'M'){
+			$("input[name='sexo" + i + "'][value='M']").prop('checked', true);
+		}else{
+			if (xCondutor.sexo == 'F'){
+				$("input[name='sexo" + i + "'][value='F']").prop('checked', true);
+			}	
+		}
+		if (xCondutor.filho == 'S'){
+			$("input[name='filho" + i + "'][value='S']").prop('checked', true);
+		}else{
+			if (xCondutor.filho == 'N'){
+				$("input[name='filho" + i + "'][value='N']").prop('checked', true);
+			}	
+		}	
+		if (xCondutor.casado == 'S'){
+			$("input[name='casado" + i + "'][value='S']").prop('checked', true);
+		}else{
+			if (xCondutor.casado == 'N'){
+				$("input[name='casado" + i + "'][value='N']").prop('checked', true);
+			}	
+		}		
+	}
+
+}
+
 function carregarCotacaoParaCampos(aCodCotacao){
 	//alert('Agora vamos carregar cotação: ' + aCodCotacao);
 	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaCotacao?codigo=" + aCodCotacao);
@@ -681,6 +701,7 @@ function carregarCotacaoParaCampos(aCodCotacao){
 	//alert(xCotacao.codigoLoc);
 	carregaLocalizacao(xCotacao.codigoLoc);
 	carregaSegurado(xCotacao.codigoSeg);
+	carregaCondutores(aCodCotacao);
 	/*
 
 		if (xTipoPessoa == "pj"){
@@ -711,13 +732,6 @@ function carregarCotacaoParaCampos(aCodCotacao){
 
 
 
-
-		var xCondNome   = $("input[name='name" + i + "']").val();
-		var xCondCPF    = $("input[name='cpf" + i + "']").val();
-		var xCondIdade  = $("input[name='idade" + i + "']").val();
-		var xCondSexo   = $("input[name='sexo" + i + "']:checked").val();
-		var xCondFilhos = $("input[name='filho" + i + "']:checked").val();
-		var xCondCasado = $("input[name='casado" + i + "']:checked").val();
 		
 */		
 }
@@ -799,6 +813,24 @@ function editQuote(codigo){
 	alert(codigo);
 }
 
+
+var i=1;
+function addDriverLine(){
+	//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md' max='99' min='0'></td><td><input  name='sexo"+i+"' type='radio' value='M' checked style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
+	$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60' maxlength='14'/></td><td style='width: 85px'><input type='number' name='idade"+i+"' placeholder='Idade' class='form-control' max='99' min='18' value='18'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' checked style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> Não</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> Não</td>");
+			
+	
+	$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+	i++; 
+
+	$("#delete_row").click(function(){
+		if(i>1){
+			$("#addr"+(i-1)).html('');
+			i--;
+		}
+	});	
+}
+
 function pesquisar(){	
 	
 	xTable = "<div id='no-more-tables'>" + 
@@ -834,7 +866,7 @@ function pesquisar(){
 					"<td data-title='Código'>"+ xCotacao.codigo +"</td>" +
 					"<td data-title='Data Criação'>"+ xCotacao.dataCriacao +"</td>" + 
 					"<td data-title='Vencimento' class='date'>"+ xCotacao.vigencia +"</td>" +
-					"<td data-title='Valor' class='numeric'>"+ xCotacao.valor +"</td>" +
+					"<td data-title='Valor' class='numeric'> R$"+ parseFloat(xCotacao.valor).toFixed(2) +"</td>" +
 					//"<td data-title='Opções' class='numeric'>"+
 					//    "<button class='btn btn-edtQuote' style='height: 25px; padding: 0px 0px;' onclick='editQuote("+xCotacao.codigo+"); return false;'>" +
 					//		"<span class='glyphicon glyphicon-search text-success'></span>" +
@@ -857,7 +889,5 @@ function pesquisar(){
 		alert("Nenhum resultado encontrado");
 	}
 }
-
-
 
 

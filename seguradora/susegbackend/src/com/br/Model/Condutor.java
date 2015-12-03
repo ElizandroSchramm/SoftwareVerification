@@ -70,14 +70,14 @@ public class Condutor {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{ 'codigo': '" + this.dao.getCodigo() + "'");
-		sb.append(", 'codCotacao': '" + this.dao.getCodCotacao() + "'");
-		sb.append(", 'nome': '" + this.dao.getNome() + "'");
-		sb.append(", 'cpf': '" + this.dao.getCpf() + "'");
-		sb.append(", 'sexo': '" + this.dao.getSexo() + "'");
-		sb.append(", 'idade': '" + this.dao.getIdade() + "'");
-		sb.append(", 'casado': '" + this.dao.getCasado() + "'");
-		sb.append(", 'temFilho': '" + this.dao.getTemFilho() + "'");
+		sb.append("{ \"codigo\": \"" + this.dao.getCodigo() + "\"");
+		sb.append(", \"codCotacao\": \"" + this.dao.getCodCotacao() + "\"");
+		sb.append(", \"nome\": \"" + this.dao.getNome() + "\"");
+		sb.append(", \"cpf\": \"" + this.dao.getCpf() + "\"");
+		sb.append(", \"sexo\": \"" + this.dao.getSexo() + "\"");
+		sb.append(", \"idade\": \"" + this.dao.getIdade() + "\"");
+		sb.append(", \"casado\": \"" + this.dao.getCasado() + "\"");
+		sb.append(", \"temFilho\": \"" + this.dao.getTemFilho() + "\"");
 		sb.append("  }");
 		return sb.toString();
 	}

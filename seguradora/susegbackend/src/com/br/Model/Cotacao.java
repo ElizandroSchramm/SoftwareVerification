@@ -19,7 +19,7 @@ public class Cotacao {
 	public Cotacao(int codigoCotacao) throws Exception{
 		this.dao = CotacaoDAO.loadFromDB(codigoCotacao);
 		if(this.dao == null){
-			throw new Exception("Cotação não encontrada.");
+			throw new Exception("CotaÔøΩÔøΩo nÔøΩo encontrada.");
 		}
 		this.condutores = new ArrayList<Condutor>();
 		for (Integer condutor: this.dao.getCondutores()) {
@@ -70,6 +70,16 @@ public class Cotacao {
 		return condutores;
 	}
 
+	public String condutoresToString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("{\"valores\":[");
+		for (Integer condutor: this.dao.getCondutores()) {
+			sb.append(condutor);
+		}
+		sb.append("]}");
+		return sb.toString();
+	}
+	
 	public void setCondutores(List<Condutor> condutores) {
 		this.condutores = condutores;
 	}

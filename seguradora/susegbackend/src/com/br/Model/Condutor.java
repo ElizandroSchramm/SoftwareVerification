@@ -13,7 +13,7 @@ public class Condutor {
 	public Condutor(int codigo) throws Exception{
 		this.dao = CondutorDAO.loadFromDB(codigo);
 		if(this.dao == null){
-			throw new Exception("Condutor n‹o encontrada.");
+			throw new Exception("Condutor nÃ£o encontrada.");
 		}
 	}
 	
@@ -42,11 +42,11 @@ public class Condutor {
 	}
 	
 	/**
-	 * Calcula o % de acrscimo ao seguro devido ao perfil do condutor considerando:
-	 * 	Se tiver menos de 26 anos, ent‹o pune em 15%, n‹o somando nenhum % alm desse.
-	 * 	Se for homem maior que 25 anos, ent‹o pune em 5%, n‹o somando nenhum % alm desse.
-	 * 	Se for casado(a), ent‹o reduz 2% de uma puni‹o que houver.
-	 * 	Se ter filho, ent‹o reduz 2% de uma puni‹o que houver.
+	 * Calcula o % de acrï¿½scimo ao seguro devido ao perfil do condutor considerando:
+	 * 	Se tiver menos de 26 anos, entï¿½o pune em 15%, nï¿½o somando nenhum % alï¿½m desse.
+	 * 	Se for homem maior que 25 anos, entï¿½o pune em 5%, nï¿½o somando nenhum % alï¿½m desse.
+	 * 	Se for casado(a), entï¿½o reduz 2% de uma puniï¿½ï¿½o que houver.
+	 * 	Se ter filho, entï¿½o reduz 2% de uma puniï¿½ï¿½o que houver.
 	 */
 	public int getPercentualCondutor(){
 		int punicao = 0;

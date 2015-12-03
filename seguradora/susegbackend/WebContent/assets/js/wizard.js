@@ -69,7 +69,7 @@ $(document).ready(function(){
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
 		            	if (index == 4){ // Ve�culo 
-		            		alert('aaaa');
+		            		//alert('aaaa');
 		            		saveVeiculo();
 		            	} else {
 		            		if (index == 5){ 
@@ -450,6 +450,8 @@ function saveCondutores(){
 		var xCondSexo   = $("input[name='sexo" + i + "']:checked").val();
 		var xCondFilhos = $("input[name='filho" + i + "']:checked").val();
 		var xCondCasado = $("input[name='casado" + i + "']:checked").val();
+		
+		//TODO: Passar o código do condutor caso esteja alterando uma cotação
 		
 		//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
 		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=' + xCodigoCotacao;

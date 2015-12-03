@@ -42,11 +42,11 @@ public class Condutor {
 	}
 	
 	/**
-	 * Calcula o % de acr�scimo ao seguro devido ao perfil do condutor considerando:
-	 * 	Se tiver menos de 26 anos, ent�o pune em 15%, n�o somando nenhum % al�m desse.
-	 * 	Se for homem maior que 25 anos, ent�o pune em 5%, n�o somando nenhum % al�m desse.
-	 * 	Se for casado(a), ent�o reduz 2% de uma puni��o que houver.
-	 * 	Se ter filho, ent�o reduz 2% de uma puni��o que houver.
+	 * Calcula o % de acrescimo ao seguro devido ao perfil do condutor considerando:
+	 * 	Se tiver menos de 26 anos, entao pune em 15%, nao somando nenhum % alem desse.
+	 * 	Se for homem maior que 25 anos, entao pune em 5%, nao somando nenhum % alem desse.
+	 * 	Se for casado(a), entao reduz 2% de uma punicao que houver.
+	 * 	Se ter filho, entao reduz 2% de uma punicao que houver.
 	 */
 	public int getPercentualCondutor(){
 		int punicao = 0;

@@ -43,7 +43,7 @@ public class CalculaValoresPremio extends HttpServlet {
 				response.sendError(500, e.getMessage());
 			}
 		} catch (Exception e) {
-			response.sendError(500, "Parâmetro não informado.");
+			response.sendError(500, "Par√¢metro n√£o informado.");
 		}
 	}
 

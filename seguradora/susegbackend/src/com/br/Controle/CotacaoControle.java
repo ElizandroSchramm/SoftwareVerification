@@ -111,8 +111,8 @@ public class CotacaoControle {
 		return sb.toString();
 	}
 	
-	//TODO: gravar na base as clÔøΩusulas que o cara selecionou para a cotaÔøΩÔøΩo. Sprint2, pois ele calcula no client o valor e grava
-	//TODO: fazer os gets do percentual de cada clÔøΩusula. Sprint2, pois fica fixo para a 1
+	//TODO: gravar na base as clausulas que o cara selecionou para a cotacao. Sprint2, pois ele calcula no client o valor e grava
+	//TODO: fazer os gets do percentual de cada clausula. Sprint2, pois fica fixo para a 1
 	
 	
 	

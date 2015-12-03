@@ -18,6 +18,7 @@ public class CotacaoDAO {
 	private Date dataCriacao, vigencia;
 	private List<Integer> condutores;
 	private List<Integer> veiculos;
+	private List<Integer> clausulas;
 	
 	public CotacaoDAO() {
 		this.codigo = -1;
@@ -56,6 +57,7 @@ public class CotacaoDAO {
 		if(dao != null){
 			dao.loadCondutoresFromDB();
 			dao.loadVeiculosFromDB();
+			dao.loadClausulasFromDB();
 		}
 		return dao;
 	}
@@ -151,6 +153,42 @@ public class CotacaoDAO {
 			db.FecharConexao();
 		}
 	}
+	
+	private void loadClausulasFromDB(){
+		this.clausulas = new ArrayList<Integer>();
+		DBConnection db = new DBConnection();
+		try {
+			if(db.canExecuteCmd()){
+				PreparedStatement ps = db.getConnection().prepareStatement("SELECT codclau FROM ItemClausula where codcot = ?");
+				ps.setInt(1, this.codigo);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					this.clausulas.add(rs.getInt(1));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.FecharConexao();
+		}
+	}
+	
+	public void addClausula(ClausulaDAO clausula) {
+		DBConnection db = new DBConnection();
+		try {
+			if(db.canExecuteCmd()){
+				PreparedStatement ps = db.getConnection().prepareStatement("INSERT INTO ItemClausula(codCot, codClau) values(?, ?)");
+				ps.setInt(1, this.codigo);
+				ps.setInt(2, clausula.getCodigo());
+				// Execute the INSERT
+				ps.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db.FecharConexao();
+		}
+	}
 
 	public double getComissao() {
 		return comissao;
@@ -206,6 +244,10 @@ public class CotacaoDAO {
 	
 	public List<Integer> getVeiculos() {
 		return this.veiculos;
+	}
+	
+	public List<Integer> getClausulas() {
+		return this.clausulas;
 	}
 
 }

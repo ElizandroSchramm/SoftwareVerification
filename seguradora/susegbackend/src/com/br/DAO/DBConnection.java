@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-	public static String status = "Não conectado.";
+	public static String status = "N√£o conectado.";
 	private Connection connection = null;
 
 	public DBConnection() {
@@ -22,7 +22,7 @@ public class DBConnection {
 			if (connection != null) {
 				status = "Conectado.";
 			} else {
-				status = "Não foi possível conectar.";
+				status = "N√£o foi poss√≠vel conectar.";
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("O driver expecificado nao foi encontrado.");

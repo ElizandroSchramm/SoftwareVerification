@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.br.Model.Veiculo;
-
 public class SeguradoDAO {
 	
 	private int codigo = -1;

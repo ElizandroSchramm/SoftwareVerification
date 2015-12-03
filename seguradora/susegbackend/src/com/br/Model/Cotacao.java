@@ -13,6 +13,7 @@ public class Cotacao {
 	private CotacaoDAO dao;
 	private List<Condutor> condutores;
 	private List<Veiculo> veiculos;
+	private List<Clausula> clausulas;
 	
 	public Cotacao() {
 		this.dao = new CotacaoDAO();
@@ -21,7 +22,7 @@ public class Cotacao {
 	public Cotacao(int codigoCotacao) throws Exception{
 		this.dao = CotacaoDAO.loadFromDB(codigoCotacao);
 		if(this.dao == null){
-			throw new Exception("Cota��o n�o encontrada.");
+			throw new Exception("Cotação não encontrada.");
 		}
 		this.condutores = new ArrayList<Condutor>();
 		for (Integer condutor: this.dao.getCondutores()) {
@@ -30,6 +31,10 @@ public class Cotacao {
 		this.veiculos = new ArrayList<Veiculo>();
 		for (Integer veiculo : this.dao.getVeiculos()) {
 			this.veiculos.add(new Veiculo(veiculo));
+		}
+		this.clausulas = new ArrayList<Clausula>();
+		for (Integer clausula : this.dao.getClausulas()) {
+			this.clausulas.add(new Clausula(clausula));
 		}
 	}
 	
@@ -74,14 +79,22 @@ public class Cotacao {
 
 	public String condutoresToString(){
 		JSONArray condutores = new JSONArray();
-		for (Integer condutor: this.dao.getCondutores()) {
+		for (Condutor condutor: this.condutores) {
 			try{
-				condutores.add(new Condutor(condutor));
+				condutores.add(condutor);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}	
 		}
 		return "{\"condutores\":" + condutores.toJSONString() + "}";
+	}
+	
+	public String clausulasToString(){
+		JSONArray clausulas = new JSONArray();
+		for(Clausula clausula: this.clausulas){
+			clausulas.add(clausula);
+		}
+		return "{\"clausulas\":" + clausulas.toJSONString() + "}";
 	}
 	
 	public void setCondutores(List<Condutor> condutores) {

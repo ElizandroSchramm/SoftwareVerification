@@ -64,7 +64,7 @@ public class CotacaoControle {
 	
 	private double calculaBasePremio(Veiculo veiculo){
 		double valorCarro = veiculo.getValorFIP();
-		return valorCarro * 0.03; //TODO: confirmar se a base inicial é 3%		
+		return valorCarro * 0.03; //TODO: confirmar se a base inicial ÔøΩ 3%		
 	}
 	
 	private double calculaBasePremio(){
@@ -83,16 +83,16 @@ public class CotacaoControle {
 	}
 	
 	/**
-	 * Valor base do prêmio:  R$1200,00 <--
+	 * Valor base do prÔøΩmio:  R$1200,00 <--
 	 * Condutor menor de 25:  R$410,00 <--
 	 * Carro com mais de 10 anos:  R$200,00 <--
 	 */
 	public String getValoresDetalhados(){
 		StringBuilder sb = new StringBuilder();
 		double valorPremio = this.calculaPremio();
-		//descrição valor
+		//descriÔøΩÔøΩo valor
 		sb.append("{\"valores\":[");
-		sb.append("{\"descricao\":\"Valor base do prêmio\",\"valor\":\"" + this.calculaBasePremio() + "\"},");
+		sb.append("{\"descricao\":\"Valor base do pr√™mio\",\"valor\":\"" + this.calculaBasePremio() + "\"},");
 		if(getValorPerfilCondutor() > 0){
 			sb.append("{\"descricao\":\"Perfil do condutor\",\"valor\":\"" + this.getValorPerfilCondutor() + "\"},");
 		}
@@ -100,13 +100,13 @@ public class CotacaoControle {
 			String p = this.cotacao.getVeiculos().size() > 1 ? "Carros" : "Carro";
 			sb.append("{\"descricao\":\"" + p + " com mais de 10 anos\",\"valor\":\"" + this.valoresPelaIdade + "\"},");
 		}
-		sb.append("{\"id\":\"1\",\"descricao\":\"Valor do prêmio\",\"valor\":\"" + valorPremio + "\"}");
+		sb.append("{\"id\":\"1\",\"descricao\":\"Valor do pr√™mio\",\"valor\":\"" + valorPremio + "\"}");
 		sb.append("]}");
 		return sb.toString();
 	}
 	
-	//TODO: gravar na base as cláusulas que o cara selecionou para a cotação. Sprint2, pois ele calcula no client o valor e grava
-	//TODO: fazer os gets do percentual de cada cláusula. Sprint2, pois fica fixo para a 1
+	//TODO: gravar na base as clÔøΩusulas que o cara selecionou para a cotaÔøΩÔøΩo. Sprint2, pois ele calcula no client o valor e grava
+	//TODO: fazer os gets do percentual de cada clÔøΩusula. Sprint2, pois fica fixo para a 1
 	
 	
 	

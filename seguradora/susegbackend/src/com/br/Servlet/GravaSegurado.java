@@ -25,9 +25,10 @@ public class GravaSegurado extends HttpServlet {
 		try {
 			//GravaSegurado?nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M&cnpj=2345678&ie=111222333&bonus=2
 			//GravaSegurado?nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M&cnpj=2345678&ie=111222333&bonus=2
-			String nome, cpf, telefone = null, sexo = null, classeBonus, cnpj, ie = null;
+			String codigo, nome, cpf, telefone = null, sexo = null, classeBonus, cnpj, ie = null;
 			Date dataNascimento = null;
 			int bonus = 0;
+			codigo = request.getParameter("codigo");
 			nome = request.getParameter("nome");
 			cpf = request.getParameter("cpf");
 			cnpj  = request.getParameter("cnpj");
@@ -43,11 +44,17 @@ public class GravaSegurado extends HttpServlet {
 			if(classeBonus != null){
 				bonus = Integer.parseInt(classeBonus);
 			}
-			//trata os par‰metros obrigat—rios
+			//trata os parï¿½metros obrigatï¿½rios
 			if(nome == null || (cpf == null && cnpj == null)){
 				throw new Exception();
 			}
-			Segurado segurado = new Segurado();
+
+			Segurado segurado;
+			if (codigo == null){
+				segurado = new Segurado();
+			}else{
+				segurado = new Segurado(Integer.parseInt(codigo));
+			}			
 			segurado.setDados(nome, cpf, sexo, dataNascimento, bonus, cnpj, ie);
 			segurado.setContato(telefone);
 			segurado.save();
@@ -58,7 +65,7 @@ public class GravaSegurado extends HttpServlet {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			response.sendError(500, "Par‰metro n‹o informado.");
+			response.sendError(500, "Parï¿½metro nï¿½o informado.");
 		}
 	}
 

@@ -69,6 +69,7 @@ $(document).ready(function(){
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
 		            	if (index == 4){ // Ve�culo 
+		            		alert('aaaa');
 		            		saveVeiculo();
 		            	} else {
 		            		if (index == 5){ 
@@ -107,15 +108,22 @@ $(document).ready(function(){
             } else { 					
 				if($current == 2) {
 					$(wizard).find('.btn-next').show();
-					novaCotacao();	
+					var codcotacaoSelecionada = $("input[name='pesqOpt']:checked").val();
+					if (codcotacaoSelecionada > -1){
+						//alert('Alterando cotação: ' + codcotacaoSelecionada);
+						carregarCotacaoParaCampos(codcotacaoSelecionada);
+					}else{
+						novaCotacao();						
+					}
+						
 				} else {
 					// If it's the last tab then hide the last button and show the finish instead
 					if($current >= $total) {
 						$(wizard).find('.btn-next').hide();
 						$(wizard).find('.btn-finish').show();
 						$(wizard).find('.btn-save').show();
-						carregaSegurado();
-						carregaLocalizacao();
+						carregaSegurado(xCodigoSegurado);
+						carregaLocalizacao(xCodigoLoc);
 						carregaValores();
 					} else {
 						$(wizard).find('.btn-next').show();
@@ -498,6 +506,7 @@ function saveVeiculo(){
 	xCodFipe  = '0';
 	
 	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&modelo=" + xCarModel + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao + "&codigofipe=" + xCodFipe;
+
 	//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&idcotacao=1&marca=GM&cotacao=1
 	//alert(params);
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaVeiculo?" + params);
@@ -536,6 +545,10 @@ function saveSegurado(){
 			params = "nome=" + xNomeEmpresa + "&cnpj=" + xCNPJ + "&ie=" + xIE + "&bonus=" + xBonus;
 		}
 	}
+	
+	if (typeof xCodigoSegurado !== 'undefined'){
+		params = params + '&codigo=' + xCodigoSegurado;
+	}
 
 	//nome=Paulo&cpf=456.789.123-20&dataNascimento=08%2F09%2F1988&telefone=3332-3344&sexo=M
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaSegurado?" + params);
@@ -555,8 +568,11 @@ function saveLocalizacao(){
 	var xEstado = $("input[name='estado']").val();
 	var xCep    = $("input[name='cep']").val();
 	var xPais   = $("input[name='pais']").val();
-	
-    params = "numero=" + xNumero + "&rua=" + xRua + "&cep=" + xCep + "&cidade=" + xCidade + "&estado=" + xEstado + "&pais=" + xPais;
+
+    params = "numero=" + xNumero + "&rua=" + xRua + "&cep=" + xCep + "&cidade=" + xCidade + "&estado=" + xEstado + "&pais=" + xPais;	
+	if (typeof xCodigoLoc !== 'undefined'){
+		params = params + '&codigo=' + xCodigoLoc;
+	}
     xReturn = httpGet("http://localhost:8080/susegbackend/GravaLocalizacao?" + params);
     
     // { codigo: 6, rua: Teste, numero: 999, cep: 900312, cidade: Blu, estado: SC, pais: Brasil  }
@@ -580,8 +596,9 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
     
-function carregaSegurado(){
-	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaSegurado?codigoSegurado=" + xCodigoSegurado);
+function carregaSegurado(aCodigoSegurado){
+	xCodigoSegurado = aCodigoSegurado;
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaSegurado?codigoSegurado=" + aCodigoSegurado);
 	//alert(xReturn);
 	
 	xSegCarregado = eval ("(" + xReturn + ")");
@@ -593,10 +610,47 @@ function carregaSegurado(){
 	$(".dataNascSegurado").text(xSegCarregado.dataNascimento);
 	$(".telefoneSegurado").text(xSegCarregado.telefone);
 	
+	
+	if (xSegCarregado.cpf != null){
+		$("input[name='tipopessoa'][value='pf']").prop('checked', true);
+		
+		$("input[name='nomesegurado']").val(xSegCarregado.nome);
+		$("input[name='datanasc']").val(xSegCarregado.dataNascimento);
+		$("input[name='cpf']").val(xSegCarregado.cpf);
+		$("input[name='telefone']").val(xSegCarregado.telefone);
+		if (xSegCarregado.sexo == 'M'){
+			$("input[name='sexo'][value='M']").prop('checked', true);
+		}else{
+			if (xSegCarregado.sexo == 'F'){
+				$("input[name='sexo'][value='F']").prop('checked', true);
+			}	
+		}
+		$("input[name='classebonus']").val(xSegCarregado.classeBonus);		
+	}else{
+		if (xSegCarregado.cnpj != null){
+            $('.pessoafisicaform').fadeOut('fast');
+            setTimeout(function() {$('.pessoajuridicaform').fadeIn('fast');}, 300);			
+			
+			$("input[name='tipopessoa'][value='pj']").prop('checked', true);
+			$("input[name='nomeempresa']").val(xSegCarregado.nome);
+			$("input[name='ie']").val(xSegCarregado.inscricaoestadual);
+			$("input[name='cnpj']").val(xSegCarregado.cnpj);
+			$("input[name='classebonusCNPJ']").val(xSegCarregado.classeBonus);
+			
+		}
+	}
+
+/*
+
+if (xTipoPessoa == "pf"){
+
+	*/
+	
 }
     
-function carregaLocalizacao(){
-	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaLocalizacao?codigoLocalizacao=" + xCodigoLoc);
+function carregaLocalizacao(aCodigoLoc){
+	xCodigoLoc = aCodigoLoc;
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaLocalizacao?codigoLocalizacao=" + aCodigoLoc);
 	//alert(xReturn);
 	
 	xLocCarregado = eval ("(" + xReturn + ")");
@@ -606,6 +660,64 @@ function carregaLocalizacao(){
 	$(".cidadeLocalizacao").text(xLocCarregado.cidade);
 	$(".estadoLocalizacao").text(xLocCarregado.estado);
 	
+	//alert('Carregar valores');
+	$("input[name='rua']").val(xLocCarregado.rua);
+	$("input[name='cidade']").val(xLocCarregado.cidade);
+	$("input[name='numero']").val(xLocCarregado.numero);
+	$("input[name='estado']").val(xLocCarregado.estado);
+	$("input[name='cep']").val(xLocCarregado.cep);
+	$("input[name='pais']").val(xLocCarregado.pais);	
+}
+
+function carregarCotacaoParaCampos(aCodCotacao){
+	//alert('Agora vamos carregar cotação: ' + aCodCotacao);
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaCotacao?codigo=" + aCodCotacao);
+	//alert(xReturn);
+	xCotacao = eval ("(" + xReturn + ")");	
+	xCodigoCotacao = xCotacao.codigo;
+	
+	//alert(xCotacao.codigoLoc);
+	carregaLocalizacao(xCotacao.codigoLoc);
+	carregaSegurado(xCotacao.codigoSeg);
+	/*
+
+		if (xTipoPessoa == "pj"){
+			var xNomeEmpresa = $("input[name='nomeempresa']").val();
+			var xIE          = $("input[name='ie']").val();
+			var xCNPJ        = $("input[name='cnpj']").val();
+			xBonus           = $("input[name='classebonusCNPJ']").val();
+
+	if (xTipoPessoa == "pf"){
+		var xNomeSegurado = $("input[name='nomesegurado']").val();
+		var xDataNasc     = $("input[name='datanasc']").val();
+		var xCPF          = $("input[name='cpf']").val();
+		var xTelefone     = $("input[name='telefone']").val();
+		var xSexo         = $("input[name='sexo']:checked").val();
+		xBonus            = $("input[name='classebonus']").val();
+
+
+
+	xMarca    = $(".carBrand option:selected").val();
+	xAnoFab   = $(".fabYear option:selected").val();
+	xAnoModel = $("input[name='anomodelo']:checked").val();
+	xCarModel = $("select[name='carModel'] option:selected").val();
+	xPlaca    = $("input[name='placa']").val();
+	xChassi   = $("input[name='chassi']").val();
+	xRenavam  = $("input[name='renavam']").val();
+	xCor      = $("input[name='cor']").val();
+	xMediaKM  = $("input[name='mediaKM']").val();
+
+
+
+
+		var xCondNome   = $("input[name='name" + i + "']").val();
+		var xCondCPF    = $("input[name='cpf" + i + "']").val();
+		var xCondIdade  = $("input[name='idade" + i + "']").val();
+		var xCondSexo   = $("input[name='sexo" + i + "']:checked").val();
+		var xCondFilhos = $("input[name='filho" + i + "']:checked").val();
+		var xCondCasado = $("input[name='casado" + i + "']:checked").val();
+		
+*/		
 }
 
 function carregaValores(){	
@@ -649,6 +761,7 @@ function carregaValores(){
 	
 	$(".valorbase").text(xValorPremio);
 	$(".valortotal").text(xValorPremio);
+	atualizaValores();
 	
 	/*
 	
@@ -670,6 +783,7 @@ function carregaValores(){
 }
 
 function atualizaValores(){
+	xValorBase = $('.valorbase').text();
 	xValorTotal = parseFloat(xValorCarro) + parseFloat(xValorVidros) + parseFloat(xValorFranquia) + parseFloat(xValorServicos) + parseFloat(xValorBase);
 	
 	$('.valortotal').text(parseFloat(xValorTotal).toFixed(2));

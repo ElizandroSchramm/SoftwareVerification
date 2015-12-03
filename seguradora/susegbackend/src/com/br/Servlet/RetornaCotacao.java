@@ -9,19 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.br.Model.Localizacao;
+import com.br.Model.Cotacao;
 
 /**
- * Servlet implementation class GravaLocalizacao
+ * Servlet implementation class RetornaCotacao
  */
-@WebServlet("/GravaLocalizacao")
-public class GravaLocalizacao extends HttpServlet {
+@WebServlet("/RetornaCotacao")
+public class RetornaCotacao extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GravaLocalizacao() {
+    public RetornaCotacao() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,34 +30,22 @@ public class GravaLocalizacao extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		try {
-			//numero=123&rua=teste&cep=89110-000&cidade=Blumenau&estado=SC&pais=Brasil
-			int numero = Integer.parseInt(request.getParameter("numero"));
-			String codigo, rua, cep, cidade, estado, pais;
-			rua = request.getParameter("rua");
-			cep = request.getParameter("cep");
-			cidade = request.getParameter("cidade");
-			estado = request.getParameter("estado");
-			pais = request.getParameter("pais");
-			codigo = request.getParameter("codigo");
-			if(rua == null || cep == null || cidade == null || estado == null || pais == null){
-				throw new Exception();
+		  // RetornaCotacao?codigo=
+			int valor = -1;
+			valor = Integer.parseInt(request.getParameter("codigo"));
+			
+			if (valor == -1){
+				throw new Exception();				
 			}
-			Localizacao local;
-			if (codigo == null){
-				local = new Localizacao();
-			} else {
-				local = new Localizacao(Integer.parseInt(codigo));				
-			}				
-			local.setEndereco(rua, numero, cep);
-			local.setLocal(cidade, estado, pais);
-			local.save();
+			Cotacao cotacao = new Cotacao(valor);
+			
 			response.setContentType("application/json");
 			PrintWriter out = response.getWriter();
-			out.println(local);
+			out.println(cotacao);
 			out.flush();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			response.sendError(500, "Par�metro n�o informado.");
 		}

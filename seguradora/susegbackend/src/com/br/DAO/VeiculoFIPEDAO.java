@@ -49,6 +49,7 @@ public class VeiculoFIPEDAO {
 			if(db.canExecuteCmd()){
 				PreparedStatement ps = db.getConnection().prepareStatement("select nome, marca, combustivel, preco FROM VeiculoFIPE v where v.codigofipe = ? and v.anomodelo = ?");
 				ps.setString(1, codigoFipe);
+				ps.setInt(2, anoModelo);
 				ResultSet rs = ps.executeQuery();
 				if(rs.next()){
 					VeiculoFIPEDAO veiculo = new VeiculoFIPEDAO();

@@ -900,6 +900,9 @@ label{
 .wizard-card .btn-newCar{
     display: none;
 }
+.wizard-card .btn-change{
+    display: none;
+}
 .wizard-card .fabYear{
     display: none;
 }

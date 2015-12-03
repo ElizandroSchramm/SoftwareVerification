@@ -2,9 +2,9 @@ searchVisible = 0;
 transparent = true;
 
 $(document).ready(function(){
-	// xCodigoLoc - Código da localização, será salvo na cotação ao final.
-	// xCodigoSegurado - Código do segurado, será salvo na cotação ao final.
-	// xCodigoCotacao - Código da cotação corrente, usado para fazer UPDATE no final
+	// xCodigoLoc - CÔøΩdigo da localizaÔøΩÔøΩo, serÔøΩ salvo na cotaÔøΩÔøΩo ao final.
+	// xCodigoSegurado - CÔøΩdigo do segurado, serÔøΩ salvo na cotaÔøΩÔøΩo ao final.
+	// xCodigoCotacao - CÔøΩdigo da cotaÔøΩÔøΩo corrente, usado para fazer UPDATE no final
 
 	xValorCarro = 0;
 	xValorVidros = 0; 
@@ -14,7 +14,7 @@ $(document).ready(function(){
 		var i=1;
 		$("#add_row").click(function(){
 			//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md' max='99' min='0'></td><td><input  name='sexo"+i+"' type='radio' value='M' checked style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
-			$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60' maxlength='14'/></td><td style='width: 85px'><input type='number' name='idade"+i+"' placeholder='Idade' class='form-control' max='99' min='18' value='18'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' checked style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> Não</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> Não</td>");
+			$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60' maxlength='14'/></td><td style='width: 85px'><input type='number' name='idade"+i+"' placeholder='Idade' class='form-control' max='99' min='18' value='18'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' checked style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> N√£o</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> N√£o</td>");
 					
 			
 			$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
@@ -36,7 +36,7 @@ $(document).ready(function(){
     $('.wizard-card').bootstrapWizard({
         'tabClass': 'nav nav-pills',
         'nextSelector': '.btn-next',
-        'searchSelector': '.btn-success',
+        'searchSelector': '.btn-change',
         'newSelector': '.btn-info',
         'previousSelector': '.btn-previous',
          
@@ -59,23 +59,23 @@ $(document).ready(function(){
 
             if (validateForm()){
         	
-	            if (index == 2){ // Localização
+	            if (index == 2){ // LocalizaÔøΩÔøΩo
 	                saveLocalizacao();
-	                //alert('Os dados de localização foram salvos.');
+	                //alert('Os dados de localizaÔøΩÔøΩo foram salvos.');
 	            } else {
 	            	if (index == 3){ // Segurado 
 	            		//alert(xCodigoLoc);
 		                saveSegurado();
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
-		            	if (index == 4){ // Veículo 
+		            	if (index == 4){ // VeÔøΩculo 
 		            		saveVeiculo();
 		            	} else {
 		            		if (index == 5){ 
 		            			if (validaCondutores()){
 		            				saveCondutores();
 		            			} else {
-		            				alert('Você deve informar todos os campos dos condutores');
+		            				alert('Voc√™ deve informar todos os campos dos condutores');
 		    	            		return false;
 		            			}	
 			            		//alert(xCodigoSegurado);
@@ -190,7 +190,7 @@ $(document).ready(function(){
 		//alert(xCodigoSegurado);
 		//alert(xCodigoLoc);
     	saveCotacao(xCodigoLoc, xCodigoSegurado);
-    	alert('A cotação foi salva com sucesso!');
+    	alert('A cota√ß√£o foi salva com sucesso!');
     });
     
     $("input[name='Pesquisar']").click(function(){
@@ -309,12 +309,18 @@ $(document).ready(function(){
     });
     
     $(".btn-finish").click(function(){
-    	alert("Salvar apolice");
     	saveApolice();
-		//$('.btn-newCar').hide();
-    	
+    	alert("Ap√≥lice gerada com sucesso.");
+		location.reload();    	
     });
     
+    $(".btn-edtQuote").click(function(){
+    	alert("CLICADO");
+    });    
+});
+
+$(document).on('click', '.pesqOpt', function(){
+	$("input[name='Alterar']").attr("disabled", false);
 });
 
 function validateForm(){
@@ -367,8 +373,8 @@ function validateForm(){
             nomeempresa: "Voc√™ deve informar o Nome da empresa",
             ie: "Voc√™ deve informar o IE",
             cnpj: "Voc√™ deve informar o CNPJ",
-            cep: "Você deve informar o CEP",
-            pais: "Você deve informar o País",
+            cep: "Voc√™ deve informar o CEP",
+            pais: "Voc√™ deve informar o Pa√≠s",
 				
 		}
 		
@@ -397,7 +403,7 @@ function readURL(input) {
 }
 
 function novaCotacao(){
-	//alert('gerando cotação');
+	//alert('gerando cotaÔøΩÔøΩo');
 	xReturn = httpGet("http://localhost:8080/susegbackend/NovaCotacao");
 	//alert(xReturn);
 	
@@ -468,7 +474,7 @@ function limparVeiculo(){
 	}).attr('selected', true);	
 	alterarMarca();
 	
-	// Limpa os campos que ficaram invisíveis
+	// Limpa os campos que ficaram invis√≠veis
 	$("select[name='carModel'] option").filter(function() {      
 		return this.text == "Selecione"; 
 	}).attr('selected', true);	
@@ -489,8 +495,9 @@ function saveVeiculo(){
 	xRenavam  = $("input[name='renavam']").val();
 	xCor      = $("input[name='cor']").val();
 	xMediaKM  = $("input[name='mediaKM']").val();
+	xCodFipe  = '0';
 	
-	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&modelo=" + xCarModel + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao;
+	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&modelo=" + xCarModel + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao + "&codigofipe=" + xCodFipe;
 	//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&idcotacao=1&marca=GM&cotacao=1
 	//alert(params);
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaVeiculo?" + params);
@@ -560,9 +567,9 @@ function saveLocalizacao(){
 }
 
 function saveApolice(){
-	alert(xCodigoCotacao);
+	
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaApolice?codigoCotacao=" + xCodigoCotacao);
-	alert(xReturn);
+	
 }
 
 function httpGet(theUrl)
@@ -602,9 +609,9 @@ function carregaLocalizacao(){
 }
 
 function carregaValores(){	
-	//xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
+	xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
 	
-	xReturn = "{\"valores\":[{\"descricao\":\"Valor base do premio\",\"valor\":\"1050.0\"},{\"descricao\":\"Perfil do condutor\",\"valor\":\"115.5\"},{\"id\":\"1\", \"descricao\":\"Valor do premio\",\"valor\":\"1165.5\"}]}";
+	//xReturn = "{\"valores\":[{\"descricao\":\"Valor base do premio\",\"valor\":\"1050.0\"},{\"descricao\":\"Perfil do condutor\",\"valor\":\"115.5\"},{\"id\":\"1\", \"descricao\":\"Valor do premio\",\"valor\":\"1165.5\"}]}";
 	
 	//alert(xReturn);
 	var obj = JSON.parse(xReturn);
@@ -634,7 +641,7 @@ function carregaValores(){
 		xValorPremio = xValorPremio - xDescBonus;
 		//alert(xValorPremio);
 		xDiv = "<div class='col-sm-12 col-sm-offset-3'>";
-		xDiv = xDiv + "<b>Desconto classe de bônus: </b>";
+		xDiv = xDiv + "<b>Desconto classe de b√¥nus: </b>";
 		xDiv = xDiv + ": R$" + parseFloat(xDescBonus).toFixed(2);
 		xDiv = xDiv + "</div>";
 		$(".detalhesValores").html($(".detalhesValores").html() + xDiv);
@@ -645,9 +652,9 @@ function carregaValores(){
 	
 	/*
 	
-	{"valores":[{"descricao":"Valor base do prêmio","valor":"1050.0"},
+	{"valores":[{"descricao":"Valor base do prÔøΩmio","valor":"1050.0"},
 	            {"descricao":"Perfil do condutor","valor":"115.5"},
-	            {"descricao":"Valor do prêmio","valor":"1165.5"}]}
+	            {"descricao":"Valor do prÔøΩmio","valor":"1165.5"}]}
 
 	$(".valorbase").text(obj.valores[3].valor);
 	$(".valortotal").text(obj.valores[3].valor);
@@ -672,17 +679,22 @@ function atualizaValores(){
 	$('.parcela4').text(parseFloat(xValorTotal/4).toFixed(2));
 }
 
+function editQuote(codigo){
+	alert(codigo);
+}
+
 function pesquisar(){	
 	
 	xTable = "<div id='no-more-tables'>" + 
-	"<table class='col-md-10 col-sm-offset-1 table-bordered table-striped table-condensed cf'>" +
+	"<table class='col-md-10 col-sm-offset-1 table-bordered table-striped table-condensed cf' style='margin-bottom: 15px;'>" +
 		"<thead class='cf'>" +
 			"<tr>" +
-				"<th>Código</th>" + 
-				"<th class='date'>Data Criação</th>" +
+				"<th></th>" +
+				"<th>C√≥digo</th>" + 
+				"<th class='date'>Data Cria√ß√£o</th>" +
 				"<th class='date'>Vencimento</th>" +
 				"<th class='numeric'>Valor</th>" +
-				"<th>Opções</th>" +
+				//"<th>Op√ß√µes</th>" +
 			"</tr>" +
 		"</thead>";
 		
@@ -701,16 +713,17 @@ function pesquisar(){
 			
 			xDiv = 
 			"<tbody>" +
-				"<tr>" +
-					"<td data-title='Codigo'>"+ xCotacao.codigo +"</td>" +
-					"<td data-title='Data Criação'>"+ xCotacao.dataCriacao +"</td>" + 
+				"<tr>" +				
+					"<td data-title='Op√ß√£o' style='width: 10px'><input type='radio' class='pesqOpt' name='pesqOpt' value='" + xCotacao.codigo + "'></td>" +
+					"<td data-title='C√≥digo'>"+ xCotacao.codigo +"</td>" +
+					"<td data-title='Data Cria√ß√£o'>"+ xCotacao.dataCriacao +"</td>" + 
 					"<td data-title='Vencimento' class='date'>"+ xCotacao.vigencia +"</td>" +
 					"<td data-title='Valor' class='numeric'>"+ xCotacao.valor +"</td>" +
-					"<td data-title='Opções' class='numeric'>"+
-					    "<button class='btn' style='height: 15px; padding: 0px 0px;' ng-click='editUser(user.id)'>" +
-							"<span class='glyphicon glyphicon-refresh text-success'></span>" +
-						"</button>" +
-					"</td>" +
+					//"<td data-title='Op√ß√µes' class='numeric'>"+
+					//    "<button class='btn btn-edtQuote' style='height: 25px; padding: 0px 0px;' onclick='editQuote("+xCotacao.codigo+"); return false;'>" +
+					//		"<span class='glyphicon glyphicon-search text-success'></span>" +
+					//	"</button>" +
+					//"</td>" +
 				"</tr>" +
 			"</tbody>";
 			
@@ -719,15 +732,16 @@ function pesquisar(){
 		
 		
 		xTable = xTable +
-			"</table>" +
+			"</table>" +			
 		"</div>";
 		
-	
 		$('#result-table').html(xTable);
+		$('.btn-change').show();
 	} else {
 		alert("Nenhum resultado encontrado");
 	}
 }
+
 
 
 

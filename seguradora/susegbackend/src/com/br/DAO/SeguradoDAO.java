@@ -55,8 +55,8 @@ public class SeguradoDAO {
 				
 				ResultSet rs = ps.executeQuery();
 				if(rs.next()){ // Tem segurado, agora devemos carregar as cotacoes
-					
-					PreparedStatement psCot = db.getConnection().prepareStatement("SELECT codigo FROM Cotacao s WHERE codsegurado = " + rs.getInt(1));
+										
+					PreparedStatement psCot = db.getConnection().prepareStatement("SELECT C.codigo FROM suseg_banco.Cotacao C LEFT JOIN suseg_banco.Apolice A ON C.codigo = A.codigocotacao WHERE codsegurado = " + rs.getInt(1) + " and A.codigo IS NULL");
 					ResultSet rsCot = psCot.executeQuery();
 					while(rsCot.next()){
 						cotacoes.add(rsCot.getInt(1));

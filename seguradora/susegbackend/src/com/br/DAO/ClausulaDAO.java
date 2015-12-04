@@ -49,6 +49,7 @@ public class ClausulaDAO {
 				ResultSet rs = ps.executeQuery();
 				if(rs.next()){
 					ClausulaDAO clausula = new ClausulaDAO();
+					clausula.setTipo(tipo);
 					clausula.setCodigo(rs.getInt(1));
 					clausula.setDescricao(rs.getString(2));
 					return clausula;

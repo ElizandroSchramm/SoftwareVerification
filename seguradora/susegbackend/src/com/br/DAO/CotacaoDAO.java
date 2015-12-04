@@ -182,6 +182,7 @@ public class CotacaoDAO {
 				ps.setInt(2, clausula.getCodigo());
 				// Execute the INSERT
 				ps.executeUpdate();
+				this.clausulas.add(clausula.getCodigo());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

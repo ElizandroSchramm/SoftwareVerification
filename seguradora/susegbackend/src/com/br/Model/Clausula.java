@@ -10,8 +10,11 @@ public class Clausula {
 		this.dao = ClausulaDAO.loadFromDB(codigo);
 	}
 	
-	public Clausula(String tipo) {
+	public Clausula(String tipo) throws Exception {
 		this.dao = ClausulaDAO.loadFromDB(tipo);
+		if(dao == null){
+			throw new Exception("Cláusula tipo " + tipo + " não está cadastrada.");
+		}
 	}
 	
 	public String getDescricao(){
@@ -30,6 +33,10 @@ public class Clausula {
 		sb.append(", \"descricao\": \"" + this.dao.getDescricao() + "\"");
 		sb.append("  }");
 		return sb.toString();
+	}
+
+	public ClausulaDAO getDAO() {
+		return this.dao;
 	}
 
 }

@@ -2,7 +2,9 @@ package com.br.Model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 
@@ -13,7 +15,7 @@ public class Cotacao {
 	private CotacaoDAO dao;
 	private List<Condutor> condutores;
 	private List<Veiculo> veiculos;
-	private List<Clausula> clausulas;
+	private Map<String, Clausula> clausulas;
 	
 	public Cotacao() {
 		this.dao = new CotacaoDAO();
@@ -32,9 +34,10 @@ public class Cotacao {
 		for (Integer veiculo : this.dao.getVeiculos()) {
 			this.veiculos.add(new Veiculo(veiculo));
 		}
-		this.clausulas = new ArrayList<Clausula>();
+		this.clausulas = new HashMap<String, Clausula>();
 		for (Integer clausula : this.dao.getClausulas()) {
-			this.clausulas.add(new Clausula(clausula));
+			Clausula c = new Clausula(clausula);
+			this.clausulas.put(c.getTipo(), c);
 		}
 	}
 	
@@ -103,7 +106,7 @@ public class Cotacao {
 	
 	public String clausulasToString(){
 		JSONArray clausulas = new JSONArray();
-		for(Clausula clausula: this.clausulas){
+		for(Clausula clausula: this.clausulas.values()){
 			clausulas.add(clausula);
 		}
 		return "{\"clausulas\":" + clausulas.toJSONString() + "}";
@@ -115,6 +118,12 @@ public class Cotacao {
 	
 	public List<Veiculo> getVeiculos() {
 		return this.veiculos;
+	}
+
+	public void addClausula(Clausula clausula) {
+		if(this.clausulas.put(clausula.getTipo(), clausula) == null) {
+			this.dao.addClausula(clausula.getDAO());
+		}
 	}
 
 }

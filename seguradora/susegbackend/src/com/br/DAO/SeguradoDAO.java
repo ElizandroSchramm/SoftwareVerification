@@ -54,9 +54,13 @@ public class SeguradoDAO {
 				PreparedStatement ps = db.getConnection().prepareStatement("SELECT codigo FROM Segurado s WHERE " + where);
 				
 				ResultSet rs = ps.executeQuery();
-				while(rs.next()){
-					//SeguradoDAO dao = new SeguradoDAO();
-					cotacoes.add(rs.getInt(1));									
+				if(rs.next()){ // Tem segurado, agora devemos carregar as cotacoes
+					
+					PreparedStatement psCot = db.getConnection().prepareStatement("SELECT codigo FROM Cotacao s WHERE codsegurado = " + rs.getInt(1));
+					ResultSet rsCot = psCot.executeQuery();
+					if(rsCot.next()){
+						cotacoes.add(rsCot.getInt(1));
+					}									
 				}		
 			}
 		} catch (SQLException e) {

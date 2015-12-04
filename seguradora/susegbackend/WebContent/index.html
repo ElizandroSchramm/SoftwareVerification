@@ -252,7 +252,13 @@
                                                 <input type="text" name='cnpj' class="form-control" placeholder="00000000000000" value="00000000000000">
                                               </div>
                                         </div>  
-										<div class="col-sm-3">
+                                        <div class="col-sm-5">
+                                             <div class="form-group">
+                                                <label>Telefone</label>
+                                                <input type="text" name='telefonePJ' class="form-control" placeholder="(47) 0000-0000" value="0">
+                                              </div>
+                                        </div>
+										<div class="col-sm-3 col-sm-offset-1">
                                         	<label>Classe de bônus:</label><br>
                                         	<div class="form-group">
                                     			<input type="number" name='classebonusCNPJ' placeholder='0' class="form-control" max='10' min='0' value='0'/>
@@ -481,29 +487,20 @@
                                     </div>
                                     <div class="col-sm-12" style='margin-top: 40px'>
                                         <h5 class="info-text"><b>Dados do veículo</b></h4>
-                                        <div class="col-sm-12 col-sm-offset-3">   
-                                            <label><b>Veículo: </b></label> Chevrolet Celta Lt 1.0 8v Flex
-                                        </div>
-                                        <div class="col-sm-12 col-sm-offset-3">
-                                            <label><b>Ano: </b></label> 2013 <label><b> Modelo: </b></label> 2014
-                                        </div>    
-                                        <div class="col-sm-12 col-sm-offset-3">
-                                            <label><b>Placa: </b></label> ABC-1234
-                                        </div>
-                                        <div class="col-sm-12 col-sm-offset-3">    
-                                            <label><b>Chassi: </b></label> 8DS9GFD09GDF094
-                                        </div>    
-                                        <div class="col-sm-12 col-sm-offset-3">   
-                                            <label><b>Combustível: </b></label> Gasolina/Alcool
-                                        </div>    
-                                        <div class="col-sm-12 col-sm-offset-3">   
-                                            <label><b>Porta: </b></label> 5
-                                        </div>
-                                        <div class="col-sm-12 col-sm-offset-3">   
-                                            <label><b>Uso: </b></label> Particular
-                                        </div>
-                                        <div class="col-sm-12 col-sm-offset-3">   
-                                            <label><b>Código FIPE: </b></label> 432989
+                                        
+                                        <div class='detalhe-veiculos'>
+	                                        <div class="col-sm-12 col-sm-offset-3">   
+	                                            <label><b>Veículo: </b></label> <span class='descVeiculo'></span>
+	                                        </div>
+	                                        <div class="col-sm-12 col-sm-offset-3">
+	                                            <label><b>Ano: </b></label> <span class='descAnoFab'></span><label><b> Modelo: </b></label> <span class='descAnoModel'></span>
+	                                        </div>    
+	                                        <div class="col-sm-12 col-sm-offset-3">
+	                                            <label><b>Placa: </b></label> <span class='descPlaca'></span>
+	                                        </div>
+	                                        <div class="col-sm-12 col-sm-offset-3">    
+	                                            <label><b>Chassi: </b></label> <span class='descChassi'></span>
+	                                        </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12" style='margin-top: 40px'>
@@ -604,7 +601,7 @@
                             </div>
                             
                             <div class="pull-left">
-                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Voltar'/>
+                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Voltar' disabled/>
                             </div>
                             <div class="clearfix"></div>
                         </div>	

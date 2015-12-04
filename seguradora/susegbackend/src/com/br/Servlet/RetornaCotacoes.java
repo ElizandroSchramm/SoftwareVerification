@@ -39,8 +39,8 @@ public class RetornaCotacoes extends HttpServlet {
 			valor = request.getParameter("valor");
 			Segurado segurado = new Segurado();
 			
-			//TODO: Alterar o if para > 11
-			if (valor.length() > 0){
+			//TODO: Alterar o if para == 11
+			if (valor.length() == 11){
 				segurado.loadByCPF(valor);
 				
 			} else {
@@ -55,7 +55,7 @@ public class RetornaCotacoes extends HttpServlet {
 			out.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(500, "Par‰metro n‹o informado.");
+			response.sendError(500, "Parï¿½metro nï¿½o informado.");
 		}
 		
 	}

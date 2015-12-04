@@ -32,8 +32,8 @@ public class GravaSegurado extends HttpServlet {
 			nome = request.getParameter("nome");
 			cpf = request.getParameter("cpf");
 			cnpj  = request.getParameter("cnpj");
+			telefone = request.getParameter("telefone");
 			if(cpf != null){
-				telefone = request.getParameter("telefone");
 				sexo = request.getParameter("sexo");
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				dataNascimento = new Date(sdf.parse(request.getParameter("dataNascimento")).getTime()); 

@@ -117,6 +117,7 @@ $(document).ready(function(){
 						carregaSegurado(xCodigoSegurado);
 						carregaLocalizacao(xCodigoLoc);
 						carregaValores();
+						carregaDetalheVeiculos();
 					} else {
 						$(wizard).find('.btn-next').show();
 						$(wizard).find('.btn-finish').hide();
@@ -541,8 +542,9 @@ function saveSegurado(){
 			var xIE          = $("input[name='ie']").val();
 			var xCNPJ        = $("input[name='cnpj']").val();
 			xBonus           = $("input[name='classebonusCNPJ']").val();
+			var xTelefone    = $("input[name='telefonePJ']").val();
 
-			params = "nome=" + xNomeEmpresa + "&cnpj=" + xCNPJ + "&ie=" + xIE + "&bonus=" + xBonus;
+			params = "nome=" + xNomeEmpresa + "&cnpj=" + xCNPJ + "&ie=" + xIE + "&bonus=" + xBonus + "&telefone=" + xTelefone;
 		}
 	}
 	
@@ -759,6 +761,62 @@ function carregarCotacaoParaCampos(aCodCotacao){
 
 }
 
+function carregaDetalheVeiculos(){
+	
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaVeiculos?cotacao=" + xCodigoCotacao);
+	xVeiculoCarregado = true;
+	var obgVeiculos = JSON.parse(xReturn);
+	
+	if (obgVeiculos.veiculos.length == 1){
+		var veiculo = obgVeiculos.veiculos[0];
+		
+		$(".descVeiculo").text(veiculo.modelo);
+		$(".descAnoFab").text(veiculo.anoFabricacao);
+		$(".descAnoModel").text(veiculo.anoModelo);
+		$(".descPlaca").text(veiculo.placa);
+		$(".descChassi").text(veiculo.chassi);
+		
+	}else{
+		$(".detalhe-veiculos").html('');		
+		xTable = "<div id='no-more-tables'>" + 
+		"<table class='col-md-10 col-sm-offset-1 table-bordered table-striped table-condensed cf' style='margin-bottom: 15px;'>" +
+			"<thead class='cf'>" +
+				"<tr>" +
+					"<th>Modelo</th>" +
+					"<th>Fabricação</th>" + 
+					"<th>Ano Modelo</th>" +
+					"<th>Placa</th>" +
+					"<th>Chassi</th>" +
+					//"<th>Opções</th>" +
+				"</tr>" +
+			"</thead>";
+		
+		for (var i = 0, len = obgVeiculos.veiculos.length; i < len; ++i) {
+			var veiculo = obgVeiculos.veiculos[i];
+			
+			xDiv = 
+				"<tbody>" +
+					"<tr>" +				
+						"<td data-title='Modelo'>"+ veiculo.modelo +"</td>" +
+						"<td data-title='Fabricação'>"+ veiculo.anoFabricacao +"</td>" +
+						"<td data-title='Ano Modelo'>"+ veiculo.anoModelo +"</td>" + 
+						"<td data-title='Placa'>"+ veiculo.placa +"</td>" +
+						"<td data-title='Chassi'> "+ veiculo.chassi +"</td>" +
+					"</tr>" +
+				"</tbody>";
+				
+			xTable = xTable + xDiv;
+		}				
+			
+		xTable = xTable +
+			"</table>" +			
+		"</div>";
+			
+		$(".detalhe-veiculos").html(xTable);				
+	}
+
+}
+
 function carregaValores(){	
 	xReturn = httpGet("http://localhost:8080/susegbackend/CalculaValoresPremio?codigoCotacao=" + xCodigoCotacao);
 	
@@ -937,7 +995,7 @@ function carregaModelosParaCombo(){
     xMarca = $('.carBrand').find(":selected").text();
     xAnoModelo = $("input[name='anomodelo']:checked").val();
     xReturn = httpGet("http://localhost:8080/susegbackend/RetornaDadosFIPE?acao=veiculos&marca=" + xMarca + "&anomodelo=" + xAnoModelo);    	
-	alert(xReturn);
+	//alert(xReturn);
 	var modelos = JSON.parse(xReturn);
 	
 	$("select[name='carModel']").empty().append($('<option>', {

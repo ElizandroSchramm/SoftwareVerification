@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONArray;
+
 import com.br.DAO.SeguradoDAO;
 
 public class Segurado {
@@ -58,14 +60,12 @@ public class Segurado {
 	}	
 	
 	public String getCotacoes(){
-		StringBuilder sb = new StringBuilder();
+		JSONArray JSONcotacoes = new JSONArray();
 
-		sb.append("{\"cotacoes\":[");
 		for (Cotacao cotacao: cotacoes){
-			sb.append(cotacao);			
+			JSONcotacoes.add(cotacao);
 		}
-		sb.append("]}");
-		return sb.toString();
+		return "{\"cotacoes\":" + JSONcotacoes.toJSONString() + "}";
 	}
 	
 	public int save(){

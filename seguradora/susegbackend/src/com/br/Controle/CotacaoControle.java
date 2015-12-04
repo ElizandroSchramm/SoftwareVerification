@@ -106,7 +106,7 @@ public class CotacaoControle {
 			sb.append("{\"descricao\":\"" + p + " com mais de 10 anos\",\"valor\":\"" + this.valoresPelaIdade + "\"},");
 		}
 		sb.append("{\"id\":\"1\",\"descricao\":\"Valor do prêmio\",\"valor\":\"" + valorPremio + "\"},");
-		sb.append("{\"id\":\"2\",\"descricao\":\"Valor do prêmio\",\"valor\":\"" + this.calculaFranquia(valorPremio) + "\"}");
+		sb.append("{\"id\":\"2\",\"descricao\":\"Valor da franquia\",\"valor\":\"" + this.calculaFranquia(valorPremio) + "\"}");
 		sb.append("]}");
 		return sb.toString();
 	}

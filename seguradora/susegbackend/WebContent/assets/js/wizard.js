@@ -258,12 +258,16 @@ $(document).ready(function(){
     $('.franquia').change(function(){
     	xValor = 0;
     	xValorBase = $('.valorbase').text();
+    	xTotalFranquia = xTotalFranquiaOriginal;
     	if ($(".franquia:checked").val() == "R"){
         	xValor = xValorBase * 0.05;
+        	xTotalFranquia = xTotalFranquia * 0.85;
         	$('.valorFranquia').text(" + R$" + parseFloat(xValor).toFixed(2));    		
     	}else{
     		if ($(".franquia:checked").val() == "50"){
             	xValor = xValorBase * 0.15;
+            	xTotalFranquia = xTotalFranquia * 0.50;
+            	
             	$('.valorFranquia').text(" + R$" + parseFloat(xValor).toFixed(2));
     		} else {	
     			$('.valorFranquia').text(" + R$0");
@@ -272,6 +276,9 @@ $(document).ready(function(){
 
     	xValorFranquia = xValor;
     	atualizaValores();    	
+    	
+    	
+    	$('.valortotalfranquia').text(parseFloat(xTotalFranquia).toFixed(2));
     });  
     
     $('.servicos24').change(function(){
@@ -830,13 +837,20 @@ function carregaValores(){
 	for (var i = 0, len = obj.valores.length; i < len; ++i) {
 		var xDetalhe = obj.valores[i];
 		
-		if (xDetalhe.id == 1){
+		if (xDetalhe.id == 1){ // É valor do premio
 			xValorPremio = xDetalhe.valor;
+		}
+		
+		classe = '';
+		if (xDetalhe.id == 2){ // É valor da franquia
+			xValorFranquia = xDetalhe.valor;
+			xTotalFranquiaOriginal = xValorFranquia;
+			classe = "class='valortotalfranquia'";
 		}
 		
 		xDiv = "<div class='col-sm-12 col-sm-offset-3'>";
 		xDiv = xDiv + "<b>" + xDetalhe.descricao + "</b>";
-		xDiv = xDiv + ": R$" + parseFloat(xDetalhe.valor).toFixed(2);
+		xDiv = xDiv + ": R$<span " + classe + ">" + parseFloat(xDetalhe.valor).toFixed(2); + "</span>";
 		xDiv = xDiv + "</div>";
 
 		$(".detalhesValores").html($(".detalhesValores").html() + xDiv);

@@ -15,7 +15,7 @@ public class Veiculo {
 	public Veiculo(int codigo) throws Exception{
 		this.dao = VeiculoDAO.loadFromDB(codigo);
 		if(this.dao == null){
-			throw new Exception("Veículo não encontrada.");
+			throw new Exception("Ve√≠culo n√£o encontrada.");
 		}
 	}
 	
@@ -88,7 +88,7 @@ public class Veiculo {
 		return sb.toString();
 	}
 	
-	//TODO: o cara que retornar os veículos da cotação fará um loop pelos veículos igual a esse aqui:	
+	//TODO: o cara que retornar os veÔøΩculos da cotaÔøΩÔøΩo farÔøΩ um loop pelos veÔøΩculos igual a esse aqui:	
 //	@Override
 //	public String toString() {
 //		StringBuilder sb = new StringBuilder();

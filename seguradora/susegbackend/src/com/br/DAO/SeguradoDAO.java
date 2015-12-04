@@ -58,7 +58,7 @@ public class SeguradoDAO {
 					
 					PreparedStatement psCot = db.getConnection().prepareStatement("SELECT codigo FROM Cotacao s WHERE codsegurado = " + rs.getInt(1));
 					ResultSet rsCot = psCot.executeQuery();
-					if(rsCot.next()){
+					while(rsCot.next()){
 						cotacoes.add(rsCot.getInt(1));
 					}									
 				}		

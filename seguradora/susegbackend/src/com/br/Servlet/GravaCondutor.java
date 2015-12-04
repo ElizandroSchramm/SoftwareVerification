@@ -31,9 +31,8 @@ public class GravaCondutor extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
-			String nome, cpf, sexo, casado, temFilho;
+			String nome, cpf, sexo, casado, temFilho, codigo;
 			int idade, cotacao;
-			int codigo = -1;
 			nome = request.getParameter("nome");
 			cpf = request.getParameter("cpf");
 			casado = request.getParameter("casado");
@@ -41,15 +40,15 @@ public class GravaCondutor extends HttpServlet {
 			sexo = request.getParameter("sexo");
 			idade = Integer.parseInt(request.getParameter("idade"));
 			cotacao = Integer.parseInt(request.getParameter("cotacao"));
-			codigo = Integer.parseInt(request.getParameter("codigo"));
+			codigo = request.getParameter("codigo");
 			if(nome == null || cpf == null || sexo == null){
 				throw new Exception();
 			}
 			Condutor condutor;
-			if (codigo == -1){
+			if ((codigo == null) || (codigo == "")){
 				condutor = new Condutor();				
 			}else{
-				condutor = new Condutor(codigo);				
+				condutor = new Condutor(Integer.parseInt(codigo));				
 			}
 			condutor.setCotacao(cotacao);
 			condutor.setDados(nome, cpf, sexo, idade);

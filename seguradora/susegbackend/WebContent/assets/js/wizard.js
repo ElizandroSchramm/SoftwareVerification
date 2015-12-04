@@ -1,5 +1,6 @@
 searchVisible = 0;
 transparent = true;
+xVeiculoCarregado = false;
 
 $(document).ready(function(){
 	// xCodigoLoc - C�digo da localiza��o, ser� salvo na cota��o ao final.
@@ -52,7 +53,8 @@ $(document).ready(function(){
 	            } else {
 	            	if (index == 3){ // Segurado 
 	            		//alert(xCodigoLoc);
-		                saveSegurado();
+		                saveSegurado();		                
+	            		$('.btn-next').attr("disabled", !xVeiculoCarregado);
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
 		            	if (index == 4){ // Ve�culo 
@@ -216,25 +218,7 @@ $(document).ready(function(){
 
     $('.modelYear').change(function(){
         $('.aftermodelyear').fadeIn('slow'); 
-        
-        xMarca = $('.carBrand').find(":selected").text();
-        xAnoModelo = $("input[name='anomodelo']:checked").val();
-        xReturn = httpGet("http://localhost:8080/susegbackend/RetornaDadosFIPE?acao=veiculos&marca=" + xMarca + "&anomodelo=" + xAnoModelo);    	
-    	alert(xReturn);
-    	var modelos = JSON.parse(xReturn);
-    	
-		$("select[name='carModel']").empty().append($('<option>', {
-			value: '',
-			text: 'Selecione'
-		}));				
-		for (var i = 0, len = modelos.veiculos.length; i < len; ++i) {
-			var veiculo = modelos.veiculos[i];	
-			
-			$("select[name='carModel']").append($('<option>', {
-				value: veiculo.codigofipe,
-				text: veiculo.nome
-			}));		
-		}	
+        carregaModelosParaCombo();	
     });
     
     $('.carroreserva').change(function(){
@@ -459,7 +443,7 @@ function saveCondutores(){
 		var xCondCodigo = $("span[name='spanCodCond" + i + "']").val();
 		
 		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=' + xCodigoCotacao;
-		if (typeof xCondCodigo !== 'undefined'){
+		if (xCondCodigo !== ''){
 			params = params + '&codigo=' + xCondCodigo;
 		}
 		
@@ -515,9 +499,14 @@ function saveVeiculo(){
 	xRenavam  = $("input[name='renavam']").val();
 	xCor      = $("input[name='cor']").val();
 	xMediaKM  = $("input[name='mediaKM']").val();
+	xCodVei   = $('#codigoVeiculoCarregado').val();
 	
 	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao + "&codigofipe=" + xCodFipe;
-
+	
+	if (typeof xCodVei !== 'undefined'){
+		params = params + '&codigo=' + xCodVei;
+	}
+	
 	//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&idcotacao=1&marca=GM&cotacao=1
 	//alert(params);
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaVeiculo?" + params);
@@ -712,7 +701,47 @@ function carregaCondutores(aCodCotacao){
 			}	
 		}		
 	}
+}
 
+function carregaVeiculo(aCodCotacao){
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaVeiculos?cotacao=" + aCodCotacao);
+	xVeiculoCarregado = true;
+	var obgVeiculos = JSON.parse(xReturn);
+	
+	//$(".detalhesValores").html('');
+	for (var i = 0, len = obgVeiculos.veiculos.length; i < len; ++i) {
+		var veiculo = obgVeiculos.veiculos[i];
+		
+		$('#codigoVeiculoCarregado').val(veiculo.codigo);
+		$(".carBrand option").filter(function() {
+			return this.text == veiculo.marca; 
+		}).attr('selected', true);
+		$(".fabYear option").filter(function() {
+			return this.text == veiculo.anoFabricacao; 
+		}).attr('selected', true);    
+		
+		$('.anomodelo01').text("  "+$('.fabYear').find(":selected").text());
+		$('#anomodelo01').val($('.fabYear').find(":selected").text());
+		var xYear = parseInt($('.fabYear').find(":selected").text()) + 1;
+		$('.anomodelo02').text("  "+xYear);
+		$('#anomodelo02').val(xYear);		
+		$("input[value='" + veiculo.anoModelo + "']").attr('checked','true');
+		
+		carregaModelosParaCombo();		
+		$("select[name='carModel'] option").filter(function() {
+			return this.text == veiculo.modelo; 
+		}).attr('selected', true);
+
+		$("input[name='placa']").val(veiculo.placa);
+		$("input[name='chassi']").val(veiculo.chassi);
+		$("input[name='cor']").val(veiculo.cor);
+		$("input[name='renavam']").val(veiculo.renavam);
+		$("input[name='mediaKM']").val(veiculo.mediaKMMes);
+		
+		$('.fabYear').show();
+	    $('.modelYear').show();   		
+	    $('.aftermodelyear').show();
+	}
 }
 
 function carregarCotacaoParaCampos(aCodCotacao){
@@ -726,38 +755,8 @@ function carregarCotacaoParaCampos(aCodCotacao){
 	carregaLocalizacao(xCotacao.codigoLoc);
 	carregaSegurado(xCotacao.codigoSeg);
 	carregaCondutores(aCodCotacao);
-	/*
+	carregaVeiculo(aCodCotacao);
 
-		if (xTipoPessoa == "pj"){
-			var xNomeEmpresa = $("input[name='nomeempresa']").val();
-			var xIE          = $("input[name='ie']").val();
-			var xCNPJ        = $("input[name='cnpj']").val();
-			xBonus           = $("input[name='classebonusCNPJ']").val();
-
-	if (xTipoPessoa == "pf"){
-		var xNomeSegurado = $("input[name='nomesegurado']").val();
-		var xDataNasc     = $("input[name='datanasc']").val();
-		var xCPF          = $("input[name='cpf']").val();
-		var xTelefone     = $("input[name='telefone']").val();
-		var xSexo         = $("input[name='sexo']:checked").val();
-		xBonus            = $("input[name='classebonus']").val();
-
-
-
-	xMarca    = $(".carBrand option:selected").val();
-	xAnoFab   = $(".fabYear option:selected").val();
-	xAnoModel = $("input[name='anomodelo']:checked").val();
-	xCarModel = $("select[name='carModel'] option:selected").val();
-	xPlaca    = $("input[name='placa']").val();
-	xChassi   = $("input[name='chassi']").val();
-	xRenavam  = $("input[name='renavam']").val();
-	xCor      = $("input[name='cor']").val();
-	xMediaKM  = $("input[name='mediaKM']").val();
-
-
-
-		
-*/		
 }
 
 function carregaValores(){	
@@ -932,4 +931,25 @@ function carregaMarcas(){
 			text: marca.marca
 		}));		
 	}	
+}
+
+function carregaModelosParaCombo(){
+    xMarca = $('.carBrand').find(":selected").text();
+    xAnoModelo = $("input[name='anomodelo']:checked").val();
+    xReturn = httpGet("http://localhost:8080/susegbackend/RetornaDadosFIPE?acao=veiculos&marca=" + xMarca + "&anomodelo=" + xAnoModelo);    	
+	alert(xReturn);
+	var modelos = JSON.parse(xReturn);
+	
+	$("select[name='carModel']").empty().append($('<option>', {
+		value: '',
+		text: 'Selecione'
+	}));				
+	for (var i = 0, len = modelos.veiculos.length; i < len; ++i) {
+		var veiculo = modelos.veiculos[i];	
+		
+		$("select[name='carModel']").append($('<option>', {
+			value: veiculo.codigofipe,
+			text: veiculo.nome
+		}));		
+	}
 }

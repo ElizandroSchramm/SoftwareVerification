@@ -88,6 +88,18 @@ public class Cotacao {
 		}
 		return "{\"condutores\":" + condutores.toJSONString() + "}";
 	}
+
+	public String veiculosToString(){
+		JSONArray veiculos = new JSONArray();
+		for (Veiculo veiculo: this.veiculos) {
+			try{
+				veiculos.add(veiculo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
+		return "{\"veiculos\":" + veiculos.toJSONString() + "}";
+	}
 	
 	public String clausulasToString(){
 		JSONArray clausulas = new JSONArray();

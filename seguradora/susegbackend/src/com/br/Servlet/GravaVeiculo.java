@@ -31,7 +31,7 @@ public class GravaVeiculo extends HttpServlet {
 			//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&marca=GM&cotacao=1
 			//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&codigofipe=008153-1&placa=ABC-1234&renavam=abc123&cotacao=1
 			int anoFabricacao, anoModelo, mediaKMMes, cotacao;
-			String chassi, cor, placa, renavam, codigoFipe;
+			String chassi, cor, placa, renavam, codigoFipe, codigo;
 			chassi = request.getParameter("chassi");
 			cor = request.getParameter("cor");
 			placa = request.getParameter("placa");
@@ -41,10 +41,16 @@ public class GravaVeiculo extends HttpServlet {
 			anoModelo = Integer.parseInt(request.getParameter("anomodelo"));
 			mediaKMMes = Integer.parseInt(request.getParameter("mediakmmes"));
 			cotacao= Integer.parseInt(request.getParameter("cotacao"));
+			codigo = request.getParameter("codigo");
 			if(codigoFipe == null){
 				throw new Exception();
 			}
-			Veiculo veiculo = new Veiculo(codigoFipe, anoModelo, anoFabricacao);
+			Veiculo veiculo;
+			if ((codigo == null) || (codigo == "")){
+				veiculo = new Veiculo(codigoFipe, anoModelo, anoFabricacao);				
+			}else{
+				veiculo = new Veiculo(Integer.parseInt(codigo));				
+			}
 			veiculo.setCotacao(cotacao);
 			veiculo.setRegistros(chassi, cor, placa, renavam, mediaKMMes);
 			veiculo.save();

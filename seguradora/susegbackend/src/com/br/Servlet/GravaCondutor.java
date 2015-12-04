@@ -33,17 +33,24 @@ public class GravaCondutor extends HttpServlet {
 			//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
 			String nome, cpf, sexo, casado, temFilho;
 			int idade, cotacao;
+			int codigo = -1;
 			nome = request.getParameter("nome");
 			cpf = request.getParameter("cpf");
 			casado = request.getParameter("casado");
 			temFilho = request.getParameter("temFilho");
 			sexo = request.getParameter("sexo");
 			idade = Integer.parseInt(request.getParameter("idade"));
-			cotacao= Integer.parseInt(request.getParameter("cotacao"));
+			cotacao = Integer.parseInt(request.getParameter("cotacao"));
+			codigo = Integer.parseInt(request.getParameter("codigo"));
 			if(nome == null || cpf == null || sexo == null){
 				throw new Exception();
 			}
-			Condutor condutor = new Condutor();
+			Condutor condutor;
+			if (codigo == -1){
+				condutor = new Condutor();				
+			}else{
+				condutor = new Condutor(codigo);				
+			}
 			condutor.setCotacao(cotacao);
 			condutor.setDados(nome, cpf, sexo, idade);
 			condutor.setSituacao(casado, temFilho);
@@ -54,7 +61,7 @@ public class GravaCondutor extends HttpServlet {
 			out.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(500, "Par‰metro n‹o informado.");
+			response.sendError(500, "Parï¿½metro nï¿½o informado.");
 		}
 	}
 

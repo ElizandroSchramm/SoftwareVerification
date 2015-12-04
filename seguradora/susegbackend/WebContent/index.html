@@ -327,7 +327,18 @@
                                                 <option value="2012">2012</option>
                                                 <option value="2011">2011</option>
                                                 <option value="2010">2010</option>
-                                                <option value="...">...</option>
+                                                <option value="2014">2009</option>
+                                                <option value="2013">2008</option>
+                                                <option value="2012">2007</option>
+                                                <option value="2011">2006</option>
+                                                <option value="2010">2005</option>
+                                                <option value="2012">2004</option>
+                                                <option value="2011">2003</option>
+                                                <option value="2010">2002</option>
+                                                <option value="2010">2001</option>
+                                                <option value="2012">2000</option>
+                                                <option value="2011">1999</option>
+                                                <option value="2010">1998</option>
                                             </select>
                                           </div>
                                     </div>
@@ -335,8 +346,8 @@
                                     <div class="col-sm-6 col-sm-offset-1">
                                          <div class="form-group modelYear">
                                             <label>Ano de modelo</label><br>                                             
-                                                <input type='radio' name='anomodelo' value='2014'><span class='anomodelo01'></span>&nbsp&nbsp
-                                                <input type="radio" name="anomodelo" value="2015"><span class='anomodelo02'></span>&nbsp&nbsp
+                                                <input type='radio' name='anomodelo' id='anomodelo01' value='0'><span class='anomodelo01'></span>&nbsp&nbsp
+                                                <input type="radio" name="anomodelo" id='anomodelo02' value="1"><span class='anomodelo02'></span>&nbsp&nbsp
                                           </div>
                                     </div>
 
@@ -419,7 +430,7 @@
 													</thead>
 													<tbody>
 														<tr id='addr0'>
-															<td>1</td>
+															<td>1<span name='spanCodCond0' hidden></td>
 															<td style='width: 210px'><input type="text" name='name0'  placeholder='Name' class="form-control" size='60' value='aaaa'/></td>
 															<td><input type="text" name='cpf0'  placeholder='000.000.000-00' class="form-control" size='60' maxlength='14' value='123'/></td>
 															<td style='width: 85px'><input type="number" name='idade0' placeholder='Idade' class="form-control" max='99' min='18' value='18'/></td>
@@ -593,7 +604,7 @@
                             </div>
                             
                             <div class="pull-left">
-                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Voltar' disabled/>
+                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Voltar'/>
                             </div>
                             <div class="clearfix"></div>
                         </div>	

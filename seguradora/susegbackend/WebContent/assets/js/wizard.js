@@ -27,6 +27,7 @@ $(document).ready(function(){
         'previousSelector': '.btn-previous',
          
          onInit : function(tab, navigation, index){
+        	 carregaMarcas();
             
            //check number of tabs and fill the entire row
            var $total = navigation.find('li').length;
@@ -91,8 +92,10 @@ $(document).ready(function(){
 
             if($current == 1) {
                 $(wizard).find('.btn-next').hide();
+				$('.btn-previous').hide();
             } else { 					
 				if($current == 2) {
+					$('.btn-previous').hide();
 					$(wizard).find('.btn-next').show();
 					var codcotacaoSelecionada = $("input[name='pesqOpt']:checked").val();
 					if (codcotacaoSelecionada > -1){
@@ -103,6 +106,7 @@ $(document).ready(function(){
 					}
 						
 				} else {
+					$('.btn-previous').show();
 					// If it's the last tab then hide the last button and show the finish instead
 					if($current >= $total) {
 						$(wizard).find('.btn-next').hide();
@@ -204,17 +208,33 @@ $(document).ready(function(){
         }    
 		
 		$('.anomodelo01').text("  "+$('.fabYear').find(":selected").text());
+		$('#anomodelo01').val($('.fabYear').find(":selected").text());
 		var xYear = parseInt($('.fabYear').find(":selected").text()) + 1;
 		$('.anomodelo02').text("  "+xYear);
+		$('#anomodelo02').val(xYear);
     });
 
     $('.modelYear').change(function(){
         $('.aftermodelyear').fadeIn('slow'); 
-		
-		$("select[name='carModel']").append($('<option>', {
-			value: 1,
-			text: 'My option'
-		}));
+        
+        xMarca = $('.carBrand').find(":selected").text();
+        xAnoModelo = $("input[name='anomodelo']:checked").val();
+        xReturn = httpGet("http://localhost:8080/susegbackend/RetornaDadosFIPE?acao=veiculos&marca=" + xMarca + "&anomodelo=" + xAnoModelo);    	
+    	alert(xReturn);
+    	var modelos = JSON.parse(xReturn);
+    	
+		$("select[name='carModel']").empty().append($('<option>', {
+			value: '',
+			text: 'Selecione'
+		}));				
+		for (var i = 0, len = modelos.veiculos.length; i < len; ++i) {
+			var veiculo = modelos.veiculos[i];	
+			
+			$("select[name='carModel']").append($('<option>', {
+				value: veiculo.codigofipe,
+				text: veiculo.nome
+			}));		
+		}	
     });
     
     $('.carroreserva').change(function(){
@@ -436,11 +456,15 @@ function saveCondutores(){
 		var xCondSexo   = $("input[name='sexo" + i + "']:checked").val();
 		var xCondFilhos = $("input[name='filho" + i + "']:checked").val();
 		var xCondCasado = $("input[name='casado" + i + "']:checked").val();
+		var xCondCodigo = $("span[name='spanCodCond" + i + "']").val();
 		
-		//TODO: Passar o código do condutor caso esteja alterando uma cotação
+		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=' + xCodigoCotacao;
+		if (typeof xCondCodigo !== 'undefined'){
+			params = params + '&codigo=' + xCondCodigo;
+		}
 		
 		//GravaCondutor?nome=Paulo&cpf=456.789.123-20&idade=27&sexo=M&temFilho=N&casado=S&cotacao=1
-		params = 'nome=' + xCondNome + '&cpf=' + xCondCPF + '&idade=' + xCondIdade + '&sexo=' + xCondSexo + '&temFilho=' + xCondFilhos + '&casado=' + xCondCasado + '&cotacao=' + xCodigoCotacao;
+		
 		xReturn = httpGet("http://localhost:8080/susegbackend/GravaCondutor?" + params);
 		//alert(xReturn);
 		
@@ -485,15 +509,14 @@ function saveVeiculo(){
 	xMarca    = $(".carBrand option:selected").val();
 	xAnoFab   = $(".fabYear option:selected").val();
 	xAnoModel = $("input[name='anomodelo']:checked").val();
-	xCarModel = $("select[name='carModel'] option:selected").val();
+	xCodFipe  = $("select[name='carModel'] option:selected").val();
 	xPlaca    = $("input[name='placa']").val();
 	xChassi   = $("input[name='chassi']").val();
 	xRenavam  = $("input[name='renavam']").val();
 	xCor      = $("input[name='cor']").val();
 	xMediaKM  = $("input[name='mediaKM']").val();
-	xCodFipe  = '0';
 	
-	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&modelo=" + xCarModel + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao + "&codigofipe=" + xCodFipe;
+	params = "anofabricacao=" + xAnoFab + "&anomodelo=" + xAnoModel + "&chassi=" + xChassi + "&cor=" + xCor + "&mediakmmes=" + xMediaKM + "&placa=" + xPlaca + "&renavam=" + xRenavam + "&marca=" + xMarca + "&cotacao=" + xCodigoCotacao + "&codigofipe=" + xCodFipe;
 
 	//GravaVeiculo?anofabricacao=2013&anomodelo=2014&chassi=12345678&cor=Preto&mediakmmes=500&modelo=Celta&placa=ABC-1234&renavam=abc123&idcotacao=1&marca=GM&cotacao=1
 	//alert(params);
@@ -663,6 +686,7 @@ function carregaCondutores(aCodCotacao){
 		if (i > 0){
 			addDriverLine();
 		}		
+		$("span[name='spanCodCond" + i + "']").val(xCondutor.codigo);
 		$("input[name='name" + i + "']").val(xCondutor.nome);
 		$("input[name='cpf" + i + "']").val(xCondutor.cpf);
 		$("input[name='idade" + i + "']").val(xCondutor.idade);
@@ -817,7 +841,7 @@ function editQuote(codigo){
 var i=1;
 function addDriverLine(){
 	//$('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Name' class='form-control input-md'  /> </td><td><input  name='idade"+i+"' type='text' placeholder='Idade'  class='form-control input-md' max='99' min='0'></td><td><input  name='sexo"+i+"' type='radio' value='M' checked style='margin-top: 13px'> Masculino <input  name='sexo"+i+"' type='radio' value='F'> Feminino</td>");
-	$('#addr'+i).html("<td>"+ (i+1) +"<td style='width: 210px'><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60' maxlength='14'/></td><td style='width: 85px'><input type='number' name='idade"+i+"' placeholder='Idade' class='form-control' max='99' min='18' value='18'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' checked style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> Não</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> Não</td>");
+	$('#addr'+i).html("<td>"+ (i+1) +"<span name='spanCodCond"+i+"' hidden></td><td style='width: 210px'></span><input type='text' name='name"+i+"' placeholder='Name' class='form-control' size='60'/></td><td><input type='text' name='cpf"+i+"' placeholder='000.000.000-00' class='form-control' size='60' maxlength='14'/></td><td style='width: 85px'><input type='number' name='idade"+i+"' placeholder='Idade' class='form-control' max='99' min='18' value='18'/></td><td style='width: 100px'><input type='radio' name='sexo"+i+"' value='M' checked style='margin-top: 0px'/> Masculino <br><input type='radio' name='sexo"+i+"' value='F' /> Feminino</td><td style='width: 80px'><input type='radio' name='filho"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='filho"+i+"' value='N' /> Não</td><td style='width: 80px'><input type='radio' name='casado"+i+"' value='S' checked style='margin-top: 0px'/> Sim <br><input type='radio' name='casado"+i+"' value='N' /> Não</td>");
 			
 	
 	$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
@@ -890,4 +914,22 @@ function pesquisar(){
 	}
 }
 
-
+function carregaMarcas(){
+	xReturn = httpGet("http://localhost:8080/susegbackend/RetornaDadosFIPE?acao=marcas");
+	
+	//alert(xReturn);
+	var marcas = JSON.parse(xReturn);
+	
+	$("select[name='carBrand']").empty().append($('<option>', {
+		value: '',
+		text: 'Selecione'
+	}));		;
+	for (var i = 0, len = marcas.marcas.length; i < len; ++i) {
+		var marca = marcas.marcas[i];	
+		
+		$("select[name='carBrand']").append($('<option>', {
+			value: marca.marca,
+			text: marca.marca
+		}));		
+	}	
+}

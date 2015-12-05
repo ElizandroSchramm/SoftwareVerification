@@ -193,6 +193,8 @@ $(document).ready(function(){
 		//alert(xCodigoLoc);
     	saveCotacao(xCodigoLoc, xCodigoSegurado);
     	alert('A cotação foi salva com sucesso!');
+
+		location.reload();
     });
     
     $("input[name='Pesquisar']").click(function(){

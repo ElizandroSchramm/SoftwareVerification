@@ -40,7 +40,7 @@ public class RetornaCotacoes extends HttpServlet {
 			Segurado segurado = new Segurado();
 			
 			//TODO: Alterar o if para == 11
-			if (valor.length() > 0){
+			if (valor.length() == 11){
 				segurado.loadByCPF(valor);
 				
 			} else {

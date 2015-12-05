@@ -74,15 +74,20 @@ public class RelatorioDAO {
 				Date vigencia = null;
 				String nomeSegurado = "", cpf_cnpj = "";
 				//cabeçalho
-				sb.append("<!DOCTYPE html><html><body>");
+				sb.append("<!DOCTYPE html><html><body>");				
 				sb.append("<h2>Relatório com as apólices para vencer em " + dias + " dias</h2><hr>");
-				sb.append("<table border=1>");
+				sb.append("<link href='assets/css/gsdk-base.css' rel='stylesheet' />");
+				sb.append("<link href='assets/css/bootstrap.min.css' rel='stylesheet' />");
+				sb.append("<div id='no-more-tables'>");
+				sb.append("<table border=1 class='col-md-10 col-sm-offset-1 table-bordered table-striped table-condensed cf'>");
+				sb.append("<thead class='cf'>");
 				sb.append("<tr><td>Apólice</td>");
 				sb.append("<td>Valor Prêmio</td>");
 				sb.append("<td>Vigência</td>");
 				sb.append("<td>Nome Segurado</td>");
 				sb.append("<td>CPF/CNPJ Segurado</td>");
 				sb.append("<td>Veículo(s)</td></tr>");
+				sb.append("</thead>");
 				while(rs.next()){
 					sb.append("<tr>");
 					codigoApolice = rs.getInt(1);
@@ -103,6 +108,7 @@ public class RelatorioDAO {
 					sb.append("</tr>");
 				}
 				sb.append("</table><hr></body></html>");
+				sb.append("</div>");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

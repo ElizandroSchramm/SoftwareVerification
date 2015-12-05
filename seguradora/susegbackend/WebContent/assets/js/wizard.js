@@ -3,9 +3,9 @@ transparent = true;
 xVeiculoCarregado = false;
 
 $(document).ready(function(){
-	// xCodigoLoc - C�digo da localiza��o, ser� salvo na cota��o ao final.
-	// xCodigoSegurado - C�digo do segurado, ser� salvo na cota��o ao final.
-	// xCodigoCotacao - C�digo da cota��o corrente, usado para fazer UPDATE no final
+	// xCodigoLoc - Codigo da localizacao, sera salvo na cotacao ao final.
+	// xCodigoSegurado - Codigo do segurado, sera salvo na cotacao ao final.
+	// xCodigoCotacao - Codigo da cotacao corrente, usado para fazer UPDATE no final
 
 	xValorCarro = 0;
 	xValorVidros = 0; 
@@ -200,6 +200,10 @@ $(document).ready(function(){
     $("input[name='Pesquisar']").click(function(){
     	//alert('aaa');
 		pesquisar();
+    });
+    
+    $("input[name='Gerar']").click(function(){
+    	gerarRelatorio();
     });
 
     $('.fabYear').change(function(){
@@ -988,6 +992,10 @@ function pesquisar(){
 	} else {
 		alert("Nenhum resultado encontrado");
 	}
+}
+
+function gerarRelatorio(){
+	window.open("http://localhost:8080/susegbackend/ListarApolicesVencendo?dias=" + $("input[name='dias']").val());
 }
 
 function carregaMarcas(){

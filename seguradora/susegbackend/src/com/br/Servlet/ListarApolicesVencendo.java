@@ -29,7 +29,7 @@ public class ListarApolicesVencendo extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int dias = 400;
+		int dias = Integer.parseInt(request.getParameter("dias"));
 		PrintWriter out = response.getWriter();
 		out.print(RelatorioDAO.loadApolicesVencendo(dias));
 		out.flush();

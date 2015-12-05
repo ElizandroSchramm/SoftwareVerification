@@ -53,7 +53,8 @@ $(document).ready(function(){
 	            } else {
 	            	if (index == 3){ // Segurado 
 	            		//alert(xCodigoLoc);
-		                saveSegurado();		                
+		                saveSegurado();		
+		                saveCotacao(xCodigoLoc, xCodigoSegurado);
 	            		$('.btn-next').attr("disabled", !xVeiculoCarregado);
 		                //alert('Os dados do segurado foram salvos.');
 	            	} else {
@@ -192,6 +193,8 @@ $(document).ready(function(){
 		//alert(xCodigoLoc);
     	saveCotacao(xCodigoLoc, xCodigoSegurado);
     	alert('A cotação foi salva com sucesso!');
+
+		location.reload();
     });
     
     $("input[name='Pesquisar']").click(function(){
@@ -523,7 +526,10 @@ function saveVeiculo(){
 
 function saveCotacao(){
 	xValorCotacao  = $(".valortotal").text();
-	
+	if (xValorCotacao == ""){
+		xValorCotacao = 0;
+	}
+		
 	params = "codigoCotacao=" + xCodigoCotacao + "&valorCotacao=" + xValorCotacao + "&codSegurado=" + xCodigoSegurado + "&codLocalizacao=" + xCodigoLoc;
 	//alert(params);
 	xReturn = httpGet("http://localhost:8080/susegbackend/GravaCotacao?" + params);
@@ -774,7 +780,7 @@ function carregaDetalheVeiculos(){
 	xVeiculoCarregado = true;
 	var obgVeiculos = JSON.parse(xReturn);
 	
-	if (obgVeiculos.veiculos.length == 1){
+	if (obgVeiculos.veiculos.length < 2){
 		var veiculo = obgVeiculos.veiculos[0];
 		
 		$(".descVeiculo").text(veiculo.modelo);
@@ -843,8 +849,7 @@ function carregaValores(){
 		
 		classe = '';
 		if (xDetalhe.id == 2){ // É valor da franquia
-			xValorFranquia = xDetalhe.valor;
-			xTotalFranquiaOriginal = xValorFranquia;
+			xTotalFranquiaOriginal = xDetalhe.valor;
 			classe = "class='valortotalfranquia'";
 		}
 		

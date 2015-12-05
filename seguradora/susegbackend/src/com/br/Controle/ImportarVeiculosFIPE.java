@@ -79,13 +79,6 @@ public class ImportarVeiculosFIPE {
 			Map map = (Map) object;
 			Long id = (Long) map.get("id");
 			String marca = (String) map.get("fipe_name");
-			if(marca.equals("Audi") || marca.equals("BMW") || marca.equals("Citroën") ||
-			   marca.equals("Fiat") || marca.equals("Ford") || marca.equals("GM - Chevrolet") ||
-			   marca.equals("Honda") || marca.equals("Hyundai") || marca.equals("Kia Motors") ||
-			   marca.equals("Mercedes-Benz") || marca.equals("Mitsubishi") || marca.equals("Nissan") ||
-			   marca.equals("Peugeot") || marca.equals("Renault") || marca.equals("Suzuki")){
-				continue;
-			}
 			carregaVeiculos(id);
 		}
 	}

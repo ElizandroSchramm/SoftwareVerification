@@ -55,7 +55,7 @@ public class RetornaCotacoes extends HttpServlet {
 			out.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(500, "Par�metro n�o informado.");
+			response.sendError(500, "Parâmetro não informado.");
 		}
 		
 	}

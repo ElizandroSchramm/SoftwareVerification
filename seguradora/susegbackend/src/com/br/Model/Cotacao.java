@@ -58,8 +58,10 @@ public class Cotacao {
 	}
 
 	public void setValor(double valor) {
-		this.dao.setValor(valor);
-		this.dao.setComissao(valor * 0.1); //TODO: fazer calcular a comissao de acordo com o que estiver configurado
+		if(valor > 0) {
+			this.dao.setValor(valor);
+			this.dao.setComissao(valor * 0.1); //TODO: fazer calcular a comissao de acordo com o que estiver configurado
+		}
 	}
 	
 	@Override

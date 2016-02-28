@@ -24,7 +24,7 @@ public class Cotacao {
 	public Cotacao(int codigoCotacao) throws Exception{
 		this.dao = CotacaoDAO.loadFromDB(codigoCotacao);
 		if(this.dao == null){
-			throw new Exception("Cotação não encontrada.");
+			throw new Exception("Cotacao nao encontrada.");
 		}
 		this.condutores = new ArrayList<Condutor>();
 		for (Integer condutor: this.dao.getCondutores()) {

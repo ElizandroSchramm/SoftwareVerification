@@ -1,0 +1,8 @@
+Leia-me
+
+Para executar os testes com o phantom:
+1 - baixe o phantomjs do seu sistema operacional (este phantomjs do repositório é para o Mac OSx);
+2 - substituia o phantomjs pelo baixado para o seu sistema operacional;
+3 - execute via linha de comando: phantomjs TC003.js (por exemplo);
+4 - tudo que estiver no console.log do .js executado vai ser impresso no prompt de comando;
+5 - os printscreens serão salvos no mesmo diretório do .js testado.

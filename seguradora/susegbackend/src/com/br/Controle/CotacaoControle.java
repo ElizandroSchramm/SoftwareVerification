@@ -67,7 +67,7 @@ public class CotacaoControle {
 		return valorCarro * 0.03; //TODO: confirmar se a base inicial ÔøΩ 3%		
 	}
 	
-	private double calculaBasePremio(){
+	public double calculaBasePremio(){
 		double valorPremio = 0;
 		for (Veiculo veiculo : this.cotacao.getVeiculos()) {
 			valorPremio += calculaBasePremio(veiculo);

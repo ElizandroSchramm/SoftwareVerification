@@ -8,7 +8,7 @@ import com.br.Controle.CotacaoControleTest;
 import junit.framework.JUnit4TestAdapter;
 
 @RunWith(Suite.class)
-@SuiteClasses({CotacaoTest.class, 
+@SuiteClasses({TestesIntegracaoCotacao.class, 
 	           CotacaoControleTest.class, 
 	           })
 

@@ -49,7 +49,7 @@ public class CotacaoControle {
 		return valorPremio;
 	}
 	
-	private double getValorPerfilCondutor(){
+	public double getValorPerfilCondutor(){
 		int percentualCondutor = this.getCondutorPiorPerfil().getPercentualCondutor();
 		if(percentualCondutor > 0){
 			return this.calculaBasePremio() * ((double)percentualCondutor / 100);

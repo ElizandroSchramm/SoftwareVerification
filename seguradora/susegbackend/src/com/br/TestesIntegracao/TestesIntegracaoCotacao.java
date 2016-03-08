@@ -23,7 +23,7 @@ import com.br.Model.Segurado;
 import com.br.Model.Veiculo;
 
 
-public class CotacaoTest {
+public class TestesIntegracaoCotacao {
 	private int codigoCotacao;
 	private Cotacao cotacao;
 	private Localizacao localizacao;
@@ -89,7 +89,7 @@ public class CotacaoTest {
 	}
 	
 	@Test
-	public void testCalculoValorBasePremioVeiculoValor20Mil(){
+	public void testCalculoValorBasePremioVeiculoValor20Mil() throws Exception{
 		condutor = new Condutor();
 		condutor.setDados("Ricardo Voigt", "046.319.119-64", "M", 28);
 		condutor.setSituacao("S", "N");
@@ -104,13 +104,54 @@ public class CotacaoTest {
 		//veiculo.setValorFIP(20000);
 		veiculo.save();
 		cotacao.save();
-		
+		cotacao = new Cotacao(codigoCotacao);
 		CotacaoControle cotacaoControle = new CotacaoControle(cotacao);
 		double total = cotacaoControle.calculaBasePremio();
-		//nao consegui obter o premio base calculado.
-		//Simulei para buscar uma bmw da base.
-		//e tornei o metodo de calculo publico.
-		assertTrue("O valor base da cotacao deve ser 2k",total == total);
+
+		assertTrue("O valor base da cotacao deve ser 4625 ",4625 == Math.round(total));
+	}
+	
+	@Test
+	public void testCalculoPercentualPerfilCondutorHomemMaior25Anos() throws Exception{
+		condutor = new Condutor();
+		condutor.setDados("Ricardo Voigt", "046.319.119-64", "M", 28);
+		condutor.setSituacao("S", "N");
+		condutor.setCotacao(codigoCotacao);
+		condutor.save();
+		List<Condutor> condutores = new ArrayList<Condutor>();
+		condutores.add(condutor);
+		cotacao.setCondutores(condutores);
+		veiculo = new Veiculo("009185-5", 2016, 2015);
+		veiculo.setCotacao(codigoCotacao);
+
+		veiculo.save();
+		cotacao.save();
+		cotacao = new Cotacao(codigoCotacao);
+		CotacaoControle cotacaoControle = new CotacaoControle(cotacao);
+		double total = cotacaoControle.getValorPerfilCondutor();
+		
+		assertTrue("O valor de calculo do percentual é 139",139 == Math.round(total));
+	}
+	
+	@Test
+	public void testCalculoValorPremioCondutorHomemMaior25Anos() throws Exception{
+		condutor = new Condutor();
+		condutor.setDados("Ricardo Voigt", "046.319.119-64", "M", 28);
+		condutor.setSituacao("S", "N");
+		condutor.setCotacao(codigoCotacao);
+		condutor.save();
+		List<Condutor> condutores = new ArrayList<Condutor>();
+		condutores.add(condutor);
+		cotacao.setCondutores(condutores);
+		veiculo = new Veiculo("009185-5", 2016, 2015);
+		veiculo.setCotacao(codigoCotacao);
+		
+		veiculo.save();
+		cotacao.save();
+		cotacao = new Cotacao(codigoCotacao);
+		CotacaoControle cotacaoControle = new CotacaoControle(cotacao);
+		double total = cotacaoControle.calculaPremio();
+		assertTrue("O valor de calculo do premio é 4764", 4764 == Math.round(total));
 	}
 	
 	@After

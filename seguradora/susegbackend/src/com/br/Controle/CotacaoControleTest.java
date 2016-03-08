@@ -76,19 +76,6 @@ public class CotacaoControleTest {
 			fail("Erro ao criar o controle");
 		}
 	}
-	
-	@Test
-	public final void testCalculoValorPremioCondutorMulherMenor25Anos(){
-		/*try {
-			Condutor condutor = new Condutor();
-			condutor.setDados("Maria", "046.319.119-64", "M", 24);
-			condutor.setSituacao("N", "N");
-			List<Condutor> condutores;
-			condutores.add(condutor);
-			Cotacao cotacao = new Cotacao();
-			cotacao.setCondutores(condutores);
-			CotacaoControle co = new CotacaoControle(cotacao);
-		}*/
-	}
+
 	
 }
